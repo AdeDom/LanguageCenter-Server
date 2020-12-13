@@ -1,5 +1,7 @@
 package com.lc.server.business.di
 
+import com.lc.server.business.account.AccountService
+import com.lc.server.business.account.AccountServiceImpl
 import com.lc.server.business.auth.AuthService
 import com.lc.server.business.auth.AuthServiceImpl
 import com.lc.server.business.business.ServerBusiness
@@ -20,6 +22,7 @@ private val businessModule = module {
 
     // service
     single<AuthService> { AuthServiceImpl(get(), get(), get()) }
+    single<AccountService> { AccountServiceImpl(get(), get()) }
 
 }
 

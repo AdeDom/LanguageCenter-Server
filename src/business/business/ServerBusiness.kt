@@ -6,4 +6,6 @@ interface ServerBusiness {
 
     fun isValidateJwtExpires(token: String): Boolean
 
+    fun convertDateTimeLongToString(date: Long?): String?
+
 }

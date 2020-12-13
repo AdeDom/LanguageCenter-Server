@@ -1,7 +1,10 @@
 package com.lc.server.data.repository
 
+import com.lc.server.data.map.Mapper
+import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.table.UserLocaleNatives
 import com.lc.server.data.table.Users
+import com.lc.server.models.model.UserInfoLocale
 import models.response.GoogleApiUserInfoResponse
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -45,6 +48,22 @@ class ServerRepositoryImpl : ServerRepository {
             statement.resultedValues?.size == 1
         } else {
             true
+        }
+    }
+
+    override fun fetchUserInfo(userId: String): UserInfoDb {
+        return transaction {
+            val userInfo = Users
+                .select { Users.userId eq userId }
+                .map { Mapper.toUserInfoDb(it) }
+                .single()
+
+            val locales = UserLocaleNatives
+                .slice(UserLocaleNatives.locale)
+                .select { UserLocaleNatives.userId eq userId }
+                .map { UserInfoLocale(it[UserLocaleNatives.locale]) }
+
+            userInfo.copy(locales = locales)
         }
     }
 
