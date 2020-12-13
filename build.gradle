@@ -32,4 +32,40 @@ dependencies {
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
+
+    // exposed
+    implementation "org.jetbrains.exposed:exposed-core:0.24.1"
+    implementation "org.jetbrains.exposed:exposed-dao:0.24.1"
+    implementation "org.jetbrains.exposed:exposed-jdbc:0.24.1"
+    implementation 'org.jetbrains.exposed:exposed-jodatime:0.24.1'
+
+    // mysql
+    implementation "mysql:mysql-connector-java:8.0.19"
+    implementation "com.zaxxer:HikariCP:3.4.2"
+
+    // gson(gson to json)
+    implementation "io.ktor:ktor-gson:$ktor_version"
+
+    // Authentication JWT
+    implementation "io.ktor:ktor-auth-jwt:$ktor_version"
+
+    // dependency inject
+    implementation "org.koin:koin-ktor:2.1.6"
+    implementation "org.koin:koin-logger-slf4j:2.1.6"
+
+    // location request service
+    implementation "io.ktor:ktor-locations:$ktor_version"
+
+    // client
+    implementation "io.ktor:ktor-client-apache:$ktor_version"
+    implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+
+    // web sockets
+    implementation "io.ktor:ktor-websockets:$ktor_version"
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+    testImplementation "io.mockk:mockk:1.10.0"
+    testImplementation "org.koin:koin-test:2.1.6"
+
 }
