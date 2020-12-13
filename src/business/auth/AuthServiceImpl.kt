@@ -1,15 +1,18 @@
 package com.lc.server.business.auth
 
+import com.lc.server.business.business.ServerBusiness
 import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.getHttpClientApache
 import com.lc.server.models.model.Token
+import com.lc.server.models.request.RefreshTokenRequest
 import com.lc.server.models.request.SignInRequest
 import com.lc.server.models.response.SignInResponse
 import com.lc.server.util.LanguageCenterConstant
 import com.lc.server.util.fromJson
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import io.ktor.locations.*
 import models.response.GoogleApiTokenResponse
 import models.response.GoogleApiUserInfoResponse
@@ -18,6 +21,7 @@ import models.response.GoogleApiUserInfoResponse
 class AuthServiceImpl(
     private val repository: ServerRepository,
     private val jwtConfig: JwtConfig,
+    private val business: ServerBusiness,
 ) : AuthService {
 
     override suspend fun signIn(signInRequest: SignInRequest): SignInResponse {
@@ -61,6 +65,41 @@ class AuthServiceImpl(
 
         response.message = message
         return response
+    }
+
+    override fun refreshToken(refreshTokenRequest: RefreshTokenRequest): Pair<HttpStatusCode, SignInResponse> {
+        var httpStatusCode = HttpStatusCode.OK
+        val response = SignInResponse()
+        val (refreshToken) = refreshTokenRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            refreshToken.isNullOrBlank() -> "Null"
+
+            // validate values of variable
+            business.isValidateJwtIncorrect(refreshToken) -> "Incorrect"
+            business.isValidateJwtExpires(refreshToken) -> {
+                httpStatusCode = HttpStatusCode.Unauthorized
+                "Incorrect"
+            }
+
+            // validate database
+
+            // execute
+            else -> {
+                val userId = jwtConfig.decodeJwtGetUserId(refreshToken)
+                val token = Token(
+                    accessToken = jwtConfig.makeAccessToken(userId),
+                    refreshToken = jwtConfig.makeRefreshToken(userId),
+                )
+                response.token = token
+                response.success = true
+                "Refresh token success"
+            }
+        }
+
+        response.message = message
+        return Pair(httpStatusCode, response)
     }
 
 }

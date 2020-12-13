@@ -46,7 +46,7 @@ class JwtConfigImpl : JwtConfig {
         const val SECRET = "bc162b7210edb9dae67b90"
         const val ISSUER = "ktor.io"
         const val AUDIENCE = "language-center"
-        const val ACCESS_TOKEN = 60
+        const val ACCESS_TOKEN = 60_000
         const val REFRESH_TOKEN = 36_000_00 * 24 * 7
         const val USER_ID = "user_id"
         const val REALM = "ktor.io"
