@@ -12,8 +12,11 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 
 group 'com.lc.server'
-version '0.0.1'
+version '0.0.2'
 mainClassName = "io.ktor.server.netty.EngineMain"
+task stage {
+    dependsOn installDist
+}
 
 sourceSets {
     main.kotlin.srcDirs = main.java.srcDirs = ['src']
