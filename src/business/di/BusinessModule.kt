@@ -9,7 +9,7 @@ import org.koin.dsl.module
 private val businessModule = module {
 
     // service
-    single<AuthService> { AuthServiceImpl() }
+    single<AuthService> { AuthServiceImpl(get()) }
 
 }
 

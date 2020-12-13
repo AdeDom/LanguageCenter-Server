@@ -1,5 +1,6 @@
 package com.lc.server.business.auth
 
+import com.lc.server.data.repository.ServerRepository
 import com.lc.server.getHttpClientApache
 import com.lc.server.models.model.Token
 import com.lc.server.models.request.SignInRequest
@@ -13,7 +14,7 @@ import models.response.GoogleApiTokenResponse
 import models.response.GoogleApiUserInfoResponse
 
 @KtorExperimentalLocationsAPI
-class AuthServiceImpl : AuthService {
+class AuthServiceImpl(private val repository: ServerRepository) : AuthService {
 
     override suspend fun signIn(signInRequest: SignInRequest): SignInResponse {
         val response = SignInResponse()
@@ -49,7 +50,7 @@ class AuthServiceImpl : AuthService {
                 )
 
                 response.token = token
-                response.success = true
+                response.success = repository.signIn(googleApiUserInfoResponse)
                 "Sign in success"
             }
         }

@@ -2,6 +2,7 @@ package com.lc.server
 
 import com.lc.server.business.auth.AuthService
 import com.lc.server.business.di.getBusinessModule
+import com.lc.server.data.di.getDataModule
 import com.lc.server.http.authController
 import com.lc.server.util.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
@@ -61,7 +62,7 @@ fun Application.module() {
     // koin dependencies injection
     install(Koin) {
         SLF4JLogger()
-        modules(getBusinessModule)
+        modules(getBusinessModule, getDataModule)
     }
     val authService: AuthService by inject()
 
