@@ -9,12 +9,12 @@ object DatabaseConfig {
         const val jdbcUrl: String = "jdbc:mysql://192.168.43.22:3306/$databaseName"
     }
 
-//    object Heroku {
-//        private const val databaseName: String = "heroku_1393de2d66fc96b"
-//        const val username: String = "bc162b7210edb9"
-//        const val password: String = "dae67b90"
-//        const val jdbcUrl: String =
-//            "jdbc:mysql://$username:$password@us-cdbr-east-05.cleardb.net/$databaseName?reconnect=true"
-//    }
+    object Heroku {
+        private const val databaseName: String = "heroku_534f71118c68fc7"
+        const val username: String = "b8bd55c495ad1d"
+        const val password: String = "c1b8ffea"
+        const val jdbcUrl: String =
+            "jdbc:mysql://$username:$password@eu-cdbr-west-03.cleardb.net/$databaseName?reconnect=true"
+    }
 
 }
