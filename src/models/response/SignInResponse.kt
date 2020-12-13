@@ -1,7 +1,9 @@
 package com.lc.server.models.response
 
-data class TokenResponse(
+import com.lc.server.models.model.Token
+
+data class SignInResponse(
     var success: Boolean = false,
     var message: String? = null,
-    val accessToken: String? = null,
+    var token: Token? = null,
 )

@@ -90,7 +90,7 @@ fun Application.module() {
     }
 }
 
-internal fun getHttpClientOkHttp() = HttpClient(Apache) {
+internal fun getHttpClientApache() = HttpClient(Apache) {
     install(HttpTimeout) {
         requestTimeoutMillis = 60_000
     }
