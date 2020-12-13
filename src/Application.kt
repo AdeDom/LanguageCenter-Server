@@ -2,6 +2,8 @@ package com.lc.server
 
 import com.lc.server.business.auth.AuthService
 import com.lc.server.business.di.getBusinessModule
+import com.lc.server.business.jwtconfig.JwtConfig
+import com.lc.server.business.jwtconfig.UserPrincipal
 import com.lc.server.data.di.getDataModule
 import com.lc.server.http.authController
 import com.lc.server.util.DatabaseConfig
@@ -65,20 +67,21 @@ fun Application.module() {
         modules(getBusinessModule, getDataModule)
     }
     val authService: AuthService by inject()
+    val jwtConfig: JwtConfig by inject()
 
     // jwt
     install(Authentication) {
         jwt {
-//            verifier(jwtConfig.verifier)
-//            realm = jwtConfig.realm
-//            validate {
-//                val playerId = it.payload.getClaim(jwtConfig.playerId).asString()
-//                if (playerId != null) {
-//                    PlayerPrincipal(playerId)
-//                } else {
-//                    null
-//                }
-//            }
+            verifier(jwtConfig.verifier)
+            realm = jwtConfig.realm
+            validate {
+                val userId = it.payload.getClaim(jwtConfig.userId).asString()
+                if (userId != null) {
+                    UserPrincipal(userId)
+                } else {
+                    null
+                }
+            }
         }
     }
 

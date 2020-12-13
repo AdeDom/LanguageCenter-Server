@@ -1,5 +1,6 @@
 package com.lc.server.business.auth
 
+import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.getHttpClientApache
 import com.lc.server.models.model.Token
@@ -14,7 +15,10 @@ import models.response.GoogleApiTokenResponse
 import models.response.GoogleApiUserInfoResponse
 
 @KtorExperimentalLocationsAPI
-class AuthServiceImpl(private val repository: ServerRepository) : AuthService {
+class AuthServiceImpl(
+    private val repository: ServerRepository,
+    private val jwtConfig: JwtConfig,
+) : AuthService {
 
     override suspend fun signIn(signInRequest: SignInRequest): SignInResponse {
         val response = SignInResponse()
@@ -45,8 +49,8 @@ class AuthServiceImpl(private val repository: ServerRepository) : AuthService {
                     }.fromJson<GoogleApiUserInfoResponse>()
 
                 val token = Token(
-                    accessToken = googleApiTokenResponse.idToken,
-                    refreshToken = googleApiTokenResponse.refreshToken,
+                    accessToken = jwtConfig.makeAccessToken(googleApiUserInfoResponse.id),
+                    refreshToken = jwtConfig.makeRefreshToken(googleApiUserInfoResponse.id),
                 )
 
                 response.token = token
