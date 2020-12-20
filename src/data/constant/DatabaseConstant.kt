@@ -5,10 +5,12 @@ object DatabaseConstant {
     //table
     const val USER_TABLE = "user"
     const val USER_LOCALE_NATIVE_TABLE = "user_locale_native"
+    const val USER_LOCALE_LEARNING_TABLE = "user_locale_learning"
 
     //primary key
     const val USER_PK = "PK_User_ID"
     const val USER_LOCALE_NATIVE_PK = "PK_UserLocaleNative_ID"
+    const val USER_LOCALE_LEARNING_PK = "PK_UserLocaleLearning_ID"
 
     //column
     const val USER_ID = "user_id"
@@ -25,5 +27,6 @@ object DatabaseConstant {
     const val UPDATED = "updated"
     const val NATIVE_ID = "native_id"
     const val LOCALE = "locale"
+    const val LEARNING_ID = "learning_id"
 
 }

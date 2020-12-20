@@ -2,6 +2,7 @@ package com.lc.server.data.repository
 
 import com.lc.server.data.map.Mapper
 import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.table.UserLocaleLearnings
 import com.lc.server.data.table.UserLocaleNatives
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.UserInfoLocale
@@ -62,12 +63,17 @@ internal class ServerRepositoryImpl : ServerRepository {
                 .map { Mapper.toUserInfoDb(it) }
                 .single()
 
-            val locales = UserLocaleNatives
+            val localNatives = UserLocaleNatives
                 .slice(UserLocaleNatives.locale)
                 .select { UserLocaleNatives.userId eq userId }
                 .map { UserInfoLocale(it[UserLocaleNatives.locale]) }
 
-            userInfo.copy(locales = locales)
+            val localLearnings = UserLocaleLearnings
+                .slice(UserLocaleLearnings.locale)
+                .select { UserLocaleLearnings.userId eq userId }
+                .map { UserInfoLocale(it[UserLocaleLearnings.locale]) }
+
+            userInfo.copy(localNatives = localNatives, localLearnings = localLearnings)
         }
     }
 

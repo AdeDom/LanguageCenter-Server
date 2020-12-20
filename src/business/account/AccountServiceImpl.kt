@@ -41,7 +41,8 @@ internal class AccountServiceImpl(
                     aboutMe = db.aboutMe,
                     created = business.convertDateTimeLongToString(db.created),
                     updated = business.convertDateTimeLongToString(db.updated),
-                    locales = db.locales,
+                    localNatives = db.localNatives,
+                    localLearnings = db.localLearnings,
                 )
 
                 response.success = true

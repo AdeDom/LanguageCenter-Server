@@ -13,5 +13,6 @@ data class UserInfo(
     val aboutMe: String? = null,
     val created: String? = null,
     val updated: String? = null,
-    val locales: List<UserInfoLocale> = emptyList(),
+    val localNatives: List<UserInfoLocale> = emptyList(),
+    val localLearnings: List<UserInfoLocale> = emptyList(),
 )
