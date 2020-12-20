@@ -3,9 +3,13 @@ package com.lc.server.business.account
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.UserInfo
+import com.lc.server.models.request.EditProfileRequest
+import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.UserInfoResponse
+import io.ktor.locations.*
 
-class AccountServiceImpl(
+@KtorExperimentalLocationsAPI
+internal class AccountServiceImpl(
     private val repository: ServerRepository,
     private val business: ServerBusiness,
 ) : AccountService {
@@ -43,6 +47,33 @@ class AccountServiceImpl(
                 response.success = true
                 response.userInfo = userInfo
                 "Fetch user info success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun editProfile(userId: String?, editProfileRequest: EditProfileRequest): BaseResponse {
+        val response = BaseResponse()
+        val (email, givenName, familyName, gender, birthDate, aboutMe) = editProfileRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            userId.isNullOrBlank() -> "Null"
+            email.isNullOrBlank() -> "Null"
+            givenName.isNullOrBlank() -> "Null"
+            gender.isNullOrBlank() -> "Null"
+            birthDate == null -> "Null"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.editProfile(userId, editProfileRequest)
+                "Edit profile success"
             }
         }
 

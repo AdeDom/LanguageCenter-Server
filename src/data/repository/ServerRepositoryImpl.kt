@@ -5,13 +5,17 @@ import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.table.UserLocaleNatives
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.UserInfoLocale
+import com.lc.server.models.request.EditProfileRequest
+import io.ktor.locations.*
 import models.response.GoogleApiUserInfoResponse
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import java.util.*
 
-class ServerRepositoryImpl : ServerRepository {
+@KtorExperimentalLocationsAPI
+internal class ServerRepositoryImpl : ServerRepository {
 
     override fun signIn(googleApiUserInfo: GoogleApiUserInfoResponse): Boolean {
         val (email, familyName, givenName, id, locale, name, picture, verifiedEmail) = googleApiUserInfo
@@ -65,6 +69,24 @@ class ServerRepositoryImpl : ServerRepository {
 
             userInfo.copy(locales = locales)
         }
+    }
+
+    override fun editProfile(userId: String, editProfileRequest: EditProfileRequest): Boolean {
+        val (email, givenName, familyName, gender, birthDate, aboutMe) = editProfileRequest
+
+        val result = transaction {
+            Users.update({ Users.userId eq userId }) {
+                it[Users.email] = email
+                it[Users.givenName] = givenName
+                it[Users.familyName] = familyName
+                it[Users.gender] = gender
+                it[Users.birthDate] = birthDate
+                it[Users.aboutMe] = aboutMe
+                it[Users.updated] = System.currentTimeMillis()
+            }
+        }
+
+        return result == 1
     }
 
 }

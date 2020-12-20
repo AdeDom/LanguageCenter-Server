@@ -18,7 +18,7 @@ import models.response.GoogleApiTokenResponse
 import models.response.GoogleApiUserInfoResponse
 
 @KtorExperimentalLocationsAPI
-class AuthServiceImpl(
+internal class AuthServiceImpl(
     private val repository: ServerRepository,
     private val jwtConfig: JwtConfig,
     private val business: ServerBusiness,
