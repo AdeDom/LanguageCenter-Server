@@ -4,6 +4,7 @@ import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.UserInfo
 import com.lc.server.models.request.EditProfileRequest
+import com.lc.server.models.request.GuideUpdateProfileRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.UserInfoResponse
 import io.ktor.locations.*
@@ -48,6 +49,27 @@ internal class AccountServiceImpl(
                 response.success = true
                 response.userInfo = userInfo
                 "Fetch user info success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun guideUpdateProfile(
+        userId: String?,
+        guideUpdateProfileRequest: GuideUpdateProfileRequest
+    ): BaseResponse {
+        val response = BaseResponse()
+        val (localNatives) = guideUpdateProfileRequest
+
+        val message: String = when {
+            userId.isNullOrBlank() -> "Null"
+            localNatives.isEmpty() -> "Locale native is empty"
+
+            else -> {
+                response.success = repository.guideUpdateProfile(userId, guideUpdateProfileRequest)
+                "Guide update profile success"
             }
         }
 

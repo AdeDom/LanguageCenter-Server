@@ -29,5 +29,6 @@ object DatabaseConstant {
     const val LOCALE = "locale"
     const val LEARNING_ID = "learning_id"
     const val IS_UPDATE_PROFILE = "is_update_profile"
+    const val LEVEL = "level"
 
 }

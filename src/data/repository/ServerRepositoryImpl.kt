@@ -7,12 +7,11 @@ import com.lc.server.data.table.UserLocaleNatives
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.EditProfileRequest
+import com.lc.server.models.request.GuideUpdateProfileRequest
 import io.ktor.locations.*
 import models.response.GoogleApiUserInfoResponse
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import java.util.*
 
 @KtorExperimentalLocationsAPI
@@ -85,6 +84,40 @@ internal class ServerRepositoryImpl : ServerRepository {
 
             userInfo.copy(localNatives = localNatives, localLearnings = localLearnings)
         }
+    }
+
+    override fun guideUpdateProfile(userId: String, guideUpdateProfileRequest: GuideUpdateProfileRequest): Boolean {
+        val (localNatives, localLearnings, gender, birthDate) = guideUpdateProfileRequest
+
+        val result = transaction {
+            // UserLocaleNatives
+            UserLocaleNatives.deleteWhere { UserLocaleNatives.userId eq userId }
+
+            UserLocaleNatives.batchInsert(localNatives) { (locale, level) ->
+                this[UserLocaleNatives.userId] = userId
+                this[UserLocaleNatives.locale] = locale
+                this[UserLocaleNatives.level] = level
+            }
+
+            // UserLocaleLearnings
+            UserLocaleLearnings.deleteWhere { UserLocaleLearnings.userId eq userId }
+
+            UserLocaleLearnings.batchInsert(localLearnings) { (locale, level) ->
+                this[UserLocaleLearnings.userId] = userId
+                this[UserLocaleLearnings.locale] = locale
+                this[UserLocaleLearnings.level] = level
+            }
+
+            // Users
+            Users.update({ Users.userId eq userId }) {
+                it[Users.gender] = gender
+                it[Users.birthDate] = birthDate
+                it[Users.isUpdateProfile] = true
+                it[Users.updated] = System.currentTimeMillis()
+            }
+        }
+
+        return result == 1
     }
 
     override fun editProfile(userId: String, editProfileRequest: EditProfileRequest): Boolean {
