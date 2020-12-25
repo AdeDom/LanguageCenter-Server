@@ -10,6 +10,8 @@ internal interface ServerRepository {
 
     fun signIn(googleApiUserInfo: GoogleApiUserInfoResponse): Boolean
 
+    fun isUpdateProfile(id: String): Boolean
+
     fun fetchUserInfo(userId: String): UserInfoDb
 
     fun editProfile(userId: String, editProfileRequest: EditProfileRequest): Boolean

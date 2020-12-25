@@ -6,4 +6,5 @@ data class SignInResponse(
     var success: Boolean = false,
     var message: String? = null,
     var token: Token? = null,
+    var isUpdateProfile: Boolean = false,
 )

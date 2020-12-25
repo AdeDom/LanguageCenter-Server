@@ -59,6 +59,7 @@ internal class AuthServiceImpl(
 
                 response.token = token
                 response.success = repository.signIn(googleApiUserInfoResponse)
+                googleApiUserInfoResponse.id?.let { response.isUpdateProfile = repository.isUpdateProfile(it) }
                 "Sign in success"
             }
         }

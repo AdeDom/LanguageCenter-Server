@@ -15,6 +15,7 @@ object Users : Table(name = DatabaseConstant.USER_TABLE) {
     val birthDate = long(name = DatabaseConstant.BIRTH_DATE).nullable()
     val verifiedEmail = bool(name = DatabaseConstant.VERIFIED_EMAIL).nullable()
     val aboutMe = varchar(name = DatabaseConstant.ABOUT_ME, length = 500).nullable()
+    val isUpdateProfile = bool(name = DatabaseConstant.IS_UPDATE_PROFILE)
     val created = long(name = DatabaseConstant.CREATED)
     val updated = long(name = DatabaseConstant.UPDATED).nullable()
 

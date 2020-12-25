@@ -41,6 +41,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     it[Users.name] = name
                     it[Users.picture] = picture
                     it[Users.verifiedEmail] = verifiedEmail
+                    it[Users.isUpdateProfile] = false
                     it[Users.created] = System.currentTimeMillis()
                 }
 
@@ -53,6 +54,15 @@ internal class ServerRepositoryImpl : ServerRepository {
             statement.resultedValues?.size == 1
         } else {
             true
+        }
+    }
+
+    override fun isUpdateProfile(id: String): Boolean {
+        return transaction {
+            Users.slice(Users.isUpdateProfile)
+                .select { Users.userId eq id }
+                .map { it[Users.isUpdateProfile] }
+                .single()
         }
     }
 

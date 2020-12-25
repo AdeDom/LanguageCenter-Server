@@ -28,5 +28,6 @@ object DatabaseConstant {
     const val NATIVE_ID = "native_id"
     const val LOCALE = "locale"
     const val LEARNING_ID = "learning_id"
+    const val IS_UPDATE_PROFILE = "is_update_profile"
 
 }
