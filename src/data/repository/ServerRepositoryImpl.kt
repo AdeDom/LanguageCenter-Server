@@ -73,14 +73,14 @@ internal class ServerRepositoryImpl : ServerRepository {
                 .single()
 
             val localNatives = UserLocaleNatives
-                .slice(UserLocaleNatives.locale)
+                .slice(UserLocaleNatives.locale, UserLocaleNatives.level)
                 .select { UserLocaleNatives.userId eq userId }
-                .map { UserInfoLocale(it[UserLocaleNatives.locale]) }
+                .map { UserInfoLocale(it[UserLocaleNatives.locale], it[UserLocaleNatives.level]) }
 
             val localLearnings = UserLocaleLearnings
-                .slice(UserLocaleLearnings.locale)
+                .slice(UserLocaleLearnings.locale, UserLocaleLearnings.level)
                 .select { UserLocaleLearnings.userId eq userId }
-                .map { UserInfoLocale(it[UserLocaleLearnings.locale]) }
+                .map { UserInfoLocale(it[UserLocaleLearnings.locale], it[UserLocaleLearnings.level]) }
 
             userInfo.copy(localNatives = localNatives, localLearnings = localLearnings)
         }

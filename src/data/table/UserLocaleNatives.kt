@@ -8,7 +8,7 @@ object UserLocaleNatives : Table(name = DatabaseConstant.USER_LOCALE_NATIVE_TABL
     val nativeId = integer(name = DatabaseConstant.NATIVE_ID).autoIncrement()
     val userId = varchar(name = DatabaseConstant.USER_ID, length = 50)
     val locale = varchar(name = DatabaseConstant.LOCALE, length = 5).nullable()
-    val level = integer(name = DatabaseConstant.LEVEL).nullable()
+    val level = integer(name = DatabaseConstant.LEVEL)
 
     override val primaryKey: PrimaryKey?
         get() = PrimaryKey(nativeId, name = DatabaseConstant.USER_LOCALE_NATIVE_PK)
