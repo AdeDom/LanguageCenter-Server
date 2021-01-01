@@ -121,11 +121,10 @@ internal class ServerRepositoryImpl : ServerRepository {
     }
 
     override fun editProfile(userId: String, editProfileRequest: EditProfileRequest): Boolean {
-        val (email, givenName, familyName, gender, birthDate, aboutMe) = editProfileRequest
+        val (givenName, familyName, gender, birthDate, aboutMe) = editProfileRequest
 
         val result = transaction {
             Users.update({ Users.userId eq userId }) {
-                it[Users.email] = email
                 it[Users.givenName] = givenName
                 it[Users.familyName] = familyName
                 it[Users.gender] = gender
