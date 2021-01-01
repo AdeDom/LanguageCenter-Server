@@ -37,7 +37,8 @@ internal class AccountServiceImpl(
                     name = db.name?.capitalize(),
                     picture = db.picture,
                     gender = db.gender,
-                    birthDate = business.convertDateTimeLongToString(db.birthDate),
+                    birthDateString = business.convertDateTimeLongToString(db.birthDate),
+                    birthDateLong = db.birthDate,
                     verifiedEmail = db.verifiedEmail,
                     aboutMe = db.aboutMe,
                     created = business.convertDateTimeLongToString(db.created),
@@ -61,11 +62,9 @@ internal class AccountServiceImpl(
         guideUpdateProfileRequest: GuideUpdateProfileRequest
     ): BaseResponse {
         val response = BaseResponse()
-        val (localNatives) = guideUpdateProfileRequest
 
         val message: String = when {
             userId.isNullOrBlank() -> "Null"
-            localNatives.isEmpty() -> "Locale native is empty"
 
             else -> {
                 response.success = repository.guideUpdateProfile(userId, guideUpdateProfileRequest)
