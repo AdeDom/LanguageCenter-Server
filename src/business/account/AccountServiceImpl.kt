@@ -3,10 +3,12 @@ package com.lc.server.business.account
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.UserInfo
+import com.lc.server.models.request.EditLocaleRequest
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.UserInfoResponse
+import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
@@ -84,8 +86,10 @@ internal class AccountServiceImpl(
             // validate Null Or Blank
             userId.isNullOrBlank() -> "Null"
             givenName.isNullOrBlank() -> "Null"
+            familyName == null -> "Null"
             gender.isNullOrBlank() -> "Null"
             birthDate == null -> "Null"
+            aboutMe == null -> "Null"
 
             // validate values of variable
 
@@ -95,6 +99,35 @@ internal class AccountServiceImpl(
             else -> {
                 response.success = repository.editProfile(userId, editProfileRequest)
                 "Edit profile success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun editLocale(userId: String?, editLocaleRequest: EditLocaleRequest): BaseResponse {
+        val response = BaseResponse()
+        val (editLocaleType, locales) = editLocaleRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            userId.isNullOrBlank() -> "Null"
+            editLocaleType.isNullOrBlank() -> "Null"
+            locales.isNullOrEmpty() -> "Null"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = when (editLocaleType) {
+                    LanguageCenterConstant.LOCALE_NATIVE -> repository.editLocaleNative(userId, locales)
+                    LanguageCenterConstant.LOCALE_LEARNING -> repository.editLocaleLearning(userId, locales)
+                    else -> false
+                }
+                "Edit locale success"
             }
         }
 

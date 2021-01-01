@@ -1,5 +1,6 @@
 package com.lc.server.business.account
 
+import com.lc.server.models.request.EditLocaleRequest
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
 import com.lc.server.models.response.BaseResponse
@@ -14,5 +15,7 @@ interface AccountService {
     fun guideUpdateProfile(userId: String?, guideUpdateProfileRequest: GuideUpdateProfileRequest): BaseResponse
 
     fun editProfile(userId: String?, editProfileRequest: EditProfileRequest): BaseResponse
+
+    fun editLocale(userId: String?, editLocaleRequest: EditLocaleRequest): BaseResponse
 
 }

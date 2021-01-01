@@ -7,5 +7,7 @@ object LanguageCenterConstant {
     const val clientSecret = "Pq0jAW0I-efqdeOYvihtngJc"
     const val GENDER_MALE = "M"
     const val GENDER_FEMALE = "F"
+    const val LOCALE_NATIVE = "native"
+    const val LOCALE_LEARNING = "learning"
 
 }

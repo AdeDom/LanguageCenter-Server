@@ -137,4 +137,40 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result == 1
     }
 
+    override fun editLocaleNative(userId: String, locales: List<UserInfoLocale>): Boolean {
+        val result = transaction {
+            UserLocaleNatives.deleteWhere { UserLocaleNatives.userId eq userId }
+
+            UserLocaleNatives.batchInsert(locales) { (locale, level) ->
+                this[UserLocaleNatives.userId] = userId
+                this[UserLocaleNatives.locale] = locale
+                this[UserLocaleNatives.level] = level
+            }
+
+            Users.update({ Users.userId eq userId }) {
+                it[Users.updated] = System.currentTimeMillis()
+            }
+        }
+
+        return result == 1
+    }
+
+    override fun editLocaleLearning(userId: String, locales: List<UserInfoLocale>): Boolean {
+        val result = transaction {
+            UserLocaleLearnings.deleteWhere { UserLocaleLearnings.userId eq userId }
+
+            UserLocaleLearnings.batchInsert(locales) { (locale, level) ->
+                this[UserLocaleLearnings.userId] = userId
+                this[UserLocaleLearnings.locale] = locale
+                this[UserLocaleLearnings.level] = level
+            }
+
+            Users.update({ Users.userId eq userId }) {
+                it[Users.updated] = System.currentTimeMillis()
+            }
+        }
+
+        return result == 1
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.lc.server.http
 
 import com.lc.server.business.account.AccountService
+import com.lc.server.models.request.EditLocaleRequest
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
 import com.lc.server.models.request.UserInfoRequest
@@ -28,6 +29,12 @@ fun Route.accountController(service: AccountService) {
     put<EditProfileRequest> {
         val request = call.receive<EditProfileRequest>()
         val response = service.editProfile(call.userId, request)
+        call.respond(response)
+    }
+
+    put<EditLocaleRequest> {
+        val request = call.receive<EditLocaleRequest>()
+        val response = service.editLocale(call.userId, request)
         call.respond(response)
     }
 
