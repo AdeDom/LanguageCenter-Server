@@ -46,7 +46,7 @@ fun Route.mockDataController() {
                     it[Users.verifiedEmail] = false
                     it[Users.aboutMe] = info?.seed
                     it[Users.isUpdateProfile] = false
-                    it[Users.created] = getAgeLong(result?.registered?.date)
+                    it[Users.created] = System.currentTimeMillis()
                 }
 
                 // user locale native

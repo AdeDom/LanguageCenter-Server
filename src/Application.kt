@@ -2,12 +2,14 @@ package com.lc.server
 
 import com.lc.server.business.account.AccountService
 import com.lc.server.business.auth.AuthService
+import com.lc.server.business.community.CommunityService
 import com.lc.server.business.di.getBusinessModule
 import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.business.jwtconfig.UserPrincipal
 import com.lc.server.data.di.getDataModule
 import com.lc.server.http.accountController
 import com.lc.server.http.authController
+import com.lc.server.http.communityController
 import com.lc.server.http.mockDataController
 import com.lc.server.util.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
@@ -71,6 +73,7 @@ fun Application.module() {
     }
     val authService: AuthService by inject()
     val jwtConfig: JwtConfig by inject()
+    val communityService: CommunityService by inject()
     val accountService: AccountService by inject()
 
     // jwt
@@ -94,6 +97,7 @@ fun Application.module() {
         authController(authService)
 
         authenticate {
+            communityController(communityService)
             accountController(accountService)
         }
 
