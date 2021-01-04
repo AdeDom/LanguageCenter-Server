@@ -9,5 +9,7 @@ object LanguageCenterConstant {
     const val GENDER_FEMALE = "F"
     const val LOCALE_NATIVE = "native"
     const val LOCALE_LEARNING = "learning"
+    const val LOCALE_THAI = "th"
+    const val LOCALE_ENGLISH = "en"
 
 }

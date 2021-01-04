@@ -8,6 +8,7 @@ import com.lc.server.business.jwtconfig.UserPrincipal
 import com.lc.server.data.di.getDataModule
 import com.lc.server.http.accountController
 import com.lc.server.http.authController
+import com.lc.server.http.mockDataController
 import com.lc.server.util.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -95,6 +96,8 @@ fun Application.module() {
         authenticate {
             accountController(accountService)
         }
+
+        mockDataController()
     }
 }
 
