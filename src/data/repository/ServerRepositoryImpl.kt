@@ -3,9 +3,11 @@ package com.lc.server.data.repository
 import com.lc.server.data.map.Mapper
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.table.Algorithms
 import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.UserInfoLocale
+import com.lc.server.models.request.AddAlgorithmRequest
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
 import com.lc.server.util.LanguageCenterConstant
@@ -210,6 +212,20 @@ internal class ServerRepositoryImpl : ServerRepository {
             ).select { UserLocales.userId neq userId }
                 .map { Mapper.toUserLocaleDb(it) }
         }
+    }
+
+    override fun addAlgorithm(userId: String, addAlgorithmRequest: AddAlgorithmRequest): Boolean {
+        val (algorithm) = addAlgorithmRequest
+
+        val statement = transaction {
+            Algorithms.insert {
+                it[Algorithms.userId] = userId
+                it[Algorithms.algorithm] = algorithm!!
+                it[Algorithms.created] = System.currentTimeMillis()
+            }
+        }
+
+        return statement.resultedValues?.size == 1
     }
 
 }

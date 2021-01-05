@@ -11,11 +11,11 @@ object LanguageCenterConstant {
     const val LOCALE_LEARNING = "learning"
     const val LOCALE_THAI = "th"
     const val LOCALE_ENGLISH = "en"
-    const val ALGORITHM_A = "A"
-    const val ALGORITHM_B = "B"
-    const val ALGORITHM_C = "C"
-    const val ALGORITHM_D = "D"
-    const val ALGORITHM_E = "E"
-    const val ALGORITHM_F = "F"
+    const val ALGORITHM_A = "A"  // new joiner
+    const val ALGORITHM_B = "B"  // locale level
+    const val ALGORITHM_C = "C"  // locale learning
+    const val ALGORITHM_D = "D"  // gender
+    const val ALGORITHM_E = "E"  // age
+    const val ALGORITHM_F = "F"  // native language
 
 }

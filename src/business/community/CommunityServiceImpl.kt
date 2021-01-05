@@ -4,6 +4,8 @@ import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.Community
 import com.lc.server.models.model.UserInfoLocale
+import com.lc.server.models.request.AddAlgorithmRequest
+import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchCommunityResponse
 import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
@@ -98,6 +100,24 @@ internal class CommunityServiceImpl(
                 response.communities = communities
                 response.success = true
                 "Fetch user info list success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun addAlgorithm(userId: String?, addAlgorithmRequest: AddAlgorithmRequest): BaseResponse {
+        val response = BaseResponse()
+        val (algorithm) = addAlgorithmRequest
+
+        val message: String = when {
+            userId.isNullOrBlank() -> "Null"
+            algorithm.isNullOrBlank() -> "Null"
+
+            else -> {
+                response.success = repository.addAlgorithm(userId, addAlgorithmRequest)
+                "Add algorithm success"
             }
         }
 
