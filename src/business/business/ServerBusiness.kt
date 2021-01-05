@@ -8,4 +8,6 @@ interface ServerBusiness {
 
     fun convertDateTimeLongToString(date: Long?): String?
 
+    fun getAgeInt(time: Long): Int
+
 }

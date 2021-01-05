@@ -2,7 +2,7 @@ package com.lc.server.business.community
 
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
-import com.lc.server.models.model.UserInfo
+import com.lc.server.models.model.Community
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.response.FetchCommunityResponse
 import com.lc.server.util.LanguageCenterConstant
@@ -28,7 +28,7 @@ internal class CommunityServiceImpl(
             // execute
             else -> {
                 val userInfoCommunity = repository.getUserInfoCommunity(userId).map { userInfo ->
-                    UserInfo(
+                    Community(
                         userId = userInfo.userId,
                         email = userInfo.email,
                         givenName = userInfo.givenName?.capitalize(),
@@ -36,6 +36,7 @@ internal class CommunityServiceImpl(
                         name = userInfo.name?.capitalize(),
                         picture = userInfo.picture,
                         gender = userInfo.gender,
+                        age = userInfo.birthDate?.let { business.getAgeInt(it) },
                         birthDateString = business.convertDateTimeLongToString(userInfo.birthDate),
                         birthDateLong = userInfo.birthDate,
                         verifiedEmail = userInfo.verifiedEmail,
@@ -46,7 +47,7 @@ internal class CommunityServiceImpl(
                 }
                 val userLocaleCommunity = repository.getUserLocaleCommunity(userId)
 
-                val userInfoList = mutableListOf<UserInfo>()
+                val communities = mutableListOf<Community>()
                 userInfoCommunity.forEach { userInfo ->
                     val userLocaleNativeList = mutableListOf<UserInfoLocale>()
                     val userLocaleLearningList = mutableListOf<UserInfoLocale>()
@@ -77,15 +78,24 @@ internal class CommunityServiceImpl(
                         )
                     }
 
-                    userInfoList.add(
+                    communities.add(
                         userInfo.copy(
+                            algorithm = when ((1..6).random()) {
+                                1 -> LanguageCenterConstant.ALGORITHM_A
+                                2 -> LanguageCenterConstant.ALGORITHM_B
+                                3 -> LanguageCenterConstant.ALGORITHM_C
+                                4 -> LanguageCenterConstant.ALGORITHM_D
+                                5 -> LanguageCenterConstant.ALGORITHM_E
+                                6 -> LanguageCenterConstant.ALGORITHM_F
+                                else -> null
+                            },
                             localNatives = userLocaleNativeList,
                             localLearnings = userLocaleLearningList,
                         )
                     )
                 }
 
-                response.userInfoList = userInfoList
+                response.communities = communities
                 response.success = true
                 "Fetch user info list success"
             }

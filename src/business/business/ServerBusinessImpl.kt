@@ -22,4 +22,13 @@ class ServerBusinessImpl : ServerBusiness {
         SimpleDateFormat("dd/MM/yyyy", Locale("th", "TH")).format(date)
     }
 
+    override fun getAgeInt(time: Long): Int {
+        val now = System.currentTimeMillis()
+        val timeBetween: Long = now - time
+        val yearsBetween: Double = timeBetween / 3.15576e+10
+        val age = kotlin.math.floor(yearsBetween).toInt()
+
+        return age
+    }
+
 }
