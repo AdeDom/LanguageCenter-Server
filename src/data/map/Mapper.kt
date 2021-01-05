@@ -1,6 +1,8 @@
 package com.lc.server.data.map
 
 import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
 import org.jetbrains.exposed.sql.ResultRow
 
@@ -19,6 +21,13 @@ object Mapper {
         aboutMe = row[Users.aboutMe],
         created = row[Users.created],
         updated = row[Users.updated],
+    )
+
+    fun toUserLocaleDb(row: ResultRow) = UserLocaleDb(
+        userId = row[UserLocales.userId],
+        locale = row[UserLocales.locale],
+        level = row[UserLocales.level],
+        localeType = row[UserLocales.localeType],
     )
 
 }

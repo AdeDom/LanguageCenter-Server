@@ -1,6 +1,7 @@
 package com.lc.server.data.repository
 
 import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
@@ -23,5 +24,9 @@ internal interface ServerRepository {
     fun editLocaleNative(userId: String, locales: List<UserInfoLocale>): Boolean
 
     fun editLocaleLearning(userId: String, locales: List<UserInfoLocale>): Boolean
+
+    fun getUserInfoCommunity(userId: String): List<UserInfoDb>
+
+    fun getUserLocaleCommunity(userId: String): List<UserLocaleDb>
 
 }

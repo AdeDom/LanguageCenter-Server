@@ -2,8 +2,10 @@ package com.lc.server.data.repository
 
 import com.lc.server.data.map.Mapper
 import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.data.table.UserLocaleLearnings
 import com.lc.server.data.table.UserLocaleNatives
+import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.EditProfileRequest
@@ -171,6 +173,38 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return result == 1
+    }
+
+    override fun getUserInfoCommunity(userId: String): List<UserInfoDb> {
+        return transaction {
+            Users.slice(
+                Users.userId,
+                Users.email,
+                Users.givenName,
+                Users.familyName,
+                Users.name,
+                Users.picture,
+                Users.gender,
+                Users.birthDate,
+                Users.verifiedEmail,
+                Users.aboutMe,
+                Users.created,
+                Users.updated,
+            ).select { Users.userId neq userId }
+                .map { Mapper.toUserInfoDb(it) }
+        }
+    }
+
+    override fun getUserLocaleCommunity(userId: String): List<UserLocaleDb> {
+        return transaction {
+            UserLocales.slice(
+                UserLocales.userId,
+                UserLocales.locale,
+                UserLocales.level,
+                UserLocales.localeType,
+            ).select { UserLocales.userId neq userId }
+                .map { Mapper.toUserLocaleDb(it) }
+        }
     }
 
 }
