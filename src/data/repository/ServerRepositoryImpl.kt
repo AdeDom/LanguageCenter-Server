@@ -3,13 +3,12 @@ package com.lc.server.data.repository
 import com.lc.server.data.map.Mapper
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
-import com.lc.server.data.table.UserLocaleLearnings
-import com.lc.server.data.table.UserLocaleNatives
 import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
+import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
 import models.response.GoogleApiUserInfoResponse
 import org.jetbrains.exposed.sql.*
@@ -46,9 +45,11 @@ internal class ServerRepositoryImpl : ServerRepository {
                     it[Users.created] = System.currentTimeMillis()
                 }
 
-                UserLocaleNatives.insert {
-                    it[UserLocaleNatives.userId] = id ?: uuid
-                    it[UserLocaleNatives.locale] = locale
+                UserLocales.insert {
+                    it[UserLocales.userId] = id ?: uuid
+                    it[UserLocales.locale] = locale
+                    it[UserLocales.level] = 0
+                    it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
                 }
             }
 
@@ -74,15 +75,17 @@ internal class ServerRepositoryImpl : ServerRepository {
                 .map { Mapper.toUserInfoDb(it) }
                 .single()
 
-            val localNatives = UserLocaleNatives
-                .slice(UserLocaleNatives.locale, UserLocaleNatives.level)
-                .select { UserLocaleNatives.userId eq userId }
-                .map { UserInfoLocale(it[UserLocaleNatives.locale], it[UserLocaleNatives.level]) }
+            val localNatives = UserLocales
+                .slice(UserLocales.locale, UserLocales.level)
+                .select { UserLocales.userId eq userId }
+                .andWhere { UserLocales.localeType eq LanguageCenterConstant.LOCALE_NATIVE }
+                .map { UserInfoLocale(it[UserLocales.locale], it[UserLocales.level]) }
 
-            val localLearnings = UserLocaleLearnings
-                .slice(UserLocaleLearnings.locale, UserLocaleLearnings.level)
-                .select { UserLocaleLearnings.userId eq userId }
-                .map { UserInfoLocale(it[UserLocaleLearnings.locale], it[UserLocaleLearnings.level]) }
+            val localLearnings = UserLocales
+                .slice(UserLocales.locale, UserLocales.level)
+                .select { UserLocales.userId eq userId }
+                .andWhere { UserLocales.localeType eq LanguageCenterConstant.LOCALE_LEARNING }
+                .map { UserInfoLocale(it[UserLocales.locale], it[UserLocales.level]) }
 
             userInfo.copy(localNatives = localNatives, localLearnings = localLearnings)
         }
@@ -92,22 +95,22 @@ internal class ServerRepositoryImpl : ServerRepository {
         val (localNatives, localLearnings, gender, birthDate) = guideUpdateProfileRequest
 
         val result = transaction {
-            // UserLocaleNatives
-            UserLocaleNatives.deleteWhere { UserLocaleNatives.userId eq userId }
+            UserLocales.deleteWhere { UserLocales.userId eq userId }
 
-            UserLocaleNatives.batchInsert(localNatives) { (locale, level) ->
-                this[UserLocaleNatives.userId] = userId
-                this[UserLocaleNatives.locale] = locale
-                this[UserLocaleNatives.level] = level
+            // UserLocaleNatives
+            UserLocales.batchInsert(localNatives) { (locale, level) ->
+                this[UserLocales.userId] = userId
+                this[UserLocales.locale] = locale
+                this[UserLocales.level] = level
+                this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
             }
 
             // UserLocaleLearnings
-            UserLocaleLearnings.deleteWhere { UserLocaleLearnings.userId eq userId }
-
-            UserLocaleLearnings.batchInsert(localLearnings) { (locale, level) ->
-                this[UserLocaleLearnings.userId] = userId
-                this[UserLocaleLearnings.locale] = locale
-                this[UserLocaleLearnings.level] = level
+            UserLocales.batchInsert(localLearnings) { (locale, level) ->
+                this[UserLocales.userId] = userId
+                this[UserLocales.locale] = locale
+                this[UserLocales.level] = level
+                this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
             }
 
             // Users
@@ -141,12 +144,13 @@ internal class ServerRepositoryImpl : ServerRepository {
 
     override fun editLocaleNative(userId: String, locales: List<UserInfoLocale>): Boolean {
         val result = transaction {
-            UserLocaleNatives.deleteWhere { UserLocaleNatives.userId eq userId }
+            UserLocales.deleteWhere { UserLocales.userId eq userId and (UserLocales.localeType eq LanguageCenterConstant.LOCALE_NATIVE) }
 
-            UserLocaleNatives.batchInsert(locales) { (locale, level) ->
-                this[UserLocaleNatives.userId] = userId
-                this[UserLocaleNatives.locale] = locale
-                this[UserLocaleNatives.level] = level
+            UserLocales.batchInsert(locales) { (locale, level) ->
+                this[UserLocales.userId] = userId
+                this[UserLocales.locale] = locale
+                this[UserLocales.level] = level
+                this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
             }
 
             Users.update({ Users.userId eq userId }) {
@@ -159,12 +163,13 @@ internal class ServerRepositoryImpl : ServerRepository {
 
     override fun editLocaleLearning(userId: String, locales: List<UserInfoLocale>): Boolean {
         val result = transaction {
-            UserLocaleLearnings.deleteWhere { UserLocaleLearnings.userId eq userId }
+            UserLocales.deleteWhere { UserLocales.userId eq userId and (UserLocales.localeType eq LanguageCenterConstant.LOCALE_LEARNING) }
 
-            UserLocaleLearnings.batchInsert(locales) { (locale, level) ->
-                this[UserLocaleLearnings.userId] = userId
-                this[UserLocaleLearnings.locale] = locale
-                this[UserLocaleLearnings.level] = level
+            UserLocales.batchInsert(locales) { (locale, level) ->
+                this[UserLocales.userId] = userId
+                this[UserLocales.locale] = locale
+                this[UserLocales.level] = level
+                this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
             }
 
             Users.update({ Users.userId eq userId }) {
