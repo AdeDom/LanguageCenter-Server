@@ -1,7 +1,6 @@
 package com.lc.server.http
 
-import com.lc.server.data.table.UserLocaleLearnings
-import com.lc.server.data.table.UserLocaleNatives
+import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
 import com.lc.server.getHttpClientApache
 import com.lc.server.models.response.BaseResponse
@@ -52,15 +51,17 @@ fun Route.mockDataController() {
                 // user locale native
                 repeat((1..2).random()) {
                     when ((1..2).random()) {
-                        1 -> UserLocaleNatives.insert {
-                            it[UserLocaleNatives.userId] = userId
-                            it[UserLocaleNatives.locale] = LanguageCenterConstant.LOCALE_THAI
-                            it[UserLocaleNatives.level] = (0..100).random()
+                        1 -> UserLocales.insert {
+                            it[UserLocales.userId] = userId
+                            it[UserLocales.locale] = LanguageCenterConstant.LOCALE_THAI
+                            it[UserLocales.level] = (0..100).random()
+                            it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
                         }
-                        2 -> UserLocaleNatives.insert {
-                            it[UserLocaleNatives.userId] = userId
-                            it[UserLocaleNatives.locale] = LanguageCenterConstant.LOCALE_ENGLISH
-                            it[UserLocaleNatives.level] = (0..100).random()
+                        2 -> UserLocales.insert {
+                            it[UserLocales.userId] = userId
+                            it[UserLocales.locale] = LanguageCenterConstant.LOCALE_ENGLISH
+                            it[UserLocales.level] = (0..100).random()
+                            it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
                         }
                     }
                 }
@@ -68,15 +69,17 @@ fun Route.mockDataController() {
                 // user locale learning
                 repeat((1..2).random()) {
                     when ((1..2).random()) {
-                        1 -> UserLocaleLearnings.insert {
-                            it[UserLocaleLearnings.userId] = userId
-                            it[UserLocaleLearnings.locale] = LanguageCenterConstant.LOCALE_THAI
-                            it[UserLocaleLearnings.level] = (0..100).random()
+                        1 -> UserLocales.insert {
+                            it[UserLocales.userId] = userId
+                            it[UserLocales.locale] = LanguageCenterConstant.LOCALE_THAI
+                            it[UserLocales.level] = (0..100).random()
+                            it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
                         }
-                        2 -> UserLocaleLearnings.insert {
-                            it[UserLocaleLearnings.userId] = userId
-                            it[UserLocaleLearnings.locale] = LanguageCenterConstant.LOCALE_ENGLISH
-                            it[UserLocaleLearnings.level] = (0..100).random()
+                        2 -> UserLocales.insert {
+                            it[UserLocales.userId] = userId
+                            it[UserLocales.locale] = LanguageCenterConstant.LOCALE_ENGLISH
+                            it[UserLocales.level] = (0..100).random()
+                            it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
                         }
                     }
                 }
