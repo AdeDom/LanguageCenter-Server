@@ -297,4 +297,40 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun fetchChatGroupDetail(chatGroupId: Int): List<UserInfoDb> {
+        return transaction {
+            (Users innerJoin ChatGroupDetails)
+                .slice(
+                    Users.userId,
+                    Users.email,
+                    Users.givenName,
+                    Users.familyName,
+                    Users.name,
+                    Users.picture,
+                    Users.gender,
+                    Users.birthDate,
+                    Users.verifiedEmail,
+                    Users.aboutMe,
+                    Users.created,
+                    Users.updated,
+                )
+                .select { ChatGroupDetails.chatGroupId eq chatGroupId }
+                .map { Mapper.toUserInfoDb(it) }
+        }
+    }
+
+    override fun fetchUserLocale(): List<UserLocaleDb> {
+        return transaction {
+            UserLocales
+                .slice(
+                    UserLocales.userId,
+                    UserLocales.locale,
+                    UserLocales.level,
+                    UserLocales.localeType,
+                )
+                .selectAll()
+                .map { Mapper.toUserLocaleDb(it) }
+        }
+    }
+
 }

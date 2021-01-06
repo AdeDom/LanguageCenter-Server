@@ -3,6 +3,7 @@ package com.lc.server.http
 import com.lc.server.business.chat.ChatGroupService
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
+import com.lc.server.models.request.FetchChatGroupDetailRequest
 import com.lc.server.models.request.FetchChatGroupRequest
 import com.lc.server.util.userId
 import io.ktor.application.*
@@ -28,6 +29,11 @@ fun Route.chatGroupController(service: ChatGroupService) {
 
     get<FetchChatGroupRequest> {
         val response = service.fetchChatGroup(call.userId)
+        call.respond(response)
+    }
+
+    get<FetchChatGroupDetailRequest> { request ->
+        val response = service.fetchChatGroupDetail(request)
         call.respond(response)
     }
 

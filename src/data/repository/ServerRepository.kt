@@ -37,4 +37,8 @@ internal interface ServerRepository {
 
     fun fetchChatGroup(userId: String): List<ChatGroup>
 
+    fun fetchChatGroupDetail(chatGroupId: Int): List<UserInfoDb>
+
+    fun fetchUserLocale(): List<UserLocaleDb>
+
 }
