@@ -3,11 +3,10 @@ package com.lc.server.data.repository
 import com.lc.server.data.map.Mapper
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
-import com.lc.server.data.table.Algorithms
-import com.lc.server.data.table.UserLocales
-import com.lc.server.data.table.Users
+import com.lc.server.data.table.*
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.AddAlgorithmRequest
+import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
 import com.lc.server.util.LanguageCenterConstant
@@ -226,6 +225,52 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return statement.resultedValues?.size == 1
+    }
+
+    override fun addChatGroupNew(userId: String, addChatGroupNewRequest: AddChatGroupNewRequest): Boolean {
+        val result = transaction {
+            // chat group
+            val countChatGroup = ChatGroups.select { ChatGroups.userId eq userId }
+                .andWhere { ChatGroups.groupName eq LanguageCenterConstant.CHAT_GROUP_NAME_NEW }
+                .count()
+                .toInt()
+
+            if (countChatGroup == 0) {
+                ChatGroups.insert {
+                    it[ChatGroups.groupName] = LanguageCenterConstant.CHAT_GROUP_NAME_NEW
+                    it[ChatGroups.userId] = userId
+                }
+            }
+
+            // chat group detail
+            val chatGroupDetailId = (ChatGroups innerJoin ChatGroupDetails)
+                .slice(ChatGroupDetails.chatGroupDetailId)
+                .select { ChatGroupDetails.userId eq addChatGroupNewRequest.userId!! }
+                .map { it[ChatGroupDetails.chatGroupDetailId] }
+                .singleOrNull()
+
+            val chatGroupId = ChatGroups
+                .slice(ChatGroups.chatGroupId)
+                .select { ChatGroups.userId eq userId }
+                .andWhere { ChatGroups.groupName eq LanguageCenterConstant.CHAT_GROUP_NAME_NEW }
+                .map { it[ChatGroups.chatGroupId] }
+                .single()
+
+            if (chatGroupDetailId == null) {
+                val result = ChatGroupDetails.insert {
+                    it[ChatGroupDetails.chatGroupId] = chatGroupId
+                    it[ChatGroupDetails.userId] = addChatGroupNewRequest.userId!!
+                }
+
+                result.resultedValues?.size
+            } else {
+                ChatGroupDetails.update({ ChatGroupDetails.chatGroupDetailId eq chatGroupDetailId }) {
+                    it[ChatGroupDetails.chatGroupId] = chatGroupId
+                }
+            }
+        }
+
+        return result == 1
     }
 
 }

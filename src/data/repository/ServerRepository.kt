@@ -4,6 +4,7 @@ import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.AddAlgorithmRequest
+import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.EditProfileRequest
 import com.lc.server.models.request.GuideUpdateProfileRequest
 import io.ktor.locations.*
@@ -31,5 +32,7 @@ internal interface ServerRepository {
     fun getUserLocaleCommunity(userId: String): List<UserLocaleDb>
 
     fun addAlgorithm(userId: String, addAlgorithmRequest: AddAlgorithmRequest): Boolean
+
+    fun addChatGroupNew(userId: String, addChatGroupNewRequest: AddChatGroupNewRequest): Boolean
 
 }

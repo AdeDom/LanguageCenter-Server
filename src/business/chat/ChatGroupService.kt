@@ -1,0 +1,12 @@
+package com.lc.server.business.chat
+
+import com.lc.server.models.request.AddChatGroupNewRequest
+import com.lc.server.models.response.BaseResponse
+import io.ktor.locations.*
+
+@KtorExperimentalLocationsAPI
+interface ChatGroupService {
+
+    fun addChatGroupNew(userId: String?, addChatGroupNewRequest: AddChatGroupNewRequest): BaseResponse
+
+}

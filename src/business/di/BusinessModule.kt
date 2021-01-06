@@ -6,6 +6,8 @@ import com.lc.server.business.auth.AuthService
 import com.lc.server.business.auth.AuthServiceImpl
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.business.business.ServerBusinessImpl
+import com.lc.server.business.chat.ChatGroupService
+import com.lc.server.business.chat.ChatGroupServiceImpl
 import com.lc.server.business.community.CommunityService
 import com.lc.server.business.community.CommunityServiceImpl
 import com.lc.server.business.jwtconfig.JwtConfig
@@ -25,6 +27,7 @@ private val businessModule = module {
     // service
     single<AuthService> { AuthServiceImpl(get(), get(), get()) }
     single<CommunityService> { CommunityServiceImpl(get(), get()) }
+    single<ChatGroupService> { ChatGroupServiceImpl(get()) }
     single<AccountService> { AccountServiceImpl(get(), get()) }
 
 }

@@ -17,5 +17,6 @@ object LanguageCenterConstant {
     const val ALGORITHM_D = "D"  // gender
     const val ALGORITHM_E = "E"  // age
     const val ALGORITHM_F = "F"  // native language
+    const val CHAT_GROUP_NAME_NEW = "New"
 
 }
