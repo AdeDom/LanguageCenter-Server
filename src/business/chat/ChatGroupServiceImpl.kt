@@ -4,6 +4,7 @@ import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.response.BaseResponse
+import com.lc.server.models.response.FetchChatGroupResponse
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
@@ -39,6 +40,23 @@ internal class ChatGroupServiceImpl(
             else -> {
                 response.success = repository.addChatGroup(userId, addChatGroupRequest)
                 "Add chat group success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun fetchChatGroup(userId: String?): FetchChatGroupResponse {
+        val response = FetchChatGroupResponse()
+
+        val message: String = when {
+            userId.isNullOrBlank() -> "Null"
+
+            else -> {
+                response.chatGroup = repository.fetchChatGroup(userId)
+                response.success = true
+                "Fetch chat group success"
             }
         }
 

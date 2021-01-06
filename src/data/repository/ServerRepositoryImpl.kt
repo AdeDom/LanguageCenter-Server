@@ -4,6 +4,7 @@ import com.lc.server.data.map.Mapper
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.data.table.*
+import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
 import com.lc.server.util.LanguageCenterConstant
@@ -281,6 +282,19 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return statement.resultedValues?.size == 1
+    }
+
+    override fun fetchChatGroup(userId: String): List<ChatGroup> {
+        return transaction {
+            ChatGroups
+                .slice(
+                    ChatGroups.chatGroupId,
+                    ChatGroups.groupName,
+                    ChatGroups.userId,
+                )
+                .select { ChatGroups.userId eq userId }
+                .map { Mapper.toChatGroupDb(it) }
+        }
     }
 
 }

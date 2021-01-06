@@ -2,8 +2,10 @@ package com.lc.server.data.map
 
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.table.ChatGroups
 import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
+import com.lc.server.models.model.ChatGroup
 import org.jetbrains.exposed.sql.ResultRow
 
 object Mapper {
@@ -28,6 +30,12 @@ object Mapper {
         locale = row[UserLocales.locale],
         level = row[UserLocales.level],
         localeType = row[UserLocales.localeType],
+    )
+
+    fun toChatGroupDb(row: ResultRow) = ChatGroup(
+        chatGroupId = row[ChatGroups.chatGroupId],
+        groupName = row[ChatGroups.groupName],
+        userId = row[ChatGroups.userId],
     )
 
 }
