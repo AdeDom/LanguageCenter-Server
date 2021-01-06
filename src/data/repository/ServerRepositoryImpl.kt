@@ -5,10 +5,7 @@ import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.data.table.*
 import com.lc.server.models.model.UserInfoLocale
-import com.lc.server.models.request.AddAlgorithmRequest
-import com.lc.server.models.request.AddChatGroupNewRequest
-import com.lc.server.models.request.EditProfileRequest
-import com.lc.server.models.request.GuideUpdateProfileRequest
+import com.lc.server.models.request.*
 import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
 import models.response.GoogleApiUserInfoResponse
@@ -271,6 +268,19 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return result == 1
+    }
+
+    override fun addChatGroup(userId: String, addChatGroupRequest: AddChatGroupRequest): Boolean {
+        val (groupName) = addChatGroupRequest
+
+        val statement = transaction {
+            ChatGroups.insert {
+                it[ChatGroups.groupName] = groupName!!
+                it[ChatGroups.userId] = userId
+            }
+        }
+
+        return statement.resultedValues?.size == 1
     }
 
 }

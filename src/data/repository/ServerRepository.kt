@@ -3,10 +3,7 @@ package com.lc.server.data.repository
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.models.model.UserInfoLocale
-import com.lc.server.models.request.AddAlgorithmRequest
-import com.lc.server.models.request.AddChatGroupNewRequest
-import com.lc.server.models.request.EditProfileRequest
-import com.lc.server.models.request.GuideUpdateProfileRequest
+import com.lc.server.models.request.*
 import io.ktor.locations.*
 import models.response.GoogleApiUserInfoResponse
 
@@ -34,5 +31,7 @@ internal interface ServerRepository {
     fun addAlgorithm(userId: String, addAlgorithmRequest: AddAlgorithmRequest): Boolean
 
     fun addChatGroupNew(userId: String, addChatGroupNewRequest: AddChatGroupNewRequest): Boolean
+
+    fun addChatGroup(userId: String, addChatGroupRequest: AddChatGroupRequest): Boolean
 
 }

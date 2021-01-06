@@ -1,6 +1,7 @@
 package com.lc.server.business.chat
 
 import com.lc.server.models.request.AddChatGroupNewRequest
+import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.response.BaseResponse
 import io.ktor.locations.*
 
@@ -8,5 +9,7 @@ import io.ktor.locations.*
 interface ChatGroupService {
 
     fun addChatGroupNew(userId: String?, addChatGroupNewRequest: AddChatGroupNewRequest): BaseResponse
+
+    fun addChatGroup(userId: String?, addChatGroupRequest: AddChatGroupRequest): BaseResponse
 
 }
