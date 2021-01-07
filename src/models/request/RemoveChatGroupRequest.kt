@@ -5,5 +5,5 @@ import io.ktor.locations.*
 @KtorExperimentalLocationsAPI
 @Location("/api/chat-group/remove-chat-group/{chatGroupId}")
 data class RemoveChatGroupRequest(
-    val chatGroupId: Int? = null,
+    val chatGroupId: String? = null,
 )

@@ -6,7 +6,6 @@ import com.lc.server.models.model.ChatGroupDetail
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
-import com.lc.server.models.request.FetchChatGroupDetailRequest
 import com.lc.server.models.request.RenameChatGroupRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchChatGroupDetailResponse
@@ -72,11 +71,8 @@ internal class ChatGroupServiceImpl(
         return response
     }
 
-    override fun fetchChatGroupDetail(
-        fetchChatGroupDetailRequest: FetchChatGroupDetailRequest
-    ): FetchChatGroupDetailResponse {
+    override fun fetchChatGroupDetail(chatGroupId: String?): FetchChatGroupDetailResponse {
         val response = FetchChatGroupDetailResponse()
-        val (chatGroupId) = fetchChatGroupDetailRequest
 
         val message: String = when {
             chatGroupId?.toIntOrNull() == null -> "Null"
@@ -133,14 +129,14 @@ internal class ChatGroupServiceImpl(
         return response
     }
 
-    override fun removeChatGroup(chatGroupId: Int?): BaseResponse {
+    override fun removeChatGroup(chatGroupId: String?): BaseResponse {
         val response = BaseResponse()
 
-        val message: String = when (chatGroupId) {
-            null -> "Null"
+        val message: String = when {
+            chatGroupId?.toIntOrNull() == null -> "Null"
 
             else -> {
-                repository.removeChatGroup(chatGroupId)
+                repository.removeChatGroup(chatGroupId.toInt())
                 response.success = true
                 "Remove chat group success"
             }

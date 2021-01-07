@@ -30,7 +30,7 @@ fun Route.chatGroupController(service: ChatGroupService) {
     }
 
     get<FetchChatGroupDetailRequest> { request ->
-        val response = service.fetchChatGroupDetail(request)
+        val response = service.fetchChatGroupDetail(request.chatGroupId)
         call.respond(response)
     }
 
