@@ -133,4 +133,21 @@ internal class ChatGroupServiceImpl(
         return response
     }
 
+    override fun removeChatGroup(chatGroupId: Int?): BaseResponse {
+        val response = BaseResponse()
+
+        val message: String = when (chatGroupId) {
+            null -> "Null"
+
+            else -> {
+                repository.removeChatGroup(chatGroupId)
+                response.success = true
+                "Remove chat group success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
 }

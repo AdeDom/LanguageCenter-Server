@@ -43,4 +43,6 @@ internal interface ServerRepository {
 
     fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): Boolean
 
+    fun removeChatGroup(chatGroupId: Int)
+
 }

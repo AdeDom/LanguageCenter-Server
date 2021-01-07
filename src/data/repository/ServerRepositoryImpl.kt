@@ -345,4 +345,12 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result == 1
     }
 
+    override fun removeChatGroup(chatGroupId: Int) {
+        transaction {
+            ChatGroups.deleteWhere { ChatGroups.chatGroupId eq chatGroupId }
+
+            ChatGroupDetails.deleteWhere { ChatGroupDetails.chatGroupId eq chatGroupId }
+        }
+    }
+
 }

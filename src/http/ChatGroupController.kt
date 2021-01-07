@@ -40,4 +40,9 @@ fun Route.chatGroupController(service: ChatGroupService) {
         call.respond(response)
     }
 
+    delete<RemoveChatGroupRequest> { request ->
+        val response = service.removeChatGroup(request.chatGroupId)
+        call.respond(response)
+    }
+
 }

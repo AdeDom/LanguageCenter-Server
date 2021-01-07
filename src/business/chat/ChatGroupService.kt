@@ -22,4 +22,6 @@ interface ChatGroupService {
 
     fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): BaseResponse
 
+    fun removeChatGroup(chatGroupId: Int?): BaseResponse
+
 }
