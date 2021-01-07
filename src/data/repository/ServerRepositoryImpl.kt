@@ -333,4 +333,16 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): Boolean {
+        val (chatGroupId, groupName) = renameChatGroupRequest
+
+        val result = transaction {
+            ChatGroups.update({ ChatGroups.chatGroupId eq chatGroupId!! }) {
+                it[ChatGroups.groupName] = groupName!!
+            }
+        }
+
+        return result == 1
+    }
+
 }

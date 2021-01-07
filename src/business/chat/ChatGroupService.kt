@@ -3,6 +3,7 @@ package com.lc.server.business.chat
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.request.FetchChatGroupDetailRequest
+import com.lc.server.models.request.RenameChatGroupRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchChatGroupDetailResponse
 import com.lc.server.models.response.FetchChatGroupResponse
@@ -18,5 +19,7 @@ interface ChatGroupService {
     fun fetchChatGroup(userId: String?): FetchChatGroupResponse
 
     fun fetchChatGroupDetail(fetchChatGroupDetailRequest: FetchChatGroupDetailRequest): FetchChatGroupDetailResponse
+
+    fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): BaseResponse
 
 }

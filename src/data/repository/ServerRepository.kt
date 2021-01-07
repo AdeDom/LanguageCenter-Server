@@ -41,4 +41,6 @@ internal interface ServerRepository {
 
     fun fetchUserLocale(): List<UserLocaleDb>
 
+    fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): Boolean
+
 }

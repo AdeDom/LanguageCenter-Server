@@ -7,6 +7,7 @@ import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.request.FetchChatGroupDetailRequest
+import com.lc.server.models.request.RenameChatGroupRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchChatGroupDetailResponse
 import com.lc.server.models.response.FetchChatGroupResponse
@@ -107,6 +108,24 @@ internal class ChatGroupServiceImpl(
                 response.chatGroupDetails = chatGroupDetail
                 response.success = true
                 "Fetch chat group detail success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): BaseResponse {
+        val response = BaseResponse()
+        val (chatGroupId, groupName) = renameChatGroupRequest
+
+        val message: String = when {
+            chatGroupId == null -> "Null"
+            groupName.isNullOrBlank() -> "isNullOrBlank"
+
+            else -> {
+                response.success = repository.renameChatGroup(renameChatGroupRequest)
+                "Rename chat group success"
             }
         }
 
