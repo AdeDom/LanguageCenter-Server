@@ -186,20 +186,23 @@ internal class ServerRepositoryImpl : ServerRepository {
 
     override fun getUserInfoCommunity(userId: String): List<UserInfoDb> {
         return transaction {
-            Users.slice(
-                Users.userId,
-                Users.email,
-                Users.givenName,
-                Users.familyName,
-                Users.name,
-                Users.picture,
-                Users.gender,
-                Users.birthDate,
-                Users.verifiedEmail,
-                Users.aboutMe,
-                Users.created,
-                Users.updated,
-            ).select { Users.userId neq userId }
+            Users
+                .slice(
+                    Users.userId,
+                    Users.email,
+                    Users.givenName,
+                    Users.familyName,
+                    Users.name,
+                    Users.picture,
+                    Users.gender,
+                    Users.birthDate,
+                    Users.verifiedEmail,
+                    Users.aboutMe,
+                    Users.created,
+                    Users.updated,
+                )
+                .select { Users.userId neq userId }
+                .orderBy(Users.created, SortOrder.ASC)
                 .map { Mapper.toUserInfoDb(it) }
         }
     }
@@ -230,6 +233,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 ChatGroups.insert {
                     it[ChatGroups.groupName] = LanguageCenterConstant.CHAT_GROUP_NAME_NEW
                     it[ChatGroups.userId] = userId
+                    it[ChatGroups.created] = System.currentTimeMillis()
                 }
             }
 
@@ -251,12 +255,14 @@ internal class ServerRepositoryImpl : ServerRepository {
                 val result = ChatGroupDetails.insert {
                     it[ChatGroupDetails.chatGroupId] = chatGroupId
                     it[ChatGroupDetails.userId] = addChatGroupNewRequest.userId!!
+                    it[ChatGroupDetails.created] = System.currentTimeMillis()
                 }
 
                 result.resultedValues?.size
             } else {
                 ChatGroupDetails.update({ ChatGroupDetails.chatGroupDetailId eq chatGroupDetailId }) {
                     it[ChatGroupDetails.chatGroupId] = chatGroupId
+                    it[ChatGroupDetails.updated] = System.currentTimeMillis()
                 }
             }
         }
@@ -271,6 +277,7 @@ internal class ServerRepositoryImpl : ServerRepository {
             ChatGroups.insert {
                 it[ChatGroups.groupName] = groupName!!
                 it[ChatGroups.userId] = userId
+                it[ChatGroups.created] = System.currentTimeMillis()
             }
         }
 
@@ -286,6 +293,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     ChatGroups.userId,
                 )
                 .select { ChatGroups.userId eq userId }
+                .orderBy(ChatGroups.created, SortOrder.ASC)
                 .map { Mapper.toChatGroupDb(it) }
         }
     }
@@ -308,6 +316,8 @@ internal class ServerRepositoryImpl : ServerRepository {
                     Users.updated,
                 )
                 .select { ChatGroupDetails.chatGroupId eq chatGroupId }
+                .orderBy(ChatGroupDetails.created, SortOrder.ASC)
+                .orderBy(Users.created, SortOrder.ASC)
                 .map { Mapper.toUserInfoDb(it) }
         }
     }
@@ -322,6 +332,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     UserLocales.localeType,
                 )
                 .selectAll()
+                .orderBy(UserLocales.created, SortOrder.ASC)
                 .map { Mapper.toUserLocaleDb(it) }
         }
     }
@@ -332,6 +343,7 @@ internal class ServerRepositoryImpl : ServerRepository {
         val result = transaction {
             ChatGroups.update({ ChatGroups.chatGroupId eq chatGroupId!! }) {
                 it[ChatGroups.groupName] = groupName!!
+                it[ChatGroups.updated] = System.currentTimeMillis()
             }
         }
 
