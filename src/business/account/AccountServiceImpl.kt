@@ -80,15 +80,13 @@ internal class AccountServiceImpl(
 
     override fun editProfile(userId: String?, editProfileRequest: EditProfileRequest): BaseResponse {
         val response = BaseResponse()
-        val (givenName, familyName, gender, birthDate, aboutMe) = editProfileRequest
+        val (givenName, familyName, _, _, aboutMe) = editProfileRequest
 
         val message: String = when {
             // validate Null Or Blank
-            userId.isNullOrBlank() -> "Null"
-            givenName.isNullOrBlank() -> "Null"
+            userId.isNullOrBlank() -> "isNullOrBlank"
+            givenName.isNullOrBlank() -> "isNullOrBlank"
             familyName == null -> "Null"
-            gender.isNullOrBlank() -> "Null"
-            birthDate == null -> "Null"
             aboutMe == null -> "Null"
 
             // validate values of variable
