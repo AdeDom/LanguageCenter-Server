@@ -1,8 +1,7 @@
 package com.lc.server.data.repository
 
 import com.lc.server.data.map.Mapper
-import com.lc.server.data.model.UserInfoDb
-import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.model.*
 import com.lc.server.data.table.*
 import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
@@ -355,6 +354,94 @@ internal class ServerRepositoryImpl : ServerRepository {
             ChatGroups.deleteWhere { ChatGroups.chatGroupId eq chatGroupId }
 
             ChatGroupDetails.deleteWhere { ChatGroupDetails.chatGroupId eq chatGroupId }
+        }
+    }
+
+    override fun getCommunityUsers(): List<CommunityUsersDb> {
+        return transaction {
+            Users
+                .slice(
+                    Users.userId,
+                    Users.email,
+                    Users.givenName,
+                    Users.familyName,
+                    Users.name,
+                    Users.picture,
+                    Users.gender,
+                    Users.birthDate,
+                    Users.verifiedEmail,
+                    Users.aboutMe,
+                    Users.isUpdateProfile,
+                    Users.created,
+                    Users.updated,
+                )
+                .selectAll()
+                .orderBy(Users.created, SortOrder.ASC)
+                .map { Mapper.toCommunityUsersDb(it) }
+        }
+    }
+
+    override fun getCommunityUserLocales(): List<CommunityUserLocalesDb> {
+        return transaction {
+            UserLocales
+                .slice(
+                    UserLocales.localeId,
+                    UserLocales.userId,
+                    UserLocales.locale,
+                    UserLocales.level,
+                    UserLocales.localeType,
+                    UserLocales.created,
+                )
+                .selectAll()
+                .orderBy(UserLocales.created, SortOrder.ASC)
+                .map { Mapper.toCommunityUserLocalesDb(it) }
+        }
+    }
+
+    override fun getCommunityAlgorithms(): List<CommunityAlgorithmsDb> {
+        return transaction {
+            Algorithms
+                .slice(
+                    Algorithms.algorithmId,
+                    Algorithms.userId,
+                    Algorithms.algorithm,
+                    Algorithms.created,
+                )
+                .selectAll()
+                .orderBy(Algorithms.created, SortOrder.ASC)
+                .map { Mapper.toCommunityAlgorithmsDb(it) }
+        }
+    }
+
+    override fun getCommunityChatGroups(): List<CommunityChatGroupsDb> {
+        return transaction {
+            ChatGroups
+                .slice(
+                    ChatGroups.chatGroupId,
+                    ChatGroups.groupName,
+                    ChatGroups.userId,
+                    ChatGroups.created,
+                    ChatGroups.updated,
+                )
+                .selectAll()
+                .orderBy(ChatGroups.created, SortOrder.ASC)
+                .map { Mapper.toCommunityChatGroupsDb(it) }
+        }
+    }
+
+    override fun getCommunityChatGroupDetails(): List<CommunityChatGroupDetailsDb> {
+        return transaction {
+            ChatGroupDetails
+                .slice(
+                    ChatGroupDetails.chatGroupDetailId,
+                    ChatGroupDetails.chatGroupId,
+                    ChatGroupDetails.userId,
+                    ChatGroupDetails.created,
+                    ChatGroupDetails.updated,
+                )
+                .selectAll()
+                .orderBy(ChatGroupDetails.created, SortOrder.ASC)
+                .map { Mapper.toCommunityChatGroupDetailsDb(it) }
         }
     }
 

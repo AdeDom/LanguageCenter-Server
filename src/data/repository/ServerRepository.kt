@@ -1,7 +1,6 @@
 package com.lc.server.data.repository
 
-import com.lc.server.data.model.UserInfoDb
-import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.model.*
 import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
@@ -42,5 +41,15 @@ internal interface ServerRepository {
     fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): Boolean
 
     fun removeChatGroup(chatGroupId: Int)
+
+    fun getCommunityUsers(): List<CommunityUsersDb>
+
+    fun getCommunityUserLocales(): List<CommunityUserLocalesDb>
+
+    fun getCommunityAlgorithms(): List<CommunityAlgorithmsDb>
+
+    fun getCommunityChatGroups(): List<CommunityChatGroupsDb>
+
+    fun getCommunityChatGroupDetails(): List<CommunityChatGroupDetailsDb>
 
 }
