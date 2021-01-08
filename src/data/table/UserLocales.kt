@@ -10,6 +10,7 @@ object UserLocales : Table(name = DatabaseConstant.USER_LOCALE_TABLE) {
     val locale = varchar(name = DatabaseConstant.LOCALE, length = 5).nullable()
     val level = integer(name = DatabaseConstant.LEVEL)
     val localeType = varchar(name = DatabaseConstant.LOCALE_TYPE, length = 10)
+    val created = long(name = DatabaseConstant.CREATED)
 
     override val primaryKey: PrimaryKey?
         get() = PrimaryKey(localeId, name = DatabaseConstant.USER_LOCALE_PK)

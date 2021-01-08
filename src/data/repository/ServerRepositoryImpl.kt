@@ -49,6 +49,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     it[UserLocales.locale] = locale
                     it[UserLocales.level] = 0
                     it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
+                    it[UserLocales.created] = System.currentTimeMillis()
                 }
             }
 
@@ -102,6 +103,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 this[UserLocales.locale] = locale
                 this[UserLocales.level] = level
                 this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
+                this[UserLocales.created] = System.currentTimeMillis()
             }
 
             // UserLocaleLearnings
@@ -110,6 +112,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 this[UserLocales.locale] = locale
                 this[UserLocales.level] = level
                 this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
+                this[UserLocales.created] = System.currentTimeMillis()
             }
 
             // Users
@@ -150,6 +153,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 this[UserLocales.locale] = locale
                 this[UserLocales.level] = level
                 this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
+                this[UserLocales.created] = System.currentTimeMillis()
             }
 
             Users.update({ Users.userId eq userId }) {
@@ -169,6 +173,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 this[UserLocales.locale] = locale
                 this[UserLocales.level] = level
                 this[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
+                this[UserLocales.created] = System.currentTimeMillis()
             }
 
             Users.update({ Users.userId eq userId }) {
@@ -196,18 +201,6 @@ internal class ServerRepositoryImpl : ServerRepository {
                 Users.updated,
             ).select { Users.userId neq userId }
                 .map { Mapper.toUserInfoDb(it) }
-        }
-    }
-
-    override fun getUserLocaleCommunity(userId: String): List<UserLocaleDb> {
-        return transaction {
-            UserLocales.slice(
-                UserLocales.userId,
-                UserLocales.locale,
-                UserLocales.level,
-                UserLocales.localeType,
-            ).select { UserLocales.userId neq userId }
-                .map { Mapper.toUserLocaleDb(it) }
         }
     }
 

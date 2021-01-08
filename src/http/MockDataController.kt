@@ -56,12 +56,14 @@ fun Route.mockDataController() {
                             it[UserLocales.locale] = LanguageCenterConstant.LOCALE_THAI
                             it[UserLocales.level] = (0..100).random()
                             it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
+                            it[UserLocales.created] = System.currentTimeMillis()
                         }
                         2 -> UserLocales.insert {
                             it[UserLocales.userId] = userId
                             it[UserLocales.locale] = LanguageCenterConstant.LOCALE_ENGLISH
                             it[UserLocales.level] = (0..100).random()
                             it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_NATIVE
+                            it[UserLocales.created] = System.currentTimeMillis()
                         }
                     }
                 }
@@ -74,12 +76,14 @@ fun Route.mockDataController() {
                             it[UserLocales.locale] = LanguageCenterConstant.LOCALE_THAI
                             it[UserLocales.level] = (0..100).random()
                             it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
+                            it[UserLocales.created] = System.currentTimeMillis()
                         }
                         2 -> UserLocales.insert {
                             it[UserLocales.userId] = userId
                             it[UserLocales.locale] = LanguageCenterConstant.LOCALE_ENGLISH
                             it[UserLocales.level] = (0..100).random()
                             it[UserLocales.localeType] = LanguageCenterConstant.LOCALE_LEARNING
+                            it[UserLocales.created] = System.currentTimeMillis()
                         }
                     }
                 }

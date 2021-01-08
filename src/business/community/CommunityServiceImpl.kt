@@ -47,7 +47,7 @@ internal class CommunityServiceImpl(
                         updated = business.convertDateTimeLongToString(userInfo.updated),
                     )
                 }
-                val userLocaleCommunity = repository.getUserLocaleCommunity(userId)
+                val userLocaleCommunity = repository.fetchUserLocale().filter { it.userId != userId }
 
                 val communities = mutableListOf<Community>()
                 userInfoCommunity.forEach { userInfo ->

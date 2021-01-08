@@ -27,8 +27,6 @@ internal interface ServerRepository {
 
     fun getUserInfoCommunity(userId: String): List<UserInfoDb>
 
-    fun getUserLocaleCommunity(userId: String): List<UserLocaleDb>
-
     fun addAlgorithm(userId: String, addAlgorithmRequest: AddAlgorithmRequest): Boolean
 
     fun addChatGroupNew(userId: String, addChatGroupNewRequest: AddChatGroupNewRequest): Boolean
