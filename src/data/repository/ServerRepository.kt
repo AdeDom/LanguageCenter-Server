@@ -1,6 +1,10 @@
 package com.lc.server.data.repository
 
-import com.lc.server.data.model.*
+import com.lc.server.business.model.CommunityAlgorithm
+import com.lc.server.data.model.CommunityUserLocalesDb
+import com.lc.server.data.model.CommunityUsersDb
+import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
@@ -24,8 +28,6 @@ internal interface ServerRepository {
 
     fun editLocaleLearning(userId: String, locales: List<UserInfoLocale>): Boolean
 
-    fun getUserInfoCommunity(userId: String): List<UserInfoDb>
-
     fun addAlgorithm(userId: String, addAlgorithmRequest: AddAlgorithmRequest): Boolean
 
     fun addChatGroupNew(userId: String, addChatGroupNewRequest: AddChatGroupNewRequest): Boolean
@@ -42,14 +44,14 @@ internal interface ServerRepository {
 
     fun removeChatGroup(chatGroupId: Int)
 
-    fun getCommunityUsers(): List<CommunityUsersDb>
+    fun getCommunityUsers(userId: String): List<CommunityUsersDb>
 
     fun getCommunityUserLocales(): List<CommunityUserLocalesDb>
 
-    fun getCommunityAlgorithms(): List<CommunityAlgorithmsDb>
+    fun getCommunityAlgorithms(userId: String): List<CommunityAlgorithm>
 
-    fun getCommunityChatGroups(): List<CommunityChatGroupsDb>
+    fun getCommunityFriend(userId: String): List<String>
 
-    fun getCommunityChatGroupDetails(): List<CommunityChatGroupDetailsDb>
+    fun getCommunityMyBirthDate(userId: String): Long?
 
 }

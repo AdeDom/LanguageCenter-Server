@@ -1,7 +1,13 @@
 package com.lc.server.data.map
 
-import com.lc.server.data.model.*
-import com.lc.server.data.table.*
+import com.lc.server.business.model.CommunityBusiness
+import com.lc.server.data.model.CommunityUserLocalesDb
+import com.lc.server.data.model.CommunityUsersDb
+import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.table.ChatGroups
+import com.lc.server.data.table.UserLocales
+import com.lc.server.data.table.Users
 import com.lc.server.models.model.ChatGroup
 import org.jetbrains.exposed.sql.ResultRow
 
@@ -35,29 +41,6 @@ object Mapper {
         userId = row[ChatGroups.userId],
     )
 
-    fun toCommunityAlgorithmsDb(row: ResultRow) = CommunityAlgorithmsDb(
-        algorithmId = row[Algorithms.algorithmId],
-        userId = row[Algorithms.userId],
-        algorithm = row[Algorithms.algorithm],
-        created = row[Algorithms.created],
-    )
-
-    fun toCommunityChatGroupDetailsDb(row: ResultRow) = CommunityChatGroupDetailsDb(
-        chatGroupDetailId = row[ChatGroupDetails.chatGroupDetailId],
-        chatGroupId = row[ChatGroupDetails.chatGroupId],
-        userId = row[ChatGroupDetails.userId],
-        created = row[ChatGroupDetails.created],
-        updated = row[ChatGroupDetails.updated],
-    )
-
-    fun toCommunityChatGroupsDb(row: ResultRow) = CommunityChatGroupsDb(
-        chatGroupId = row[ChatGroups.chatGroupId],
-        groupName = row[ChatGroups.groupName],
-        userId = row[ChatGroups.userId],
-        created = row[ChatGroups.created],
-        updated = row[ChatGroups.updated],
-    )
-
     fun toCommunityUserLocalesDb(row: ResultRow) = CommunityUserLocalesDb(
         localeId = row[UserLocales.localeId],
         userId = row[UserLocales.userId],
@@ -81,6 +64,22 @@ object Mapper {
         isUpdateProfile = row[Users.isUpdateProfile],
         created = row[Users.created],
         updated = row[Users.updated],
+    )
+
+    fun toCommunityAlgorithmBusiness(db: CommunityUsersDb) = CommunityBusiness(
+        userId = db.userId,
+        email = db.email,
+        givenName = db.givenName,
+        familyName = db.familyName,
+        name = db.name,
+        picture = db.picture,
+        gender = db.gender,
+        birthDate = db.birthDate,
+        verifiedEmail = db.verifiedEmail,
+        aboutMe = db.aboutMe,
+        isUpdateProfile = db.isUpdateProfile,
+        created = db.created,
+        updated = db.updated,
     )
 
 }

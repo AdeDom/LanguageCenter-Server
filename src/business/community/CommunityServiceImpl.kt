@@ -2,12 +2,9 @@ package com.lc.server.business.community
 
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
-import com.lc.server.models.model.Community
-import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.AddAlgorithmRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchCommunityResponse
-import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
@@ -29,73 +26,79 @@ internal class CommunityServiceImpl(
 
             // execute
             else -> {
-                val userInfoCommunity = repository.getUserInfoCommunity(userId).map { userInfo ->
-                    Community(
-                        userId = userInfo.userId,
-                        email = userInfo.email,
-                        givenName = userInfo.givenName?.capitalize(),
-                        familyName = userInfo.familyName?.capitalize(),
-                        name = userInfo.name?.capitalize(),
-                        picture = userInfo.picture,
-                        gender = userInfo.gender,
-                        age = userInfo.birthDate?.let { business.getAgeInt(it) },
-                        birthDateString = business.convertDateTimeLongToString(userInfo.birthDate),
-                        birthDateLong = userInfo.birthDate,
-                        verifiedEmail = userInfo.verifiedEmail,
-                        aboutMe = userInfo.aboutMe,
-                        created = business.convertDateTimeLongToString(userInfo.created),
-                        updated = business.convertDateTimeLongToString(userInfo.updated),
-                    )
-                }
-                val userLocaleCommunity = repository.fetchUserLocale().filter { it.userId != userId }
+                val getCommunityUsers = repository.getCommunityUsers(userId)
+                val getCommunityUserLocales = repository.getCommunityUserLocales()
+                val getCommunityAlgorithms = repository.getCommunityAlgorithms(userId)
+                val getCommunityFriend = repository.getCommunityFriend(userId)
+                val getCommunityMyBirthDate = repository.getCommunityMyBirthDate(userId)
 
-                val communities = mutableListOf<Community>()
-                userInfoCommunity.forEach { userInfo ->
-                    val userLocaleNativeList = mutableListOf<UserInfoLocale>()
-                    val userLocaleLearningList = mutableListOf<UserInfoLocale>()
+                val filterCommunityUsersNew = business.filterCommunityUsersNew(
+                    getCommunityUsers,
+                    getCommunityFriend,
+                )
 
-                    userLocaleCommunity.filter { userLocale ->
-                        userLocale.userId == userInfo.userId
-                    }.filter { userLocale ->
-                        userLocale.localeType == LanguageCenterConstant.LOCALE_NATIVE
-                    }.forEach { userLocale ->
-                        userLocaleNativeList.add(
-                            UserInfoLocale(
-                                locale = userLocale.locale,
-                                level = userLocale.level
-                            )
-                        )
-                    }
+                val ratioAlgorithm = business.findRatioAlgorithm(getCommunityAlgorithms)
 
-                    userLocaleCommunity.filter { userLocale ->
-                        userLocale.userId == userInfo.userId
-                    }.filter { userLocale ->
-                        userLocale.localeType == LanguageCenterConstant.LOCALE_LEARNING
-                    }.forEach { userLocale ->
-                        userLocaleLearningList.add(
-                            UserInfoLocale(
-                                locale = userLocale.locale,
-                                level = userLocale.level
-                            )
-                        )
-                    }
+                val getAlgorithmA = business.getAlgorithmA(
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                )
 
-                    communities.add(
-                        userInfo.copy(
-                            algorithm = when ((1..6).random()) {
-                                1 -> LanguageCenterConstant.ALGORITHM_A
-                                2 -> LanguageCenterConstant.ALGORITHM_B
-                                3 -> LanguageCenterConstant.ALGORITHM_C
-                                4 -> LanguageCenterConstant.ALGORITHM_D
-                                5 -> LanguageCenterConstant.ALGORITHM_E
-                                6 -> LanguageCenterConstant.ALGORITHM_F
-                                else -> null
-                            },
-                            localNatives = userLocaleNativeList,
-                            localLearnings = userLocaleLearningList,
-                        )
-                    )
-                }
+                val getAlgorithmB = business.getAlgorithmB(
+                    userId,
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                    getCommunityUserLocales,
+                )
+
+                val getAlgorithmC = business.getAlgorithmC(
+                    userId,
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                    getCommunityUserLocales,
+                )
+
+                val getAlgorithmD1 = business.getAlgorithmD1(
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                )
+
+                val getAlgorithmD2 = business.getAlgorithmD2(
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                )
+
+                val getAlgorithmE1 = business.getAlgorithmE1(
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                    getCommunityMyBirthDate,
+                )
+
+                val getAlgorithmE2 = business.getAlgorithmE2(
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                    getCommunityMyBirthDate,
+                )
+
+                val getAlgorithmF = business.getAlgorithmF(
+                    userId,
+                    ratioAlgorithm,
+                    filterCommunityUsersNew,
+                    getCommunityUserLocales,
+                )
+
+                val randomCommunities = business.randomCommunities(
+                    getAlgorithmA +
+                            getAlgorithmB +
+                            getAlgorithmC +
+                            getAlgorithmD1 +
+                            getAlgorithmD2 +
+                            getAlgorithmE1 +
+                            getAlgorithmE2 +
+                            getAlgorithmF
+                )
+
+                val communities = business.mapToCommunities(randomCommunities, getCommunityUserLocales)
 
                 response.communities = communities
                 response.success = true

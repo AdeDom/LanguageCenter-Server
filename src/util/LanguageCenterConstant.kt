@@ -15,8 +15,15 @@ object LanguageCenterConstant {
     const val ALGORITHM_B = "B"  // locale level
     const val ALGORITHM_C = "C"  // locale learning
     const val ALGORITHM_D = "D"  // gender
+    const val ALGORITHM_D1 = "D1"  // gender male
+    const val ALGORITHM_D2 = "D2"  // gender female
     const val ALGORITHM_E = "E"  // age
+    const val ALGORITHM_E1 = "E1"  // age less than
+    const val ALGORITHM_E2 = "E2"  // age greater
     const val ALGORITHM_F = "F"  // native language
     const val CHAT_GROUP_NAME_NEW = "New"
+    const val COMMUNITY_LIST_MAX = 100
+    const val ALGORITHM_TAKE_POPULAR = 2
+    const val ALGORITHM_QUANTITY_MIN = 2
 
 }

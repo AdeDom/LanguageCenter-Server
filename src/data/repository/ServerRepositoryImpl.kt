@@ -1,7 +1,11 @@
 package com.lc.server.data.repository
 
+import com.lc.server.business.model.CommunityAlgorithm
 import com.lc.server.data.map.Mapper
-import com.lc.server.data.model.*
+import com.lc.server.data.model.CommunityUserLocalesDb
+import com.lc.server.data.model.CommunityUsersDb
+import com.lc.server.data.model.UserInfoDb
+import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.data.table.*
 import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
@@ -183,29 +187,6 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result == 1
     }
 
-    override fun getUserInfoCommunity(userId: String): List<UserInfoDb> {
-        return transaction {
-            Users
-                .slice(
-                    Users.userId,
-                    Users.email,
-                    Users.givenName,
-                    Users.familyName,
-                    Users.name,
-                    Users.picture,
-                    Users.gender,
-                    Users.birthDate,
-                    Users.verifiedEmail,
-                    Users.aboutMe,
-                    Users.created,
-                    Users.updated,
-                )
-                .select { Users.userId neq userId }
-                .orderBy(Users.created, SortOrder.ASC)
-                .map { Mapper.toUserInfoDb(it) }
-        }
-    }
-
     override fun addAlgorithm(userId: String, addAlgorithmRequest: AddAlgorithmRequest): Boolean {
         val (algorithm) = addAlgorithmRequest
 
@@ -357,7 +338,7 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
-    override fun getCommunityUsers(): List<CommunityUsersDb> {
+    override fun getCommunityUsers(userId: String): List<CommunityUsersDb> {
         return transaction {
             Users
                 .slice(
@@ -375,7 +356,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     Users.created,
                     Users.updated,
                 )
-                .selectAll()
+                .select { Users.userId neq userId }
                 .orderBy(Users.created, SortOrder.ASC)
                 .map { Mapper.toCommunityUsersDb(it) }
         }
@@ -398,50 +379,40 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
-    override fun getCommunityAlgorithms(): List<CommunityAlgorithmsDb> {
+    override fun getCommunityAlgorithms(userId: String): List<CommunityAlgorithm> {
         return transaction {
+            val sevenDay = 36_000_00 * 24 * 7
+
             Algorithms
                 .slice(
-                    Algorithms.algorithmId,
-                    Algorithms.userId,
                     Algorithms.algorithm,
-                    Algorithms.created,
+                    Algorithms.algorithm.count()
                 )
-                .selectAll()
-                .orderBy(Algorithms.created, SortOrder.ASC)
-                .map { Mapper.toCommunityAlgorithmsDb(it) }
+                .select { Algorithms.userId eq userId }
+                .andWhere { (Algorithms.created greater System.currentTimeMillis() - sevenDay) }
+                .groupBy(Algorithms.algorithm)
+                .orderBy(Algorithms.algorithm.count(), SortOrder.DESC)
+                .orderBy(Algorithms.algorithm, SortOrder.ASC)
+                .map { CommunityAlgorithm(it[Algorithms.algorithm], it[Algorithms.algorithm.count()].toInt()) }
         }
     }
 
-    override fun getCommunityChatGroups(): List<CommunityChatGroupsDb> {
+    override fun getCommunityFriend(userId: String): List<String> {
         return transaction {
-            ChatGroups
-                .slice(
-                    ChatGroups.chatGroupId,
-                    ChatGroups.groupName,
-                    ChatGroups.userId,
-                    ChatGroups.created,
-                    ChatGroups.updated,
-                )
-                .selectAll()
-                .orderBy(ChatGroups.created, SortOrder.ASC)
-                .map { Mapper.toCommunityChatGroupsDb(it) }
+            (ChatGroups innerJoin ChatGroupDetails)
+                .slice(ChatGroupDetails.userId)
+                .select { ChatGroups.userId eq userId }
+                .map { it[ChatGroupDetails.userId] }
         }
     }
 
-    override fun getCommunityChatGroupDetails(): List<CommunityChatGroupDetailsDb> {
+    override fun getCommunityMyBirthDate(userId: String): Long? {
         return transaction {
-            ChatGroupDetails
-                .slice(
-                    ChatGroupDetails.chatGroupDetailId,
-                    ChatGroupDetails.chatGroupId,
-                    ChatGroupDetails.userId,
-                    ChatGroupDetails.created,
-                    ChatGroupDetails.updated,
-                )
-                .selectAll()
-                .orderBy(ChatGroupDetails.created, SortOrder.ASC)
-                .map { Mapper.toCommunityChatGroupDetailsDb(it) }
+            Users
+                .slice(Users.birthDate)
+                .select { Users.userId eq userId }
+                .map { it[Users.birthDate] }
+                .singleOrNull()
         }
     }
 
