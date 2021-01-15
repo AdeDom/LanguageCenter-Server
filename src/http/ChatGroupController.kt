@@ -45,4 +45,9 @@ fun Route.chatGroupController(service: ChatGroupService) {
         call.respond(response)
     }
 
+    get<FetchAddChatGroupDetailRequest> {
+        val response = service.fetchAddChatGroupDetail(call.userId)
+        call.respond(response)
+    }
+
 }

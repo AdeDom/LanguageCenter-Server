@@ -4,6 +4,7 @@ import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.request.RenameChatGroupRequest
 import com.lc.server.models.response.BaseResponse
+import com.lc.server.models.response.FetchAddChatGroupDetailResponse
 import com.lc.server.models.response.FetchChatGroupDetailResponse
 import com.lc.server.models.response.FetchChatGroupResponse
 import io.ktor.locations.*
@@ -22,5 +23,7 @@ interface ChatGroupService {
     fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): BaseResponse
 
     fun removeChatGroup(chatGroupId: String?): BaseResponse
+
+    fun fetchAddChatGroupDetail(userId: String?): FetchAddChatGroupDetailResponse
 
 }
