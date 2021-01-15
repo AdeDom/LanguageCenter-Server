@@ -54,4 +54,6 @@ internal interface ServerRepository {
 
     fun getCommunityMyBirthDate(userId: String): Long?
 
+    fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): Boolean
+
 }

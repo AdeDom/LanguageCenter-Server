@@ -416,4 +416,18 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): Boolean {
+        val (chatGroupId, userId) = addChatGroupDetailRequest
+
+        val statement = transaction {
+            ChatGroupDetails.insert {
+                it[ChatGroupDetails.chatGroupId] = chatGroupId!!
+                it[ChatGroupDetails.userId] = userId!!
+                it[ChatGroupDetails.created] = System.currentTimeMillis()
+            }
+        }
+
+        return statement.resultedValues?.size == 1
+    }
+
 }

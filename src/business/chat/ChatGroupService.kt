@@ -1,5 +1,6 @@
 package com.lc.server.business.chat
 
+import com.lc.server.models.request.AddChatGroupDetailRequest
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.request.RenameChatGroupRequest
@@ -25,5 +26,7 @@ interface ChatGroupService {
     fun removeChatGroup(chatGroupId: String?): BaseResponse
 
     fun fetchAddChatGroupDetail(userId: String?): FetchAddChatGroupDetailResponse
+
+    fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): BaseResponse
 
 }

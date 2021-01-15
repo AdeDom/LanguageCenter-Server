@@ -6,6 +6,7 @@ import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.AddChatGroupDetail
 import com.lc.server.models.model.ChatGroupDetail
 import com.lc.server.models.model.UserInfoLocale
+import com.lc.server.models.request.AddChatGroupDetailRequest
 import com.lc.server.models.request.AddChatGroupNewRequest
 import com.lc.server.models.request.AddChatGroupRequest
 import com.lc.server.models.request.RenameChatGroupRequest
@@ -176,7 +177,7 @@ internal class ChatGroupServiceImpl(
                 val communityUsers = users - list
 
                 // map
-                val addChatGroupDetailList = communityUsers.map { userInfo->
+                val addChatGroupDetailList = communityUsers.map { userInfo ->
                     AddChatGroupDetail(
                         userId = userInfo.userId,
                         email = userInfo.email,
@@ -200,6 +201,30 @@ internal class ChatGroupServiceImpl(
                 response.addChatGroupDetailList = addChatGroupDetailList
                 response.success = true
                 "Fetch add chat group detail success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): BaseResponse {
+        val response = BaseResponse()
+        val (chatGroupId, userId) = addChatGroupDetailRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            chatGroupId == null -> "Null"
+            userId.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.addChatGroupDetail(addChatGroupDetailRequest)
+                "Add chat group detail success"
             }
         }
 

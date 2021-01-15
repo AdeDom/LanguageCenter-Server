@@ -50,4 +50,10 @@ fun Route.chatGroupController(service: ChatGroupService) {
         call.respond(response)
     }
 
+    post<AddChatGroupDetailRequest> {
+        val request = call.receive<AddChatGroupDetailRequest>()
+        val response = service.addChatGroupDetail(request)
+        call.respond(response)
+    }
+
 }
