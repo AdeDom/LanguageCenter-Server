@@ -2,6 +2,7 @@ package com.lc.server.http
 
 import com.lc.server.business.chat.ChatGroupService
 import com.lc.server.models.request.*
+import com.lc.server.util.LanguageCenterConstant
 import com.lc.server.util.userId
 import io.ktor.application.*
 import io.ktor.locations.*
@@ -46,7 +47,8 @@ fun Route.chatGroupController(service: ChatGroupService) {
     }
 
     get<FetchAddChatGroupDetailRequest> {
-        val response = service.fetchAddChatGroupDetail(call.userId)
+        val fetchLastUserId = call.parameters[LanguageCenterConstant.USER_ID]
+        val response = service.fetchAddChatGroupDetail(call.userId, fetchLastUserId)
         call.respond(response)
     }
 

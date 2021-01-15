@@ -150,7 +150,7 @@ internal class ChatGroupServiceImpl(
         return response
     }
 
-    override fun fetchAddChatGroupDetail(userId: String?): FetchAddChatGroupDetailResponse {
+    override fun fetchAddChatGroupDetail(userId: String?, fetchLastUserId: String?): FetchAddChatGroupDetailResponse {
         val response = FetchAddChatGroupDetailResponse()
 
         val message: String = when {
@@ -174,7 +174,18 @@ internal class ChatGroupServiceImpl(
                     users.filter { it.userId == friendId }
                         .onEach { list.add(it) }
                 }
-                val communityUsers = users - list
+                var communityUsers = users - list
+
+                // filter last
+                if (fetchLastUserId != null) {
+                    val list1 = mutableListOf<CommunityUsersDb>()
+                    for (i in communityUsers.indices) {
+                        list1.add(communityUsers[i])
+                        if (communityUsers[i].userId == fetchLastUserId) break
+                    }
+
+                    communityUsers = communityUsers - list1
+                }
 
                 // map
                 val addChatGroupDetailList = communityUsers.map { userInfo ->
@@ -190,6 +201,7 @@ internal class ChatGroupServiceImpl(
                         birthDateString = business.convertDateTimeLongToString(userInfo.birthDate),
                         birthDateLong = userInfo.birthDate,
                         aboutMe = userInfo.aboutMe,
+                        created = userInfo.created,
                         localNatives = userLocales.filter { it.userId == userInfo.userId }
                             .filter { it.localeType == LanguageCenterConstant.LOCALE_NATIVE }
                             .map { UserInfoLocale(locale = it.locale, level = it.level) },

@@ -12,6 +12,7 @@ data class AddChatGroupDetail(
     val birthDateString: String? = null,
     val birthDateLong: Long? = null,
     val aboutMe: String? = null,
+    val created: Long? = null,
     val localNatives: List<UserInfoLocale> = emptyList(),
     val localLearnings: List<UserInfoLocale> = emptyList(),
 )
