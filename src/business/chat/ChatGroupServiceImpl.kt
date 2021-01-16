@@ -6,10 +6,7 @@ import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.AddChatGroupDetail
 import com.lc.server.models.model.ChatGroupDetail
 import com.lc.server.models.model.UserInfoLocale
-import com.lc.server.models.request.AddChatGroupDetailRequest
-import com.lc.server.models.request.AddChatGroupNewRequest
-import com.lc.server.models.request.AddChatGroupRequest
-import com.lc.server.models.request.RenameChatGroupRequest
+import com.lc.server.models.request.*
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchAddChatGroupDetailResponse
 import com.lc.server.models.response.FetchChatGroupDetailResponse
@@ -237,6 +234,30 @@ internal class ChatGroupServiceImpl(
             else -> {
                 response.success = repository.addChatGroupDetail(addChatGroupDetailRequest)
                 "Add chat group detail success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): BaseResponse {
+        val response = BaseResponse()
+        val (chatGroupId, friendUserId) = removeChatGroupDetailRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            chatGroupId == null -> "Null"
+            friendUserId.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.removeChatGroupDetail(removeChatGroupDetailRequest)
+                "Remove chat group detail success"
             }
         }
 

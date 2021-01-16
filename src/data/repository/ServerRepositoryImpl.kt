@@ -430,4 +430,14 @@ internal class ServerRepositoryImpl : ServerRepository {
         return statement.resultedValues?.size == 1
     }
 
+    override fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): Boolean {
+        val (chatGroupId, friendUserId) = removeChatGroupDetailRequest
+
+        val result = transaction {
+            ChatGroupDetails.deleteWhere { ChatGroupDetails.chatGroupId eq chatGroupId!! and (ChatGroupDetails.userId eq friendUserId!!) }
+        }
+
+        return result == 1
+    }
+
 }
