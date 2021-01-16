@@ -22,7 +22,7 @@ interface ChatGroupService {
 
     fun removeChatGroup(chatGroupId: String?): BaseResponse
 
-    fun fetchAddChatGroupDetail(userId: String?, fetchLastUserId: String?): FetchAddChatGroupDetailResponse
+    fun fetchAddChatGroupDetail(userId: String?): FetchAddChatGroupDetailResponse
 
     fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): BaseResponse
 
