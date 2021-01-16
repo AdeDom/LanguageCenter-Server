@@ -56,6 +56,8 @@ internal interface ServerRepository {
 
     fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): Boolean
 
+    fun changeChatGroup(changeChatGroupRequest: ChangeChatGroupRequest): Boolean
+
     fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): Boolean
 
 }

@@ -26,6 +26,8 @@ interface ChatGroupService {
 
     fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): BaseResponse
 
+    fun changeChatGroup(changeChatGroupRequest: ChangeChatGroupRequest): BaseResponse
+
     fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): BaseResponse
 
 }

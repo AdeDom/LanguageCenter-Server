@@ -430,6 +430,18 @@ internal class ServerRepositoryImpl : ServerRepository {
         return statement.resultedValues?.size == 1
     }
 
+    override fun changeChatGroup(changeChatGroupRequest: ChangeChatGroupRequest): Boolean {
+        val (chatGroupId, friendUserId, changeChatGroupId) = changeChatGroupRequest
+
+        val result = transaction {
+            ChatGroupDetails.update({ ChatGroupDetails.chatGroupId eq chatGroupId!! and (ChatGroupDetails.userId eq friendUserId!!) }) {
+                it[ChatGroupDetails.chatGroupId] = changeChatGroupId!!
+            }
+        }
+
+        return result == 1
+    }
+
     override fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): Boolean {
         val (chatGroupId, friendUserId) = removeChatGroupDetailRequest
 

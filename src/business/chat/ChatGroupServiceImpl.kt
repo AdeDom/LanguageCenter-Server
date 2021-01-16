@@ -241,6 +241,31 @@ internal class ChatGroupServiceImpl(
         return response
     }
 
+    override fun changeChatGroup(changeChatGroupRequest: ChangeChatGroupRequest): BaseResponse {
+        val response = BaseResponse()
+        val (chatGroupId, friendUserId, changeChatGroupId) = changeChatGroupRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            chatGroupId == null -> "Null"
+            friendUserId.isNullOrBlank() -> "isNullOrBlank"
+            changeChatGroupId == null -> "Null"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.changeChatGroup(changeChatGroupRequest)
+                "Change chat group success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
     override fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): BaseResponse {
         val response = BaseResponse()
         val (chatGroupId, friendUserId) = removeChatGroupDetailRequest

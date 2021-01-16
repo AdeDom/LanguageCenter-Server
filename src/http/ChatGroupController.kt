@@ -58,6 +58,12 @@ fun Route.chatGroupController(service: ChatGroupService) {
         call.respond(response)
     }
 
+    put<ChangeChatGroupRequest> {
+        val request = call.receive<ChangeChatGroupRequest>()
+        val response = service.changeChatGroup(request)
+        call.respond(response)
+    }
+
     delete<RemoveChatGroupDetailRequest> {
         val request = call.receive<RemoveChatGroupDetailRequest>()
         val response = service.removeChatGroupDetail(request)
