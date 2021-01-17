@@ -1,10 +1,7 @@
 package com.lc.server.http
 
 import com.lc.server.business.account.AccountService
-import com.lc.server.models.request.EditLocaleRequest
-import com.lc.server.models.request.EditProfileRequest
-import com.lc.server.models.request.GuideUpdateProfileRequest
-import com.lc.server.models.request.UserInfoRequest
+import com.lc.server.models.request.*
 import com.lc.server.util.userId
 import io.ktor.application.*
 import io.ktor.locations.*
@@ -35,6 +32,11 @@ fun Route.accountController(service: AccountService) {
     put<EditLocaleRequest> {
         val request = call.receive<EditLocaleRequest>()
         val response = service.editLocale(call.userId, request)
+        call.respond(response)
+    }
+
+    get<FetchFriendInfoRequest> {
+        val response = service.fetchFriendInfo(call.userId)
         call.respond(response)
     }
 
