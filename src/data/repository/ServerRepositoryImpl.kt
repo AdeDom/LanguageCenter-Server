@@ -452,4 +452,21 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result == 1
     }
 
+    override fun sendMessage(userId: String, sendMessageRequest: SendMessageRequest): Boolean {
+        val (talkId, toUserId, messages) = sendMessageRequest
+
+        val statement = transaction {
+            Talks.insert {
+                it[Talks.talkId] = talkId!!
+                it[Talks.fromUserId] = userId
+                it[Talks.toUserId] = toUserId!!
+                it[Talks.messages] = messages!!
+                it[Talks.dateTime] = System.currentTimeMillis()
+                it[Talks.isRead] = false
+            }
+        }
+
+        return statement.resultedValues?.size == 1
+    }
+
 }

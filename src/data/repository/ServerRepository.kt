@@ -60,4 +60,6 @@ internal interface ServerRepository {
 
     fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): Boolean
 
+    fun sendMessage(userId: String, sendMessageRequest: SendMessageRequest): Boolean
+
 }

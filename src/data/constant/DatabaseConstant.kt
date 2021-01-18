@@ -8,6 +8,7 @@ object DatabaseConstant {
     const val ALGORITHM_TABLE = "algorithm"
     const val CHAT_GROUP_TABLE = "chat_group"
     const val CHAT_GROUP_DETAIL_TABLE = "chat_group_detail"
+    const val TALK_TABLE = "talk"
 
     //primary key
     const val USER_PK = "PK_User_ID"
@@ -15,6 +16,7 @@ object DatabaseConstant {
     const val ALGORITHM_PK = "PK_Algorithm_ID"
     const val CHAT_GROUP_PK = "PK_ChatGroup_ID"
     const val CHAT_GROUP_DETAIL_PK = "PK_ChatGroupDetail_ID"
+    const val TALK_PK = "PK_Talk_ID"
 
     //column
     const val USER_ID = "user_id"
@@ -41,5 +43,11 @@ object DatabaseConstant {
     const val CHAT_GROUP_ID = "chat_group_id"
     const val GROUP_NAME = "group_name"
     const val CHAT_GROUP_DETAIL_ID = "chat_group_detail_id"
+    const val TALK_ID = "talk_id"
+    const val FROM_USER_ID = "from_user_id"
+    const val TO_USER_ID = "to_user_id"
+    const val MESSAGES = "messages"
+    const val DATE_TIME = "date_time"
+    const val IS_READ = "is_read"
 
 }

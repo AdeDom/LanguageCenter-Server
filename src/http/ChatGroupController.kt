@@ -1,6 +1,6 @@
 package com.lc.server.http
 
-import com.lc.server.business.chat.ChatGroupService
+import com.lc.server.business.chatgroup.ChatGroupService
 import com.lc.server.models.request.*
 import com.lc.server.util.userId
 import io.ktor.application.*

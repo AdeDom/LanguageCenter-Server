@@ -1,4 +1,4 @@
-package com.lc.server.business.chat
+package com.lc.server.business.chatgroup
 
 import com.lc.server.models.request.*
 import com.lc.server.models.response.BaseResponse
