@@ -12,12 +12,6 @@ import io.ktor.routing.*
 @KtorExperimentalLocationsAPI
 fun Route.chatGroupController(service: ChatGroupService) {
 
-    post<AddChatGroupNewRequest> {
-        val request = call.receive<AddChatGroupNewRequest>()
-        val response = service.addChatGroupNew(call.userId, request)
-        call.respond(response)
-    }
-
     post<AddChatGroupRequest> {
         val request = call.receive<AddChatGroupRequest>()
         val response = service.addChatGroup(call.userId, request)
@@ -50,12 +44,6 @@ fun Route.chatGroupController(service: ChatGroupService) {
         call.respond(response)
     }
 
-    post<AddChatGroupDetailRequest> {
-        val request = call.receive<AddChatGroupDetailRequest>()
-        val response = service.addChatGroupDetail(request)
-        call.respond(response)
-    }
-
     put<ChangeChatGroupRequest> {
         val request = call.receive<ChangeChatGroupRequest>()
         val response = service.changeChatGroup(request)
@@ -65,6 +53,12 @@ fun Route.chatGroupController(service: ChatGroupService) {
     delete<RemoveChatGroupDetailRequest> {
         val request = call.receive<RemoveChatGroupDetailRequest>()
         val response = service.removeChatGroupDetail(request)
+        call.respond(response)
+    }
+
+    post<AddChatGroupFriendRequest> {
+        val request = call.receive<AddChatGroupFriendRequest>()
+        val response = service.addChatGroupFriend(call.userId, request)
         call.respond(response)
     }
 

@@ -10,8 +10,6 @@ import io.ktor.locations.*
 @KtorExperimentalLocationsAPI
 interface ChatGroupService {
 
-    fun addChatGroupNew(userId: String?, addChatGroupNewRequest: AddChatGroupNewRequest): BaseResponse
-
     fun addChatGroup(userId: String?, addChatGroupRequest: AddChatGroupRequest): BaseResponse
 
     fun fetchChatGroup(userId: String?): FetchChatGroupResponse
@@ -24,10 +22,10 @@ interface ChatGroupService {
 
     fun fetchAddChatGroupDetail(userId: String?): FetchAddChatGroupDetailResponse
 
-    fun addChatGroupDetail(addChatGroupDetailRequest: AddChatGroupDetailRequest): BaseResponse
-
     fun changeChatGroup(changeChatGroupRequest: ChangeChatGroupRequest): BaseResponse
 
     fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): BaseResponse
+
+    fun addChatGroupFriend(userId: String?, addChatGroupFriendRequest: AddChatGroupFriendRequest): BaseResponse
 
 }
