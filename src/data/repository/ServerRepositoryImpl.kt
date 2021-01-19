@@ -8,6 +8,7 @@ import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.data.table.*
 import com.lc.server.models.model.ChatGroup
+import com.lc.server.models.model.TalkSendMessageWebSocket
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
 import com.lc.server.util.LanguageCenterConstant
@@ -463,6 +464,23 @@ internal class ServerRepositoryImpl : ServerRepository {
                 it[Talks.messages] = messages!!
                 it[Talks.dateTime] = System.currentTimeMillis()
                 it[Talks.isRead] = false
+            }
+        }
+
+        return statement.resultedValues?.size == 1
+    }
+
+    override fun sendMessage(talkSendMessageWebSocket: TalkSendMessageWebSocket): Boolean {
+        val (talkId, fromUserId, toUserId, messages, dateTime, isRead) = talkSendMessageWebSocket
+
+        val statement = transaction {
+            Talks.insert {
+                it[Talks.talkId] = talkId
+                it[Talks.fromUserId] = fromUserId
+                it[Talks.toUserId] = toUserId!!
+                it[Talks.messages] = messages!!
+                it[Talks.dateTime] = dateTime
+                it[Talks.isRead] = isRead
             }
         }
 

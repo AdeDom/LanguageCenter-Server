@@ -1,6 +1,7 @@
 package com.lc.server.business.chats
 
 import com.lc.server.data.repository.ServerRepository
+import com.lc.server.models.model.TalkSendMessageWebSocket
 import com.lc.server.models.request.SendMessageRequest
 import com.lc.server.models.response.BaseResponse
 import io.ktor.locations.*
@@ -34,6 +35,10 @@ internal class ChatsServiceImpl(
 
         response.message = message
         return response
+    }
+
+    override fun sendMessage(talkSendMessageWebSocket: TalkSendMessageWebSocket): Boolean {
+        return repository.sendMessage(talkSendMessageWebSocket)
     }
 
 }

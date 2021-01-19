@@ -6,6 +6,7 @@ import com.lc.server.data.model.CommunityUsersDb
 import com.lc.server.data.model.UserInfoDb
 import com.lc.server.data.model.UserLocaleDb
 import com.lc.server.models.model.ChatGroup
+import com.lc.server.models.model.TalkSendMessageWebSocket
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
 import io.ktor.locations.*
@@ -61,5 +62,7 @@ internal interface ServerRepository {
     fun removeChatGroupDetail(removeChatGroupDetailRequest: RemoveChatGroupDetailRequest): Boolean
 
     fun sendMessage(userId: String, sendMessageRequest: SendMessageRequest): Boolean
+
+    fun sendMessage(talkSendMessageWebSocket: TalkSendMessageWebSocket): Boolean
 
 }
