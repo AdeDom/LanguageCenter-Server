@@ -471,15 +471,15 @@ internal class ServerRepositoryImpl : ServerRepository {
     }
 
     override fun sendMessage(talkSendMessageWebSocket: TalkSendMessageWebSocket): Boolean {
-        val (talkId, fromUserId, toUserId, messages, dateTime, isRead) = talkSendMessageWebSocket
+        val (talkId, fromUserId, toUserId, messages, _, _, dateTimeLong, isRead) = talkSendMessageWebSocket
 
         val statement = transaction {
             Talks.insert {
                 it[Talks.talkId] = talkId
                 it[Talks.fromUserId] = fromUserId
-                it[Talks.toUserId] = toUserId!!
-                it[Talks.messages] = messages!!
-                it[Talks.dateTime] = dateTime
+                it[Talks.toUserId] = toUserId
+                it[Talks.messages] = messages
+                it[Talks.dateTime] = dateTimeLong
                 it[Talks.isRead] = isRead
             }
         }

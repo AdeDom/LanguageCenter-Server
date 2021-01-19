@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onEach
+import java.text.SimpleDateFormat
+import java.util.*
 
 @KtorExperimentalLocationsAPI
 fun Route.chatsController(service: ChatsService) {
@@ -46,9 +48,14 @@ fun Route.chatsWebSocket(service: ChatsService, jwtConfig: JwtConfig) {
                 .onEach { frame ->
                     val text = (frame as Frame.Text).readText()
                     val fromJson = Gson().fromJson(text, TalkSendMessageWebSocket::class.java)
+                    val currentTimeMillis = System.currentTimeMillis()
+                    val dateSdf = SimpleDateFormat("E, MMM d", Locale("th", "TH"))
+                    val timeSdf = SimpleDateFormat("HH:mm", Locale("th", "TH"))
                     val talk = fromJson.copy(
                         fromUserId = userId,
-                        dateTime = System.currentTimeMillis(),
+                        dateString = dateSdf.format(currentTimeMillis),
+                        timeString = timeSdf.format(currentTimeMillis),
+                        dateTimeLong = currentTimeMillis,
                     )
 
                     val result = service.sendMessage(talk)
