@@ -14,12 +14,12 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
+import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onEach
-import java.text.SimpleDateFormat
-import java.util.*
 
 @KtorExperimentalLocationsAPI
 fun Route.chatsController(service: ChatsService) {
@@ -33,46 +33,61 @@ fun Route.chatsController(service: ChatsService) {
 }
 
 @KtorExperimentalLocationsAPI
-fun Route.chatsWebSocket(service: ChatsService, jwtConfig: JwtConfig) {
+fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
 
     val sendMessageSocket = mutableListOf<Pair<WebSocketSession, String>>()
     webSocket("/ws/chats/send-message") {
+        println("chatsWebSocket : begin")
         val accessToken: String = call.request.header(LanguageCenterConstant.ACCESS_TOKEN)!!
         val userId = jwtConfig.decodeJwtGetUserId(accessToken)
 
         sendMessageSocket.add(Pair(this, userId))
 
         try {
+            println("chatsWebSocket : 0")
             incoming
                 .consumeAsFlow()
                 .onEach { frame ->
                     val text = (frame as Frame.Text).readText()
                     val fromJson = Gson().fromJson(text, TalkSendMessageWebSocket::class.java)
-                    val currentTimeMillis = System.currentTimeMillis()
-                    val dateSdf = SimpleDateFormat("E, MMM d", Locale("th", "TH"))
-                    val timeSdf = SimpleDateFormat("HH:mm", Locale("th", "TH"))
-                    val talk = fromJson.copy(
-                        fromUserId = userId,
-                        dateString = dateSdf.format(currentTimeMillis),
-                        timeString = timeSdf.format(currentTimeMillis),
-                        dateTimeLong = currentTimeMillis,
-                    )
+                    val talk = fromJson.copy(fromUserId = userId)
 
-                    val result = service.sendMessage(talk)
-                    if (result) {
-                        val toJson = Gson().toJson(talk)
-                        sendMessageSocket
-                            .filter { it.second == talk.fromUserId || it.second == talk.toUserId }
-                            .forEach { pair ->
-                                pair.first.send(Frame.Text(toJson))
+                    println("chatsWebSocket : 1 $talk")
+                    val toJson = Gson().toJson(talk)
+                    sendMessageSocket
+                        .filter { it.second == talk.fromUserId || it.second == talk.toUserId }
+                        .forEach { pair ->
+                            println("chatsWebSocket : 2 $toJson")
+                            try {
+                                pair.first.send(Frame.Text(toJson).copy())
+                            } catch (t: Throwable) {
+                                try {
+                                    pair.first.close(CloseReason(CloseReason.Codes.PROTOCOL_ERROR, ""))
+                                } catch (ignore: ClosedSendChannelException) {
+                                }
                             }
-                    }
+                        }
+                    println("chatsWebSocket : 3")
                 }
-                .catch { }
+                .catch {
+                    println("chatsWebSocket : 4 ${it.message}")
+                    it.printStackTrace()
+                }
                 .collect()
+            println("chatsWebSocket : 5")
+        } catch (e: ClosedReceiveChannelException) {
+            println("chatsWebSocket : 6 ${e.message}")
+            println("onClose ${closeReason.await()}")
+            e.printStackTrace()
+        } catch (e: Throwable) {
+            println("chatsWebSocket : 7 ${e.message}")
+            println("onError ${closeReason.await()}")
+            e.printStackTrace()
         } finally {
             sendMessageSocket.add(Pair(this, userId))
+            close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
         }
+        println("chatsWebSocket : end")
     }
 
 }

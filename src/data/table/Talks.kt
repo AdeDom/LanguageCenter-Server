@@ -9,8 +9,10 @@ object Talks : Table(name = DatabaseConstant.TALK_TABLE) {
     val fromUserId = varchar(name = DatabaseConstant.FROM_USER_ID, length = 50)
     val toUserId = varchar(name = DatabaseConstant.TO_USER_ID, length = 50)
     val messages = varchar(name = DatabaseConstant.MESSAGES, length = 10000) // 65535
-    val dateTime = long(name = DatabaseConstant.DATE_TIME)
     val isRead = bool(name = DatabaseConstant.IS_READ)
+    val isShow = bool(name = DatabaseConstant.IS_SHOW)
+    val dateTime = long(name = DatabaseConstant.DATE_TIME)
+    val dateTimeUpdated = long(name = DatabaseConstant.DATE_TIME_UPDATED).nullable()
 
     override val primaryKey: PrimaryKey?
         get() = PrimaryKey(talkId, name = DatabaseConstant.TALK_PK)

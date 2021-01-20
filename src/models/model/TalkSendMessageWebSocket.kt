@@ -5,8 +5,8 @@ data class TalkSendMessageWebSocket(
     val fromUserId: String = "",
     val toUserId: String,
     val messages: String,
-    val dateString: String = "",
-    val timeString: String = "",
-    val dateTimeLong: Long = 0,
     val isRead: Boolean = false,
+    val isShow: Boolean = true,
+    val dateTimeLong: Long = 0,
+    val dateTimeUpdated: Long? = null,
 )

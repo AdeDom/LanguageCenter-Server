@@ -104,7 +104,7 @@ fun Application.module() {
             accountController(accountService)
         }
 
-        chatsWebSocket(chatsService, jwtConfig)
+        chatsWebSocket(jwtConfig)
 
         mockDataController()
     }
