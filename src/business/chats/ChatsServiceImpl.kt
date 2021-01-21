@@ -1,13 +1,17 @@
 package com.lc.server.business.chats
 
+import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
+import com.lc.server.models.model.ChatListUserInfo
 import com.lc.server.models.request.SendMessageRequest
+import com.lc.server.models.response.ChatListUserInfoResponse
 import com.lc.server.models.response.SendMessageResponse
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
 internal class ChatsServiceImpl(
     private val repository: ServerRepository,
+    private val business: ServerBusiness,
 ) : ChatsService {
 
     override fun sendMessage(userId: String?, sendMessageRequest: SendMessageRequest): SendMessageResponse {
@@ -36,6 +40,46 @@ internal class ChatsServiceImpl(
             else -> {
                 response.success = repository.sendMessage(userId, sendMessageRequest, dateTimeLong)
                 "Send message success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun chatListUserInfo(otherUserId: String?): ChatListUserInfoResponse {
+        val response = ChatListUserInfoResponse()
+
+        val message: String = when {
+            // validate Null Or Blank
+            otherUserId.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                val db = repository.fetchUserInfo(otherUserId)
+                val chatListUserInfo = ChatListUserInfo(
+                    userId = db.userId,
+                    email = db.email,
+                    givenName = db.givenName?.capitalize(),
+                    familyName = db.familyName?.capitalize(),
+                    name = db.name?.capitalize(),
+                    picture = db.picture,
+                    gender = db.gender,
+                    age = db.birthDate?.let { business.getAgeInt(it) },
+                    birthDateString = business.convertDateTimeLongToString(db.birthDate),
+                    birthDateLong = db.birthDate,
+                    aboutMe = db.aboutMe,
+                    localNatives = db.localNatives,
+                    localLearnings = db.localLearnings,
+                )
+
+                response.success = true
+                response.chatListUserInfo = chatListUserInfo
+                "Chat list user info success"
             }
         }
 

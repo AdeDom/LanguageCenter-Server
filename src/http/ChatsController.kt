@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.lc.server.business.chats.ChatsService
 import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.models.model.TalkSendMessageWebSocket
+import com.lc.server.models.request.ChatListUserInfoRequest
 import com.lc.server.models.request.SendMessageRequest
 import com.lc.server.util.LanguageCenterConstant
 import com.lc.server.util.userId
@@ -27,6 +28,12 @@ fun Route.chatsController(service: ChatsService) {
     post<SendMessageRequest> {
         val request = call.receive<SendMessageRequest>()
         val response = service.sendMessage(call.userId, request)
+        call.respond(response)
+    }
+
+    get<ChatListUserInfoRequest> {
+        val otherUserId = call.parameters["otherUserId"]
+        val response = service.chatListUserInfo(otherUserId)
         call.respond(response)
     }
 
