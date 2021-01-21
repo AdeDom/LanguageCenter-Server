@@ -17,6 +17,12 @@ fun Route.accountController(service: AccountService) {
         call.respond(response)
     }
 
+    get<OtherUserInfoRequest> {
+        val otherUserId = call.parameters["otherUserId"]
+        val response = service.fetchUserInfo(otherUserId)
+        call.respond(response)
+    }
+
     put<GuideUpdateProfileRequest> {
         val request = call.receive<GuideUpdateProfileRequest>()
         val response = service.guideUpdateProfile(call.userId, request)
