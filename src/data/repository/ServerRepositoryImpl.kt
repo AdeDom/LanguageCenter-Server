@@ -470,4 +470,15 @@ internal class ServerRepositoryImpl : ServerRepository {
         return statement.resultedValues?.size == 1
     }
 
+    override fun isValidateSendMessage(talkId: String): Boolean {
+        val count = transaction {
+            Talks.slice(Talks.talkId)
+                .select { Talks.talkId eq talkId }
+                .count()
+                .toInt()
+        }
+
+        return count >= 1
+    }
+
 }

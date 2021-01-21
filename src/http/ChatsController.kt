@@ -44,22 +44,19 @@ fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
         sendMessageSocket.add(Pair(this, userId))
 
         try {
-            println("chatsWebSocket : 0")
+            println("chatsWebSocket : 1")
             incoming
                 .consumeAsFlow()
                 .onEach { frame ->
                     val text = (frame as Frame.Text).readText()
-                    val fromJson = Gson().fromJson(text, TalkSendMessageWebSocket::class.java)
-                    val talk = fromJson.copy(fromUserId = userId)
+                    val talk = Gson().fromJson(text, TalkSendMessageWebSocket::class.java)
 
-                    println("chatsWebSocket : 1 $talk")
-                    val toJson = Gson().toJson(talk)
+                    println("chatsWebSocket : 2 $text")
                     sendMessageSocket
                         .filter { it.second == talk.fromUserId || it.second == talk.toUserId }
                         .forEach { pair ->
-                            println("chatsWebSocket : 2 $toJson")
                             try {
-                                pair.first.send(Frame.Text(toJson).copy())
+                                pair.first.send(Frame.Text(text).copy())
                             } catch (t: Throwable) {
                                 try {
                                     pair.first.close(CloseReason(CloseReason.Codes.PROTOCOL_ERROR, ""))
@@ -70,18 +67,18 @@ fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
                     println("chatsWebSocket : 3")
                 }
                 .catch {
-                    println("chatsWebSocket : 4 ${it.message}")
+                    println("chatsWebSocket : catch 4 ${it.message}")
                     it.printStackTrace()
                 }
                 .collect()
             println("chatsWebSocket : 5")
         } catch (e: ClosedReceiveChannelException) {
             println("chatsWebSocket : 6 ${e.message}")
-            println("onClose ${closeReason.await()}")
+            println("chatsWebSocket : catch onClose ${closeReason.await()}")
             e.printStackTrace()
         } catch (e: Throwable) {
             println("chatsWebSocket : 7 ${e.message}")
-            println("onError ${closeReason.await()}")
+            println("chatsWebSocket : catch onError ${closeReason.await()}")
             e.printStackTrace()
         } finally {
             sendMessageSocket.add(Pair(this, userId))

@@ -14,6 +14,9 @@ internal class ChatsServiceImpl(
         val response = SendMessageResponse()
         val (talkId, toUserId, messages) = sendMessageRequest
 
+        val dateTimeLong = System.currentTimeMillis()
+        response.dateTimeLong = dateTimeLong
+
         val message: String = when {
             // validate Null Or Blank
             userId.isNullOrBlank() -> "isNullOrBlank"
@@ -24,11 +27,13 @@ internal class ChatsServiceImpl(
             // validate values of variable
 
             // validate database
+            repository.isValidateSendMessage(talkId) -> {
+                response.success = true
+                "Send message again success"
+            }
 
             // execute
             else -> {
-                val dateTimeLong = System.currentTimeMillis()
-                response.dateTimeLong = dateTimeLong
                 response.success = repository.sendMessage(userId, sendMessageRequest, dateTimeLong)
                 "Send message success"
             }
