@@ -481,4 +481,16 @@ internal class ServerRepositoryImpl : ServerRepository {
         return count >= 1
     }
 
+    override fun readMessages(userId: String, readMessagesRequest: ReadMessagesRequest): Boolean {
+        val (readUserId) = readMessagesRequest
+
+        val result = transaction {
+            Talks.update({ Talks.fromUserId eq readUserId!! and (Talks.toUserId eq userId) and (Talks.isRead eq false) }) {
+                it[Talks.isRead] = true
+            }
+        }
+
+        return result > 0
+    }
+
 }

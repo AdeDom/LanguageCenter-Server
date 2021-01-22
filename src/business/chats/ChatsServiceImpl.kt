@@ -3,7 +3,9 @@ package com.lc.server.business.chats
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.ChatListUserInfo
+import com.lc.server.models.request.ReadMessagesRequest
 import com.lc.server.models.request.SendMessageRequest
+import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.ChatListUserInfoResponse
 import com.lc.server.models.response.SendMessageResponse
 import io.ktor.locations.*
@@ -80,6 +82,30 @@ internal class ChatsServiceImpl(
                 response.success = true
                 response.chatListUserInfo = chatListUserInfo
                 "Chat list user info success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun readMessages(userId: String?, readMessagesRequest: ReadMessagesRequest): BaseResponse {
+        val response = BaseResponse()
+        val (readUserId) = readMessagesRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            userId.isNullOrBlank() -> "isNullOrBlank"
+            readUserId.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.readMessages(userId, readMessagesRequest)
+                "Read message success"
             }
         }
 

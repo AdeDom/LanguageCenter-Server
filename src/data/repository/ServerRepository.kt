@@ -64,4 +64,6 @@ internal interface ServerRepository {
 
     fun isValidateSendMessage(talkId: String): Boolean
 
+    fun readMessages(userId: String, readMessagesRequest: ReadMessagesRequest): Boolean
+
 }
