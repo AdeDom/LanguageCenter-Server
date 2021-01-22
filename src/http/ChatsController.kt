@@ -32,9 +32,8 @@ fun Route.chatsController(service: ChatsService) {
         call.respond(response)
     }
 
-    get<ChatListUserInfoRequest> {
-        val otherUserId = call.parameters["otherUserId"]
-        val response = service.chatListUserInfo(otherUserId)
+    get<ChatListUserInfoRequest> { request ->
+        val response = service.chatListUserInfo(request)
         call.respond(response)
     }
 

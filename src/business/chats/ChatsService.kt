@@ -1,5 +1,6 @@
 package com.lc.server.business.chats
 
+import com.lc.server.models.request.ChatListUserInfoRequest
 import com.lc.server.models.request.ReadMessagesRequest
 import com.lc.server.models.request.SendMessageRequest
 import com.lc.server.models.response.BaseResponse
@@ -12,7 +13,7 @@ interface ChatsService {
 
     fun sendMessage(userId: String?, sendMessageRequest: SendMessageRequest): SendMessageResponse
 
-    fun chatListUserInfo(otherUserId: String?): ChatListUserInfoResponse
+    fun chatListUserInfo(chatListUserInfoRequest: ChatListUserInfoRequest): ChatListUserInfoResponse
 
     fun readMessages(userId: String?, readMessagesRequest: ReadMessagesRequest): BaseResponse
 

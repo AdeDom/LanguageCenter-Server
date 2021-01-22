@@ -3,6 +3,7 @@ package com.lc.server.business.chats
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.ChatListUserInfo
+import com.lc.server.models.request.ChatListUserInfoRequest
 import com.lc.server.models.request.ReadMessagesRequest
 import com.lc.server.models.request.SendMessageRequest
 import com.lc.server.models.response.BaseResponse
@@ -49,8 +50,9 @@ internal class ChatsServiceImpl(
         return response
     }
 
-    override fun chatListUserInfo(otherUserId: String?): ChatListUserInfoResponse {
+    override fun chatListUserInfo(chatListUserInfoRequest: ChatListUserInfoRequest): ChatListUserInfoResponse {
         val response = ChatListUserInfoResponse()
+        val (_, otherUserId) = chatListUserInfoRequest
 
         val message: String = when {
             // validate Null Or Blank
