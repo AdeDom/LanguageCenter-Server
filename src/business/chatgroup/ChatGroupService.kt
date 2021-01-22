@@ -14,7 +14,7 @@ interface ChatGroupService {
 
     fun fetchChatGroup(userId: String?): FetchChatGroupResponse
 
-    fun fetchChatGroupDetail(chatGroupId: String?): FetchChatGroupDetailResponse
+    fun fetchChatGroupDetail(fetchChatGroupDetailRequest: FetchChatGroupDetailRequest): FetchChatGroupDetailResponse
 
     fun renameChatGroup(renameChatGroupRequest: RenameChatGroupRequest): BaseResponse
 

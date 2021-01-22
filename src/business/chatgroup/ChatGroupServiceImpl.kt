@@ -55,8 +55,9 @@ internal class ChatGroupServiceImpl(
         return response
     }
 
-    override fun fetchChatGroupDetail(chatGroupId: String?): FetchChatGroupDetailResponse {
+    override fun fetchChatGroupDetail(fetchChatGroupDetailRequest: FetchChatGroupDetailRequest): FetchChatGroupDetailResponse {
         val response = FetchChatGroupDetailResponse()
+        val (_, chatGroupId) = fetchChatGroupDetailRequest
 
         val message: String = when {
             chatGroupId?.toIntOrNull() == null -> "Null"
