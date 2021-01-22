@@ -496,4 +496,24 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result == 1
     }
 
+    override fun resendMessage(resendMessageRequest: ResendMessageRequest): Boolean {
+        val (talkId, fromUserId, toUserId, messages, dateTimeLong) = resendMessageRequest
+
+        val statement = transaction {
+            Talks.replace {
+                it[Talks.talkId] = talkId!!
+                it[Talks.fromUserId] = fromUserId!!
+                it[Talks.toUserId] = toUserId!!
+                it[Talks.messages] = messages!!
+                it[Talks.isSendMessage] = true
+                it[Talks.isReceiveMessage] = false
+                it[Talks.isRead] = false
+                it[Talks.isShow] = true
+                it[Talks.dateTime] = dateTimeLong!!
+            }
+        }
+
+        return statement.resultedValues?.size == 1
+    }
+
 }

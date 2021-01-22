@@ -66,4 +66,6 @@ internal interface ServerRepository {
 
     fun receiveMessage(receiveMessageRequest: ReceiveMessageRequest): Boolean
 
+    fun resendMessage(resendMessageRequest: ResendMessageRequest): Boolean
+
 }

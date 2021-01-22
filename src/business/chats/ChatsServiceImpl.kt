@@ -3,10 +3,7 @@ package com.lc.server.business.chats
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.ChatListUserInfo
-import com.lc.server.models.request.ChatListUserInfoRequest
-import com.lc.server.models.request.ReadMessagesRequest
-import com.lc.server.models.request.ReceiveMessageRequest
-import com.lc.server.models.request.SendMessageRequest
+import com.lc.server.models.request.*
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.ChatListUserInfoResponse
 import com.lc.server.models.response.SendMessageResponse
@@ -127,7 +124,34 @@ internal class ChatsServiceImpl(
             // execute
             else -> {
                 response.success = repository.receiveMessage(receiveMessageRequest)
-                "Update send message success"
+                "Receive message success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun resendMessage(resendMessageRequest: ResendMessageRequest): BaseResponse {
+        val response = BaseResponse()
+        val (talkId, fromUserId, toUserId, messages, dateTimeLong) = resendMessageRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            talkId.isNullOrBlank() -> "isNullOrBlank"
+            fromUserId.isNullOrBlank() -> "isNullOrBlank"
+            toUserId.isNullOrBlank() -> "isNullOrBlank"
+            messages.isNullOrBlank() -> "isNullOrBlank"
+            dateTimeLong == null -> "Null"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.resendMessage(resendMessageRequest)
+                "Resend message success"
             }
         }
 
