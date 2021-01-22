@@ -66,4 +66,6 @@ internal interface ServerRepository {
 
     fun readMessages(userId: String, readMessagesRequest: ReadMessagesRequest): Boolean
 
+    fun updateSendMessage(updateSendMessageRequest: UpdateSendMessageRequest): Boolean
+
 }

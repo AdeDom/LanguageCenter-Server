@@ -494,4 +494,16 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result > 0
     }
 
+    override fun updateSendMessage(updateSendMessageRequest: UpdateSendMessageRequest): Boolean {
+        val (talkId) = updateSendMessageRequest
+
+        val result = transaction {
+            Talks.update({ Talks.talkId eq talkId!! }) {
+                it[Talks.isSendMessage] = true
+            }
+        }
+
+        return result == 1
+    }
+
 }

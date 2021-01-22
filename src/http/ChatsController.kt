@@ -7,6 +7,7 @@ import com.lc.server.models.model.TalkSendMessageWebSocket
 import com.lc.server.models.request.ChatListUserInfoRequest
 import com.lc.server.models.request.ReadMessagesRequest
 import com.lc.server.models.request.SendMessageRequest
+import com.lc.server.models.request.UpdateSendMessageRequest
 import com.lc.server.util.LanguageCenterConstant
 import com.lc.server.util.userId
 import io.ktor.application.*
@@ -39,6 +40,11 @@ fun Route.chatsController(service: ChatsService) {
 
     patch<ReadMessagesRequest> { request ->
         val response = service.readMessages(call.userId, request)
+        call.respond(response)
+    }
+
+    patch<UpdateSendMessageRequest> { request ->
+        val response = service.updateSendMessage(request)
         call.respond(response)
     }
 

@@ -6,6 +6,7 @@ import com.lc.server.models.model.ChatListUserInfo
 import com.lc.server.models.request.ChatListUserInfoRequest
 import com.lc.server.models.request.ReadMessagesRequest
 import com.lc.server.models.request.SendMessageRequest
+import com.lc.server.models.request.UpdateSendMessageRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.ChatListUserInfoResponse
 import com.lc.server.models.response.SendMessageResponse
@@ -108,6 +109,29 @@ internal class ChatsServiceImpl(
             else -> {
                 response.success = repository.readMessages(userId, readMessagesRequest)
                 "Read message success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun updateSendMessage(updateSendMessageRequest: UpdateSendMessageRequest): BaseResponse {
+        val response = BaseResponse()
+        val (talkId) = updateSendMessageRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            talkId.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.updateSendMessage(updateSendMessageRequest)
+                "Update send message success"
             }
         }
 
