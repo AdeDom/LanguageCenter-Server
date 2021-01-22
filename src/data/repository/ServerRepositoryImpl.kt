@@ -461,6 +461,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 it[Talks.fromUserId] = userId
                 it[Talks.toUserId] = toUserId!!
                 it[Talks.messages] = messages!!
+                it[Talks.isSendMessage] = false
                 it[Talks.isRead] = false
                 it[Talks.isShow] = true
                 it[Talks.dateTime] = dateTimeLong

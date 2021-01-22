@@ -65,7 +65,7 @@ fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
 
                     println("chatsWebSocket : 2 $text")
                     sendMessageSocket
-                        .filter { it.second == talk.fromUserId || it.second == talk.toUserId }
+                        .filter { it.second == talk.toUserId }
                         .forEach { pair ->
                             try {
                                 pair.first.send(Frame.Text(text).copy())
