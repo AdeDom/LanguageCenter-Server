@@ -461,7 +461,8 @@ internal class ServerRepositoryImpl : ServerRepository {
                 it[Talks.fromUserId] = userId
                 it[Talks.toUserId] = toUserId!!
                 it[Talks.messages] = messages!!
-                it[Talks.isSendMessage] = false
+                it[Talks.isSendMessage] = true
+                it[Talks.isReceiveMessage] = false
                 it[Talks.isRead] = false
                 it[Talks.isShow] = true
                 it[Talks.dateTime] = dateTimeLong
@@ -469,17 +470,6 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return statement.resultedValues?.size == 1
-    }
-
-    override fun isValidateSendMessage(talkId: String): Boolean {
-        val count = transaction {
-            Talks.slice(Talks.talkId)
-                .select { Talks.talkId eq talkId }
-                .count()
-                .toInt()
-        }
-
-        return count >= 1
     }
 
     override fun readMessages(userId: String, readMessagesRequest: ReadMessagesRequest): Boolean {
@@ -494,12 +484,12 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result > 0
     }
 
-    override fun updateSendMessage(updateSendMessageRequest: UpdateSendMessageRequest): Boolean {
-        val (talkId) = updateSendMessageRequest
+    override fun receiveMessage(receiveMessageRequest: ReceiveMessageRequest): Boolean {
+        val (talkId) = receiveMessageRequest
 
         val result = transaction {
             Talks.update({ Talks.talkId eq talkId!! }) {
-                it[Talks.isSendMessage] = true
+                it[Talks.isReceiveMessage] = true
             }
         }
 

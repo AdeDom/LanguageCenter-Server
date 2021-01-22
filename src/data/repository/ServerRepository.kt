@@ -62,10 +62,8 @@ internal interface ServerRepository {
 
     fun sendMessage(userId: String, sendMessageRequest: SendMessageRequest, dateTimeLong: Long): Boolean
 
-    fun isValidateSendMessage(talkId: String): Boolean
-
     fun readMessages(userId: String, readMessagesRequest: ReadMessagesRequest): Boolean
 
-    fun updateSendMessage(updateSendMessageRequest: UpdateSendMessageRequest): Boolean
+    fun receiveMessage(receiveMessageRequest: ReceiveMessageRequest): Boolean
 
 }

@@ -49,6 +49,7 @@ object DatabaseConstant {
     const val MESSAGES = "messages"
     const val DATE_TIME = "date_time"
     const val IS_SEND_MESSAGE = "is_send_message"
+    const val IS_RECEIVE_MESSAGE = "is_receive_message"
     const val IS_READ = "is_read"
     const val IS_SHOW = "is_show"
     const val DATE_TIME_UPDATED = "date_time_updated"

@@ -2,8 +2,8 @@ package com.lc.server.business.chats
 
 import com.lc.server.models.request.ChatListUserInfoRequest
 import com.lc.server.models.request.ReadMessagesRequest
+import com.lc.server.models.request.ReceiveMessageRequest
 import com.lc.server.models.request.SendMessageRequest
-import com.lc.server.models.request.UpdateSendMessageRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.ChatListUserInfoResponse
 import com.lc.server.models.response.SendMessageResponse
@@ -18,6 +18,6 @@ interface ChatsService {
 
     fun readMessages(userId: String?, readMessagesRequest: ReadMessagesRequest): BaseResponse
 
-    fun updateSendMessage(updateSendMessageRequest: UpdateSendMessageRequest): BaseResponse
+    fun receiveMessage(receiveMessageRequest: ReceiveMessageRequest): BaseResponse
 
 }
