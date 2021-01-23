@@ -1,10 +1,7 @@
 package com.lc.server.data.repository
 
 import com.lc.server.business.model.CommunityAlgorithm
-import com.lc.server.data.model.CommunityUserLocalesDb
-import com.lc.server.data.model.CommunityUsersDb
-import com.lc.server.data.model.UserInfoDb
-import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.model.*
 import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
@@ -67,5 +64,7 @@ internal interface ServerRepository {
     fun receiveMessage(receiveMessageRequest: ReceiveMessageRequest): Boolean
 
     fun resendMessage(resendMessageRequest: ResendMessageRequest): Boolean
+
+    fun fetchTalkUnreceived(userId: String): List<TalkDb>
 
 }

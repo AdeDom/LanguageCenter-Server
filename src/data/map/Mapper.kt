@@ -1,11 +1,9 @@
 package com.lc.server.data.map
 
 import com.lc.server.business.model.CommunityBusiness
-import com.lc.server.data.model.CommunityUserLocalesDb
-import com.lc.server.data.model.CommunityUsersDb
-import com.lc.server.data.model.UserInfoDb
-import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.model.*
 import com.lc.server.data.table.ChatGroups
+import com.lc.server.data.table.Talks
 import com.lc.server.data.table.UserLocales
 import com.lc.server.data.table.Users
 import com.lc.server.models.model.ChatGroup
@@ -80,6 +78,19 @@ object Mapper {
         isUpdateProfile = db.isUpdateProfile,
         created = db.created,
         updated = db.updated,
+    )
+
+    fun toTalkDb(row: ResultRow) = TalkDb(
+        talkId = row[Talks.talkId],
+        fromUserId = row[Talks.fromUserId],
+        toUserId = row[Talks.toUserId],
+        messages = row[Talks.messages],
+        isSendMessage = row[Talks.isSendMessage],
+        isReceiveMessage = row[Talks.isReceiveMessage],
+        isRead = row[Talks.isRead],
+        isShow = row[Talks.isShow],
+        dateTime = row[Talks.dateTime],
+        dateTimeUpdated = row[Talks.dateTimeUpdated],
     )
 
 }

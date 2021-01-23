@@ -3,9 +3,11 @@ package com.lc.server.business.chats
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.ChatListUserInfo
+import com.lc.server.models.model.Talk
 import com.lc.server.models.request.*
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.ChatListUserInfoResponse
+import com.lc.server.models.response.FetchTalkUnreceivedResponse
 import com.lc.server.models.response.SendMessageResponse
 import io.ktor.locations.*
 
@@ -152,6 +154,44 @@ internal class ChatsServiceImpl(
             else -> {
                 response.success = repository.resendMessage(resendMessageRequest)
                 "Resend message success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun fetchTalkUnreceived(userId: String?): FetchTalkUnreceivedResponse {
+        val response = FetchTalkUnreceivedResponse()
+
+        val message: String = when {
+            // validate Null Or Blank
+            userId.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                val talkUnreceivedList = repository.fetchTalkUnreceived(userId)
+                val talks = talkUnreceivedList.map {
+                    Talk(
+                        talkId = it.talkId,
+                        fromUserId = it.fromUserId,
+                        toUserId = it.toUserId,
+                        messages = it.messages,
+                        isSendMessage = it.isSendMessage,
+                        isReceiveMessage = it.isReceiveMessage,
+                        isRead = it.isRead,
+                        isShow = it.isShow,
+                        dateTime = it.dateTime,
+                        dateTimeUpdated = it.dateTimeUpdated,
+                    )
+                }
+                response.talks = talks
+                response.success = true
+                "Fetch talk unreceived success"
             }
         }
 

@@ -2,10 +2,7 @@ package com.lc.server.data.repository
 
 import com.lc.server.business.model.CommunityAlgorithm
 import com.lc.server.data.map.Mapper
-import com.lc.server.data.model.CommunityUserLocalesDb
-import com.lc.server.data.model.CommunityUsersDb
-import com.lc.server.data.model.UserInfoDb
-import com.lc.server.data.model.UserLocaleDb
+import com.lc.server.data.model.*
 import com.lc.server.data.table.*
 import com.lc.server.models.model.ChatGroup
 import com.lc.server.models.model.UserInfoLocale
@@ -514,6 +511,29 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return statement.resultedValues?.size == 1
+    }
+
+    override fun fetchTalkUnreceived(userId: String): List<TalkDb> {
+        return transaction {
+            Talks
+                .slice(
+                    Talks.talkId,
+                    Talks.fromUserId,
+                    Talks.toUserId,
+                    Talks.messages,
+                    Talks.isSendMessage,
+                    Talks.isReceiveMessage,
+                    Talks.isRead,
+                    Talks.isShow,
+                    Talks.dateTime,
+                    Talks.dateTimeUpdated,
+                )
+                .select { Talks.toUserId eq userId }
+                .andWhere { Talks.isReceiveMessage eq false }
+                .andWhere { Talks.isShow eq true }
+                .orderBy(Talks.dateTime, SortOrder.ASC)
+                .map { Mapper.toTalkDb(it) }
+        }
     }
 
 }

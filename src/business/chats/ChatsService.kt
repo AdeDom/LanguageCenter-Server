@@ -3,6 +3,7 @@ package com.lc.server.business.chats
 import com.lc.server.models.request.*
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.ChatListUserInfoResponse
+import com.lc.server.models.response.FetchTalkUnreceivedResponse
 import com.lc.server.models.response.SendMessageResponse
 import io.ktor.locations.*
 
@@ -18,5 +19,7 @@ interface ChatsService {
     fun receiveMessage(receiveMessageRequest: ReceiveMessageRequest): BaseResponse
 
     fun resendMessage(resendMessageRequest: ResendMessageRequest): BaseResponse
+
+    fun fetchTalkUnreceived(userId: String?): FetchTalkUnreceivedResponse
 
 }

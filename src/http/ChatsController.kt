@@ -51,6 +51,11 @@ fun Route.chatsController(service: ChatsService) {
         call.respond(response)
     }
 
+    get<FetchTalkUnreceivedRequest> {
+        val response = service.fetchTalkUnreceived(call.userId)
+        call.respond(response)
+    }
+
 }
 
 @KtorExperimentalLocationsAPI
