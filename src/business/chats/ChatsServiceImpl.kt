@@ -199,4 +199,31 @@ internal class ChatsServiceImpl(
         return response
     }
 
+    override fun updateReceiveMessage(updateReceiveMessageRequest: UpdateReceiveMessageRequest): BaseResponse {
+        val response = BaseResponse()
+        val (talkIdList) = updateReceiveMessageRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = if (talkIdList.isNullOrEmpty()) {
+                    true
+                } else {
+                    repository.updateReceiveMessage(updateReceiveMessageRequest)
+                }
+
+                "Update receive message success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
 }

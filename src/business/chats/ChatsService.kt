@@ -22,4 +22,6 @@ interface ChatsService {
 
     fun fetchTalkUnreceived(userId: String?): FetchTalkUnreceivedResponse
 
+    fun updateReceiveMessage(updateReceiveMessageRequest: UpdateReceiveMessageRequest): BaseResponse
+
 }

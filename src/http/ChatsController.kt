@@ -56,6 +56,12 @@ fun Route.chatsController(service: ChatsService) {
         call.respond(response)
     }
 
+    put<UpdateReceiveMessageRequest> {
+        val request = call.receive<UpdateReceiveMessageRequest>()
+        val response = service.updateReceiveMessage(request)
+        call.respond(response)
+    }
+
 }
 
 @KtorExperimentalLocationsAPI

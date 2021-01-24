@@ -536,4 +536,16 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun updateReceiveMessage(updateReceiveMessageRequest: UpdateReceiveMessageRequest): Boolean {
+        val (talkIdList) = updateReceiveMessageRequest
+
+        val result = transaction {
+            Talks.update({ Talks.talkId inList talkIdList }) {
+                it[Talks.isReceiveMessage] = true
+            }
+        }
+
+        return result == talkIdList.size
+    }
+
 }

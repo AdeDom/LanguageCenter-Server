@@ -67,4 +67,6 @@ internal interface ServerRepository {
 
     fun fetchTalkUnreceived(userId: String): List<TalkDb>
 
+    fun updateReceiveMessage(updateReceiveMessageRequest: UpdateReceiveMessageRequest): Boolean
+
 }
