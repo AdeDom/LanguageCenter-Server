@@ -1,12 +1,12 @@
 package com.lc.server.data.model
 
 data class VocabularyTranslationDb(
-    val vocabularyId: Int,
+    val vocabularyId: String,
     val vocabulary: String,
     val sourceLanguage: String,
     val vocabularyGroupName: String,
     val translationId: Int,
-    val translationIdToVocabularyId: Int,
-    val translation: String,
+    val translationIdToVocabularyId: String,
+    val translation: String?,
     val targetLanguage: String,
 )

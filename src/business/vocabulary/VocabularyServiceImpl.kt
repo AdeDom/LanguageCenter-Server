@@ -3,6 +3,8 @@ package com.lc.server.business.vocabulary
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.Translation
 import com.lc.server.models.model.Vocabulary
+import com.lc.server.models.request.AddVocabularyTranslation
+import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchVocabularyTranslationResponse
 import io.ktor.locations.*
 
@@ -54,6 +56,33 @@ internal class VocabularyServiceImpl(
                 response.vocabularies = vocabularies
                 response.success = true
                 "Fetch vocabulary translation success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): BaseResponse {
+        val response = BaseResponse()
+        val (vocabularyId, vocabulary, source, target, translations) = addVocabularyTranslation
+
+        val message: String = when {
+            // validate Null Or Blank
+            vocabularyId.isNullOrBlank() -> "isNullOrBlank"
+            vocabulary.isNullOrBlank() -> "isNullOrBlank"
+            source.isNullOrBlank() -> "isNullOrBlank"
+            target.isNullOrBlank() -> "isNullOrBlank"
+            translations.isNullOrEmpty() -> "isNullOrEmpty"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.addVocabularyTranslate(addVocabularyTranslation)
+                "Translate language success"
             }
         }
 

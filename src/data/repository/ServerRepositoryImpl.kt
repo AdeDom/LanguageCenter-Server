@@ -566,4 +566,29 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): Boolean {
+        val (vocabularyId, vocabulary, source, target, translations) = addVocabularyTranslation
+
+        val result = transaction {
+            // vocabulary
+            Vocabularies.insert {
+                it[Vocabularies.vocabularyId] = vocabularyId!!
+                it[Vocabularies.vocabulary] = vocabulary!!
+                it[Vocabularies.vocabularyGroupId] = 1 // vocabulary group new
+                it[Vocabularies.sourceLanguage] = source!!
+                it[Vocabularies.created] = System.currentTimeMillis()
+            }
+
+            // translate
+            Translations.batchInsert(translations) { translatedText ->
+                this[Translations.vocabularyId] = vocabularyId!!
+                this[Translations.translation] = translatedText
+                this[Translations.targetLanguage] = target!!
+                this[Translations.created] = System.currentTimeMillis()
+            }
+        }
+
+        return result.isNotEmpty()
+    }
+
 }
