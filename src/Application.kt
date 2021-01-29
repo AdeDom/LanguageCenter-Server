@@ -8,6 +8,7 @@ import com.lc.server.business.community.CommunityService
 import com.lc.server.business.di.getBusinessModule
 import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.business.jwtconfig.UserPrincipal
+import com.lc.server.business.vocabulary.VocabularyService
 import com.lc.server.data.di.getDataModule
 import com.lc.server.http.*
 import com.lc.server.util.DatabaseConfig
@@ -75,6 +76,7 @@ fun Application.module() {
     val communityService: CommunityService by inject()
     val chatsService: ChatsService by inject()
     val chatGroupService: ChatGroupService by inject()
+    val vocabularyService: VocabularyService by inject()
     val accountService: AccountService by inject()
 
     // jwt
@@ -101,6 +103,7 @@ fun Application.module() {
             communityController(communityService)
             chatsController(chatsService)
             chatGroupController(chatGroupService)
+            vocabularyController(vocabularyService)
             accountController(accountService)
         }
 

@@ -6,6 +6,7 @@ data class VocabularyTranslationDb(
     val sourceLanguage: String,
     val vocabularyGroupName: String,
     val translationId: Int,
+    val translationIdToVocabularyId: Int,
     val translation: String,
     val targetLanguage: String,
 )

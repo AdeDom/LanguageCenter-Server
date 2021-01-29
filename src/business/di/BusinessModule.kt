@@ -14,6 +14,8 @@ import com.lc.server.business.community.CommunityService
 import com.lc.server.business.community.CommunityServiceImpl
 import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.business.jwtconfig.JwtConfigImpl
+import com.lc.server.business.vocabulary.VocabularyService
+import com.lc.server.business.vocabulary.VocabularyServiceImpl
 import io.ktor.locations.*
 import org.koin.dsl.module
 
@@ -31,6 +33,7 @@ private val businessModule = module {
     single<CommunityService> { CommunityServiceImpl(get(), get()) }
     single<ChatsService> { ChatsServiceImpl(get(), get()) }
     single<ChatGroupService> { ChatGroupServiceImpl(get(), get()) }
+    single<VocabularyService> { VocabularyServiceImpl(get()) }
     single<AccountService> { AccountServiceImpl(get(), get()) }
 
 }

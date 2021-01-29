@@ -548,4 +548,22 @@ internal class ServerRepositoryImpl : ServerRepository {
         return result == talkIdList.size
     }
 
+    override fun fetchVocabularyTranslation(): List<VocabularyTranslationDb> {
+        return transaction {
+            (VocabularyGroups innerJoin Vocabularies innerJoin Translations)
+                .slice(
+                    Vocabularies.vocabularyId,
+                    Vocabularies.vocabulary,
+                    Vocabularies.sourceLanguage,
+                    VocabularyGroups.vocabularyGroupName,
+                    Translations.translationId,
+                    Translations.vocabularyId,
+                    Translations.translation,
+                    Translations.targetLanguage,
+                )
+                .selectAll()
+                .map { Mapper.toVocabularyTranslationDb(it) }
+        }
+    }
+
 }
