@@ -2,10 +2,7 @@ package com.lc.server.data.map
 
 import com.lc.server.business.model.CommunityBusiness
 import com.lc.server.data.model.*
-import com.lc.server.data.table.ChatGroups
-import com.lc.server.data.table.Talks
-import com.lc.server.data.table.UserLocales
-import com.lc.server.data.table.Users
+import com.lc.server.data.table.*
 import com.lc.server.models.model.ChatGroup
 import org.jetbrains.exposed.sql.ResultRow
 
@@ -91,6 +88,16 @@ object Mapper {
         isShow = row[Talks.isShow],
         dateTime = row[Talks.dateTime],
         dateTimeUpdated = row[Talks.dateTimeUpdated],
+    )
+
+    fun toVocabularyTranslationDb(row: ResultRow) = VocabularyTranslationDb(
+        vocabularyId = row[Vocabularies.vocabularyId],
+        vocabulary = row[Vocabularies.vocabulary],
+        sourceLanguage = row[Vocabularies.sourceLanguage],
+        vocabularyGroupName = row[VocabularyGroups.vocabularyGroupName],
+        translationId = row[Translations.translationId],
+        translation = row[Translations.translation],
+        targetLanguage = row[Translations.targetLanguage],
     )
 
 }

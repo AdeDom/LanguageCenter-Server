@@ -9,6 +9,9 @@ object DatabaseConstant {
     const val CHAT_GROUP_TABLE = "chat_group"
     const val CHAT_GROUP_DETAIL_TABLE = "chat_group_detail"
     const val TALK_TABLE = "talk"
+    const val VOCABULARY_TABLE = "vocabulary"
+    const val TRANSLATION_TABLE = "translation"
+    const val VOCABULARY_GROUP_TABLE = "vocabulary_group"
 
     //primary key
     const val USER_PK = "PK_User_ID"
@@ -17,6 +20,9 @@ object DatabaseConstant {
     const val CHAT_GROUP_PK = "PK_ChatGroup_ID"
     const val CHAT_GROUP_DETAIL_PK = "PK_ChatGroupDetail_ID"
     const val TALK_PK = "PK_Talk_ID"
+    const val VOCABULARY_PK = "PK_Vocabulary_ID"
+    const val TRANSLATION_PK = "PK_Translation_ID"
+    const val VOCABULARY_GROUP_PK = "PK_VocabularyGroup_ID"
 
     //column
     const val USER_ID = "user_id"
@@ -53,5 +59,13 @@ object DatabaseConstant {
     const val IS_READ = "is_read"
     const val IS_SHOW = "is_show"
     const val DATE_TIME_UPDATED = "date_time_updated"
+    const val VOCABULARY_ID = "vocabulary_id"
+    const val TRANSLATION_ID = "translation_id"
+    const val VOCABULARY_GROUP_ID = "vocabulary_group_id"
+    const val VOCABULARY = "vocabulary"
+    const val SOURCE_LANGUAGE = "source_language"
+    const val TRANSLATION = "translation"
+    const val TARGET_LANGUAGE = "target_language"
+    const val VOCABULARY_GROUP_NAME = "vocabulary_group_name"
 
 }
