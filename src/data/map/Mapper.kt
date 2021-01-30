@@ -94,6 +94,7 @@ object Mapper {
         vocabularyId = row[Vocabularies.vocabularyId],
         vocabulary = row[Vocabularies.vocabulary],
         sourceLanguage = row[Vocabularies.sourceLanguage],
+        created = row[Vocabularies.created],
         vocabularyGroupName = row[VocabularyGroups.vocabularyGroupName],
         translationId = row[Translations.translationId],
         translationIdToVocabularyId = row[Translations.vocabularyId],

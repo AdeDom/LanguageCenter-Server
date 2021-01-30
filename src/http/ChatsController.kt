@@ -62,6 +62,11 @@ fun Route.chatsController(service: ChatsService) {
         call.respond(response)
     }
 
+    get<LanguageCenterTranslateRequest> { request ->
+        val response = service.languageCenterTranslate(request)
+        call.respond(response)
+    }
+
 }
 
 @KtorExperimentalLocationsAPI

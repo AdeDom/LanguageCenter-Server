@@ -1,10 +1,7 @@
 package com.lc.server.business.chats
 
 import com.lc.server.models.request.*
-import com.lc.server.models.response.BaseResponse
-import com.lc.server.models.response.ChatListUserInfoResponse
-import com.lc.server.models.response.FetchTalkUnreceivedResponse
-import com.lc.server.models.response.SendMessageResponse
+import com.lc.server.models.response.*
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
@@ -23,5 +20,7 @@ interface ChatsService {
     fun fetchTalkUnreceived(userId: String?): FetchTalkUnreceivedResponse
 
     fun updateReceiveMessage(updateReceiveMessageRequest: UpdateReceiveMessageRequest): BaseResponse
+
+    fun languageCenterTranslate(languageCenterTranslateRequest: LanguageCenterTranslateRequest): LanguageCenterTranslateResponse
 
 }

@@ -48,6 +48,7 @@ internal class VocabularyServiceImpl(
                             vocabularyId = db.vocabularyId,
                             vocabulary = db.vocabulary,
                             sourceLanguage = db.sourceLanguage,
+                            created = db.created,
                             vocabularyGroupName = db.vocabularyGroupName,
                             translations = translations,
                         )

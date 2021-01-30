@@ -555,6 +555,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     Vocabularies.vocabularyId,
                     Vocabularies.vocabulary,
                     Vocabularies.sourceLanguage,
+                    Vocabularies.created,
                     VocabularyGroups.vocabularyGroupName,
                     Translations.translationId,
                     Translations.vocabularyId,
@@ -591,6 +592,27 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
 
         return result.isNotEmpty()
+    }
+
+    override fun languageCenterTranslate(languageCenterTranslateRequest: LanguageCenterTranslateRequest): List<VocabularyTranslationDb> {
+        val (_, vocabulary) = languageCenterTranslateRequest
+
+        return transaction {
+            (VocabularyGroups innerJoin Vocabularies innerJoin Translations)
+                .slice(
+                    Vocabularies.vocabularyId,
+                    Vocabularies.vocabulary,
+                    Vocabularies.sourceLanguage,
+                    Vocabularies.created,
+                    VocabularyGroups.vocabularyGroupName,
+                    Translations.translationId,
+                    Translations.vocabularyId,
+                    Translations.translation,
+                    Translations.targetLanguage,
+                )
+                .select { Vocabularies.vocabulary eq vocabulary!! }
+                .map { Mapper.toVocabularyTranslationDb(it) }
+        }
     }
 
 }

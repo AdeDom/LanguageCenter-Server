@@ -73,4 +73,6 @@ internal interface ServerRepository {
 
     fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): Boolean
 
+    fun languageCenterTranslate(languageCenterTranslateRequest: LanguageCenterTranslateRequest): List<VocabularyTranslationDb>
+
 }

@@ -4,11 +4,10 @@ import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.ChatListUserInfo
 import com.lc.server.models.model.Talk
+import com.lc.server.models.model.Translation
+import com.lc.server.models.model.Vocabulary
 import com.lc.server.models.request.*
-import com.lc.server.models.response.BaseResponse
-import com.lc.server.models.response.ChatListUserInfoResponse
-import com.lc.server.models.response.FetchTalkUnreceivedResponse
-import com.lc.server.models.response.SendMessageResponse
+import com.lc.server.models.response.*
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
@@ -219,6 +218,60 @@ internal class ChatsServiceImpl(
                 }
 
                 "Update receive message success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun languageCenterTranslate(languageCenterTranslateRequest: LanguageCenterTranslateRequest): LanguageCenterTranslateResponse {
+        val response = LanguageCenterTranslateResponse()
+        val (_, vocabularySearch) = languageCenterTranslateRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            vocabularySearch.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                val languageCenterTranslateDb = repository.languageCenterTranslate(languageCenterTranslateRequest)
+
+                // vocabulary
+                val vocabulary = languageCenterTranslateDb
+                    .distinctBy { it.vocabularyId }
+                    .map { db ->
+                        // translation list
+                        val translations = languageCenterTranslateDb
+                            .filter { it.translationIdToVocabularyId == db.vocabularyId }
+                            .map {
+                                // map translation
+                                Translation(
+                                    translationId = it.translationId,
+                                    translation = it.translation,
+                                    targetLanguage = it.targetLanguage,
+                                )
+                            }
+
+                        // map vocabulary
+                        Vocabulary(
+                            vocabularyId = db.vocabularyId,
+                            vocabulary = db.vocabulary,
+                            sourceLanguage = db.sourceLanguage,
+                            created = db.created,
+                            vocabularyGroupName = db.vocabularyGroupName,
+                            translations = translations,
+                        )
+                    }
+                    .singleOrNull()
+
+                response.vocabulary = vocabulary
+                response.success = true
+                "Language center translate success"
             }
         }
 
