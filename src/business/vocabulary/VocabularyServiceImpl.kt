@@ -65,11 +65,10 @@ internal class VocabularyServiceImpl(
 
     override fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): BaseResponse {
         val response = BaseResponse()
-        val (vocabularyId, vocabulary, source, target, translations) = addVocabularyTranslation
+        val (vocabulary, source, target, translations) = addVocabularyTranslation
 
         val message: String = when {
             // validate Null Or Blank
-            vocabularyId.isNullOrBlank() -> "isNullOrBlank"
             vocabulary.isNullOrBlank() -> "isNullOrBlank"
             source.isNullOrBlank() -> "isNullOrBlank"
             target.isNullOrBlank() -> "isNullOrBlank"
