@@ -9,11 +9,13 @@ import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.models.request.*
 import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
+import io.ktor.util.*
 import models.response.GoogleApiUserInfoResponse
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
+@InternalAPI
 @KtorExperimentalLocationsAPI
 internal class ServerRepositoryImpl : ServerRepository {
 
@@ -576,7 +578,7 @@ internal class ServerRepositoryImpl : ServerRepository {
             // vocabulary
             Vocabularies.insert {
                 it[Vocabularies.vocabularyId] = vocabularyId
-                it[Vocabularies.vocabulary] = vocabulary!!
+                it[Vocabularies.vocabulary] = vocabulary!!.encodeBase64()
                 it[Vocabularies.vocabularyGroupId] = 1 // vocabulary group new
                 it[Vocabularies.sourceLanguage] = source!!
                 it[Vocabularies.created] = System.currentTimeMillis()
@@ -585,7 +587,7 @@ internal class ServerRepositoryImpl : ServerRepository {
             // translate
             Translations.batchInsert(translations) { translatedText ->
                 this[Translations.vocabularyId] = vocabularyId
-                this[Translations.translation] = translatedText
+                this[Translations.translation] = translatedText.encodeBase64()
                 this[Translations.targetLanguage] = target!!
                 this[Translations.created] = System.currentTimeMillis()
             }
@@ -610,7 +612,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     Translations.translation,
                     Translations.targetLanguage,
                 )
-                .select { Vocabularies.vocabulary eq vocabulary!! }
+                .select { Vocabularies.vocabulary eq vocabulary!!.encodeBase64() }
                 .map { Mapper.toVocabularyTranslationDb(it) }
         }
     }

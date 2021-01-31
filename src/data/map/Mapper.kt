@@ -4,8 +4,10 @@ import com.lc.server.business.model.CommunityBusiness
 import com.lc.server.data.model.*
 import com.lc.server.data.table.*
 import com.lc.server.models.model.ChatGroup
+import io.ktor.util.*
 import org.jetbrains.exposed.sql.ResultRow
 
+@InternalAPI
 object Mapper {
 
     fun toUserInfoDb(row: ResultRow) = UserInfoDb(
@@ -92,13 +94,13 @@ object Mapper {
 
     fun toVocabularyTranslationDb(row: ResultRow) = VocabularyTranslationDb(
         vocabularyId = row[Vocabularies.vocabularyId],
-        vocabulary = row[Vocabularies.vocabulary],
+        vocabulary = row[Vocabularies.vocabulary].decodeBase64String(),
         sourceLanguage = row[Vocabularies.sourceLanguage],
         created = row[Vocabularies.created],
         vocabularyGroupName = row[VocabularyGroups.vocabularyGroupName],
         translationId = row[Translations.translationId],
         translationIdToVocabularyId = row[Translations.vocabularyId],
-        translation = row[Translations.translation],
+        translation = row[Translations.translation]?.decodeBase64String(),
         targetLanguage = row[Translations.targetLanguage],
     )
 

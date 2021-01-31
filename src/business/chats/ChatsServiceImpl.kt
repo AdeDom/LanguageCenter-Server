@@ -252,7 +252,7 @@ internal class ChatsServiceImpl(
                                 // map translation
                                 Translation(
                                     translationId = it.translationId,
-                                    translation = it.translation,
+                                    translation = it.translation?.capitalize(),
                                     targetLanguage = it.targetLanguage,
                                 )
                             }
@@ -260,7 +260,7 @@ internal class ChatsServiceImpl(
                         // map vocabulary
                         Vocabulary(
                             vocabularyId = db.vocabularyId,
-                            vocabulary = db.vocabulary,
+                            vocabulary = db.vocabulary.capitalize(),
                             sourceLanguage = db.sourceLanguage,
                             created = db.created,
                             vocabularyGroupName = db.vocabularyGroupName,

@@ -17,8 +17,10 @@ import com.lc.server.business.jwtconfig.JwtConfigImpl
 import com.lc.server.business.vocabulary.VocabularyService
 import com.lc.server.business.vocabulary.VocabularyServiceImpl
 import io.ktor.locations.*
+import io.ktor.util.*
 import org.koin.dsl.module
 
+@InternalAPI
 @KtorExperimentalLocationsAPI
 private val businessModule = module {
 
@@ -38,5 +40,6 @@ private val businessModule = module {
 
 }
 
+@InternalAPI
 @KtorExperimentalLocationsAPI
 val getBusinessModule = businessModule

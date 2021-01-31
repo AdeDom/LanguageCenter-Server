@@ -9,9 +9,11 @@ import com.lc.server.data.model.CommunityUsersDb
 import com.lc.server.models.model.Community
 import com.lc.server.models.model.UserInfoLocale
 import com.lc.server.util.LanguageCenterConstant
+import io.ktor.util.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+@InternalAPI
 class ServerBusinessImpl : ServerBusiness {
 
     override fun isValidateJwtIncorrect(token: String): Boolean = try {

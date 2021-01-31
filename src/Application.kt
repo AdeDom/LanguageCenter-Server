@@ -26,6 +26,7 @@ import io.ktor.gson.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.locations.*
 import io.ktor.routing.*
+import io.ktor.util.*
 import org.jetbrains.exposed.sql.Database
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
@@ -34,6 +35,7 @@ import java.time.Duration
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@InternalAPI
 @KtorExperimentalLocationsAPI
 fun Application.module() {
     // database mysql
