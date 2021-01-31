@@ -1,6 +1,6 @@
 package com.lc.server.business.vocabulary
 
-import com.lc.server.models.request.AddVocabularyTranslation
+import com.lc.server.models.request.AddVocabularyTranslationRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchVocabularyTranslationResponse
 import io.ktor.locations.*
@@ -10,6 +10,6 @@ interface VocabularyService {
 
     fun fetchVocabularyTranslation(): FetchVocabularyTranslationResponse
 
-    fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): BaseResponse
+    fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): BaseResponse
 
 }

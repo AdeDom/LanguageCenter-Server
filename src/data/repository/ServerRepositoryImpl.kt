@@ -569,8 +569,8 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
-    override fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): Boolean {
-        val (vocabulary, source, target, translations) = addVocabularyTranslation
+    override fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): Boolean {
+        val (vocabulary, source, target, translations) = addVocabularyTranslationRequest
 
         val vocabularyId = UUID.randomUUID().toString().replace("-", "")
 

@@ -71,7 +71,7 @@ internal interface ServerRepository {
 
     fun fetchVocabularyTranslation(): List<VocabularyTranslationDb>
 
-    fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): Boolean
+    fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): Boolean
 
     fun languageCenterTranslate(languageCenterTranslateRequest: LanguageCenterTranslateRequest): List<VocabularyTranslationDb>
 

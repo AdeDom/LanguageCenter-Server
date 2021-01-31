@@ -3,7 +3,7 @@ package com.lc.server.business.vocabulary
 import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.Translation
 import com.lc.server.models.model.Vocabulary
-import com.lc.server.models.request.AddVocabularyTranslation
+import com.lc.server.models.request.AddVocabularyTranslationRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchVocabularyTranslationResponse
 import io.ktor.locations.*
@@ -64,9 +64,9 @@ internal class VocabularyServiceImpl(
         return response
     }
 
-    override fun addVocabularyTranslate(addVocabularyTranslation: AddVocabularyTranslation): BaseResponse {
+    override fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): BaseResponse {
         val response = BaseResponse()
-        val (vocabulary, source, target, translations) = addVocabularyTranslation
+        val (vocabulary, source, target, translations) = addVocabularyTranslationRequest
 
         val message: String = when {
             // validate Null Or Blank
@@ -81,7 +81,7 @@ internal class VocabularyServiceImpl(
 
             // execute
             else -> {
-                response.success = repository.addVocabularyTranslate(addVocabularyTranslation)
+                response.success = repository.addVocabularyTranslate(addVocabularyTranslationRequest)
                 "Translate language success"
             }
         }
