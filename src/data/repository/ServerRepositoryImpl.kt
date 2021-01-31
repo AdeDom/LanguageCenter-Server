@@ -459,7 +459,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 it[Talks.talkId] = talkId!!
                 it[Talks.fromUserId] = userId
                 it[Talks.toUserId] = toUserId!!
-                it[Talks.messages] = messages!!
+                it[Talks.messages] = messages!!.encodeBase64()
                 it[Talks.isSendMessage] = true
                 it[Talks.isReceiveMessage] = false
                 it[Talks.isRead] = false
@@ -503,7 +503,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                 it[Talks.talkId] = talkId!!
                 it[Talks.fromUserId] = fromUserId!!
                 it[Talks.toUserId] = toUserId!!
-                it[Talks.messages] = messages!!
+                it[Talks.messages] = messages!!.encodeBase64()
                 it[Talks.isSendMessage] = true
                 it[Talks.isReceiveMessage] = false
                 it[Talks.isRead] = false

@@ -83,7 +83,7 @@ object Mapper {
         talkId = row[Talks.talkId],
         fromUserId = row[Talks.fromUserId],
         toUserId = row[Talks.toUserId],
-        messages = row[Talks.messages],
+        messages = row[Talks.messages].decodeBase64String(),
         isSendMessage = row[Talks.isSendMessage],
         isReceiveMessage = row[Talks.isReceiveMessage],
         isRead = row[Talks.isRead],
