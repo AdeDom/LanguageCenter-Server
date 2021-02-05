@@ -78,4 +78,6 @@ internal interface ServerRepository {
 
     fun languageCenterTranslate(languageCenterTranslateRequest: LanguageCenterTranslateRequest): List<VocabularyTranslationDb>
 
+    fun fetchVocabularyGroup(): List<VocabularyGroupDb>
+
 }

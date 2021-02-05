@@ -104,4 +104,12 @@ object Mapper {
         targetLanguage = row[Translations.targetLanguage],
     )
 
+    fun toVocabularyGroupDb(row: ResultRow) = VocabularyGroupDb(
+        vocabularyGroupId = row[VocabularyGroups.vocabularyGroupId],
+        vocabularyGroupName = row[VocabularyGroups.vocabularyGroupName],
+        created = row[VocabularyGroups.created],
+        updated = row[VocabularyGroups.updated],
+        isShow = row[VocabularyGroups.isShow],
+    )
+
 }

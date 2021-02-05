@@ -9,6 +9,7 @@ object VocabularyGroups : Table(name = DatabaseConstant.VOCABULARY_GROUP_TABLE) 
     val vocabularyGroupName = varchar(DatabaseConstant.VOCABULARY_GROUP_NAME, length = 100)
     val created = long(DatabaseConstant.CREATED)
     val updated = long(DatabaseConstant.UPDATED).nullable()
+    val isShow = bool(DatabaseConstant.IS_SHOW)
 
     override val primaryKey: PrimaryKey?
         get() = PrimaryKey(vocabularyGroupId, name = DatabaseConstant.VOCABULARY_GROUP_PK)

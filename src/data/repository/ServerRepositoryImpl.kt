@@ -615,4 +615,19 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun fetchVocabularyGroup(): List<VocabularyGroupDb> {
+        return transaction {
+            VocabularyGroups
+                .slice(
+                    VocabularyGroups.vocabularyGroupId,
+                    VocabularyGroups.vocabularyGroupName,
+                    VocabularyGroups.created,
+                    VocabularyGroups.updated,
+                    VocabularyGroups.isShow,
+                )
+                .select { VocabularyGroups.isShow eq true }
+                .map { Mapper.toVocabularyGroupDb(it) }
+        }
+    }
+
 }
