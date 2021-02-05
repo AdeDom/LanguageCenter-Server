@@ -64,24 +64,30 @@ internal class VocabularyServiceImpl(
         return response
     }
 
-    override fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): BaseResponse {
+    override fun addVocabularyTranslate(
+        userId: String?,
+        addVocabularyTranslationRequest: AddVocabularyTranslationRequest
+    ): BaseResponse {
         val response = BaseResponse()
-        val (vocabulary, source, target, translations) = addVocabularyTranslationRequest
+        val (vocabulary, source, target, translations, reference) = addVocabularyTranslationRequest
 
         val message: String = when {
             // validate Null Or Blank
+            userId.isNullOrBlank() -> "isNullOrBlank"
             vocabulary.isNullOrBlank() -> "isNullOrBlank"
             source.isNullOrBlank() -> "isNullOrBlank"
             target.isNullOrBlank() -> "isNullOrBlank"
             translations.isNullOrEmpty() -> "isNullOrEmpty"
+            reference.isNullOrEmpty() -> "isNullOrEmpty"
 
             // validate values of variable
 
             // validate database
+            repository.isValidateVocabulary(vocabulary) -> "Already have this vocabulary!!!"
 
             // execute
             else -> {
-                response.success = repository.addVocabularyTranslate(addVocabularyTranslationRequest)
+                response.success = repository.addVocabularyTranslate(userId, addVocabularyTranslationRequest)
                 "Translate language success"
             }
         }

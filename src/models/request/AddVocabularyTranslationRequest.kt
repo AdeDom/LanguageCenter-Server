@@ -9,4 +9,5 @@ data class AddVocabularyTranslationRequest(
     val source: String? = null,
     val target: String? = null,
     val translations: List<String> = emptyList(),
+    val reference: String? = null,
 )

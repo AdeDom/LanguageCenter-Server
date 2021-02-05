@@ -27,4 +27,10 @@ object LanguageCenterConstant {
     const val ALGORITHM_TAKE_POPULAR = 2
     const val ALGORITHM_QUANTITY_MIN = 2
 
+    const val THAI = "th"
+    const val ENGLISH = "en"
+
+    const val GOOGLE_TRANSLATE = "google-translate"
+    const val ADD_VOCABULARY = "add-vocabulary"
+
 }

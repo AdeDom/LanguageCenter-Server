@@ -569,8 +569,23 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
-    override fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): Boolean {
-        val (vocabulary, source, target, translations) = addVocabularyTranslationRequest
+    override fun isValidateVocabulary(vocabulary: String): Boolean {
+        val count = transaction {
+            Vocabularies
+                .slice(Vocabularies.vocabulary)
+                .select { Vocabularies.vocabulary eq vocabulary.encodeBase64() }
+                .count()
+                .toInt()
+        }
+
+        return count > 0
+    }
+
+    override fun addVocabularyTranslate(
+        userId: String,
+        addVocabularyTranslationRequest: AddVocabularyTranslationRequest
+    ): Boolean {
+        val (vocabulary, source, target, translations, reference) = addVocabularyTranslationRequest
 
         val vocabularyId = UUID.randomUUID().toString().replace("-", "")
 
@@ -578,9 +593,11 @@ internal class ServerRepositoryImpl : ServerRepository {
             // vocabulary
             Vocabularies.insert {
                 it[Vocabularies.vocabularyId] = vocabularyId
+                it[Vocabularies.userId] = userId
                 it[Vocabularies.vocabulary] = vocabulary!!.encodeBase64()
                 it[Vocabularies.vocabularyGroupId] = 1 // vocabulary group new
                 it[Vocabularies.sourceLanguage] = source!!
+                it[Vocabularies.reference] = reference!!
                 it[Vocabularies.created] = System.currentTimeMillis()
             }
 

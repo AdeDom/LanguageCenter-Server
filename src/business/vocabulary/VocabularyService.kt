@@ -10,6 +10,9 @@ interface VocabularyService {
 
     fun fetchVocabularyTranslation(): FetchVocabularyTranslationResponse
 
-    fun addVocabularyTranslate(addVocabularyTranslationRequest: AddVocabularyTranslationRequest): BaseResponse
+    fun addVocabularyTranslate(
+        userId: String?,
+        addVocabularyTranslationRequest: AddVocabularyTranslationRequest
+    ): BaseResponse
 
 }

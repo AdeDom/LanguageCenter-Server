@@ -67,5 +67,6 @@ object DatabaseConstant {
     const val TRANSLATION = "translation"
     const val TARGET_LANGUAGE = "target_language"
     const val VOCABULARY_GROUP_NAME = "vocabulary_group_name"
+    const val REFERENCE = "reference"
 
 }
