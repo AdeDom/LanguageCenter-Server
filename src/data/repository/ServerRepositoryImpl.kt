@@ -630,4 +630,25 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun fetchVocabularyDetail(fetchVocabularyDetailRequest: FetchVocabularyDetailRequest): List<VocabularyTranslationDb> {
+        val (_, vocabularyGroupId) = fetchVocabularyDetailRequest
+
+        return transaction {
+            (VocabularyGroups innerJoin Vocabularies innerJoin Translations)
+                .slice(
+                    Vocabularies.vocabularyId,
+                    Vocabularies.vocabulary,
+                    Vocabularies.sourceLanguage,
+                    Vocabularies.created,
+                    VocabularyGroups.vocabularyGroupName,
+                    Translations.translationId,
+                    Translations.vocabularyId,
+                    Translations.translation,
+                    Translations.targetLanguage,
+                )
+                .select { Vocabularies.vocabularyGroupId eq vocabularyGroupId!! }
+                .map { Mapper.toVocabularyTranslationDb(it) }
+        }
+    }
+
 }

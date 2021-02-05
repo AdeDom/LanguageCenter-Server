@@ -80,4 +80,6 @@ internal interface ServerRepository {
 
     fun fetchVocabularyGroup(): List<VocabularyGroupDb>
 
+    fun fetchVocabularyDetail(fetchVocabularyDetailRequest: FetchVocabularyDetailRequest): List<VocabularyTranslationDb>
+
 }

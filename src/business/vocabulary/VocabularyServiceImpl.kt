@@ -1,9 +1,13 @@
 package com.lc.server.business.vocabulary
 
 import com.lc.server.data.repository.ServerRepository
+import com.lc.server.models.model.Translation
+import com.lc.server.models.model.Vocabulary
 import com.lc.server.models.model.VocabularyGroup
 import com.lc.server.models.request.AddVocabularyTranslationRequest
+import com.lc.server.models.request.FetchVocabularyDetailRequest
 import com.lc.server.models.response.BaseResponse
+import com.lc.server.models.response.FetchVocabularyDetailResponse
 import com.lc.server.models.response.FetchVocabularyGroupResponse
 import io.ktor.locations.*
 
@@ -68,6 +72,59 @@ internal class VocabularyServiceImpl(
                 response.vocabularyGroups = vocabularyGroups
                 response.success = true
                 "Fetch vocabulary group success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun fetchVocabularyDetail(fetchVocabularyDetailRequest: FetchVocabularyDetailRequest): FetchVocabularyDetailResponse {
+        val response = FetchVocabularyDetailResponse()
+        val (_, vocabularyGroupId) = fetchVocabularyDetailRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            vocabularyGroupId == null -> "Null"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                val vocabularyDetailDb = repository.fetchVocabularyDetail(fetchVocabularyDetailRequest)
+
+                // vocabulary
+                val vocabularies = vocabularyDetailDb
+                    .distinctBy { it.vocabularyId }
+                    .map { db ->
+                        // translation list
+                        val translations = vocabularyDetailDb
+                            .filter { it.translationIdToVocabularyId == db.vocabularyId }
+                            .map {
+                                // map translation
+                                Translation(
+                                    translationId = it.translationId,
+                                    translation = it.translation?.capitalize(),
+                                    targetLanguage = it.targetLanguage,
+                                )
+                            }
+
+                        // map vocabulary
+                        Vocabulary(
+                            vocabularyId = db.vocabularyId,
+                            vocabulary = db.vocabulary.capitalize(),
+                            sourceLanguage = db.sourceLanguage,
+                            created = db.created,
+                            vocabularyGroupName = db.vocabularyGroupName,
+                            translations = translations,
+                        )
+                    }
+
+                response.vocabularies = vocabularies
+                response.success = true
+                "Fetch vocabulary detail success"
             }
         }
 
