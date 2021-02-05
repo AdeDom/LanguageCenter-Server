@@ -69,8 +69,6 @@ internal interface ServerRepository {
 
     fun updateReceiveMessage(updateReceiveMessageRequest: UpdateReceiveMessageRequest): Boolean
 
-    fun fetchVocabularyTranslation(): List<VocabularyTranslationDb>
-
     fun isValidateVocabulary(vocabulary: String): Boolean
 
     fun addVocabularyTranslate(

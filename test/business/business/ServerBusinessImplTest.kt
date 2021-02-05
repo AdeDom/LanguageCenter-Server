@@ -2,12 +2,14 @@ package business.business
 
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.business.business.ServerBusinessImpl
+import io.ktor.util.*
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@InternalAPI
 class ServerBusinessImplTest {
 
     private lateinit var business: ServerBusiness
