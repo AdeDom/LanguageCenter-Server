@@ -601,8 +601,10 @@ internal class ServerRepositoryImpl : ServerRepository {
             (VocabularyGroups innerJoin Vocabularies innerJoin Translations)
                 .slice(
                     Vocabularies.vocabularyId,
+                    Vocabularies.userId,
                     Vocabularies.vocabulary,
                     Vocabularies.sourceLanguage,
+                    Vocabularies.reference,
                     Vocabularies.created,
                     VocabularyGroups.vocabularyGroupName,
                     Translations.translationId,
@@ -637,8 +639,10 @@ internal class ServerRepositoryImpl : ServerRepository {
             (VocabularyGroups innerJoin Vocabularies innerJoin Translations)
                 .slice(
                     Vocabularies.vocabularyId,
+                    Vocabularies.userId,
                     Vocabularies.vocabulary,
                     Vocabularies.sourceLanguage,
+                    Vocabularies.reference,
                     Vocabularies.created,
                     VocabularyGroups.vocabularyGroupName,
                     Translations.translationId,

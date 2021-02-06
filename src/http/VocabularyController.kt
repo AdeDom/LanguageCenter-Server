@@ -26,7 +26,7 @@ fun Route.vocabularyController(service: VocabularyService) {
     }
 
     get<FetchVocabularyDetailRequest> { request ->
-        val response = service.fetchVocabularyDetail(request)
+        val response = service.fetchVocabularyDetail(call.userId, request)
         call.respond(response)
     }
 

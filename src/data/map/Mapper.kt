@@ -94,8 +94,10 @@ object Mapper {
 
     fun toVocabularyTranslationDb(row: ResultRow) = VocabularyTranslationDb(
         vocabularyId = row[Vocabularies.vocabularyId],
+        userId = row[Vocabularies.userId],
         vocabulary = row[Vocabularies.vocabulary].decodeBase64String(),
         sourceLanguage = row[Vocabularies.sourceLanguage],
+        reference = row[Vocabularies.reference],
         created = row[Vocabularies.created],
         vocabularyGroupName = row[VocabularyGroups.vocabularyGroupName],
         translationId = row[Translations.translationId],

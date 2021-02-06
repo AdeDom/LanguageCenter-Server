@@ -17,6 +17,9 @@ interface VocabularyService {
 
     fun fetchVocabularyGroup(): FetchVocabularyGroupResponse
 
-    fun fetchVocabularyDetail(fetchVocabularyDetailRequest: FetchVocabularyDetailRequest): FetchVocabularyDetailResponse
+    fun fetchVocabularyDetail(
+        userId: String?,
+        fetchVocabularyDetailRequest: FetchVocabularyDetailRequest
+    ): FetchVocabularyDetailResponse
 
 }

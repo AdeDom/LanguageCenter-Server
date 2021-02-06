@@ -35,7 +35,7 @@ private val businessModule = module {
     single<CommunityService> { CommunityServiceImpl(get(), get()) }
     single<ChatsService> { ChatsServiceImpl(get(), get()) }
     single<ChatGroupService> { ChatGroupServiceImpl(get(), get()) }
-    single<VocabularyService> { VocabularyServiceImpl(get()) }
+    single<VocabularyService> { VocabularyServiceImpl(get(), get()) }
     single<AccountService> { AccountServiceImpl(get(), get()) }
 
 }

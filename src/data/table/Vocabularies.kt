@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Table
 object Vocabularies : Table(name = DatabaseConstant.VOCABULARY_TABLE) {
 
     val vocabularyId = varchar(DatabaseConstant.VOCABULARY_ID, length = 50)
-    val userId = varchar(name = DatabaseConstant.USER_ID, length = 50)
+    val userId = varchar(name = DatabaseConstant.USER_ID, length = 50).references(Users.userId)
     val vocabulary = varchar(DatabaseConstant.VOCABULARY, length = 20_000)
     val vocabularyGroupId = integer(DatabaseConstant.VOCABULARY_GROUP_ID).references(VocabularyGroups.vocabularyGroupId)
     val sourceLanguage = varchar(DatabaseConstant.SOURCE_LANGUAGE, length = 5)
