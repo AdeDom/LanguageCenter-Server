@@ -118,7 +118,7 @@ fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
             println("chatsWebSocket : catch onError ${closeReason.await()}")
             e.printStackTrace()
         } finally {
-            sendMessageSocket.add(Pair(this, userId))
+            sendMessageSocket.remove(Pair(this, userId))
             close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
         }
         println("chatsWebSocket : end")
