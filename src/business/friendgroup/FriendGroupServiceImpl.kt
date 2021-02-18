@@ -1,4 +1,4 @@
-package com.lc.server.business.chatgroup
+package com.lc.server.business.friendgroup
 
 import com.lc.server.business.business.ServerBusiness
 import com.lc.server.data.model.CommunityUsersDb
@@ -15,10 +15,10 @@ import com.lc.server.util.LanguageCenterConstant
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
-internal class ChatGroupServiceImpl(
+internal class FriendGroupServiceImpl(
     private val repository: ServerRepository,
     private val business: ServerBusiness,
-) : ChatGroupService {
+) : FriendGroupService {
 
     override fun addChatGroup(userId: String?, addChatGroupRequest: AddChatGroupRequest): BaseResponse {
         val response = BaseResponse()

@@ -1,4 +1,4 @@
-package com.lc.server.business.chatgroup
+package com.lc.server.business.friendgroup
 
 import com.lc.server.models.request.*
 import com.lc.server.models.response.BaseResponse
@@ -8,7 +8,7 @@ import com.lc.server.models.response.FetchChatGroupResponse
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
-interface ChatGroupService {
+internal interface FriendGroupService {
 
     fun addChatGroup(userId: String?, addChatGroupRequest: AddChatGroupRequest): BaseResponse
 

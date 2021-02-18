@@ -1,6 +1,6 @@
 package com.lc.server.http
 
-import com.lc.server.business.chatgroup.ChatGroupService
+import com.lc.server.business.friendgroup.FriendGroupService
 import com.lc.server.models.request.*
 import com.lc.server.util.userId
 import io.ktor.application.*
@@ -10,7 +10,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 
 @KtorExperimentalLocationsAPI
-fun Route.chatGroupController(service: ChatGroupService) {
+internal fun Route.friendGroupController(service: FriendGroupService) {
 
     post<AddChatGroupRequest> {
         val request = call.receive<AddChatGroupRequest>()

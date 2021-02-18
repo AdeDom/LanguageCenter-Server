@@ -2,10 +2,10 @@ package com.lc.server
 
 import com.lc.server.business.account.AccountService
 import com.lc.server.business.auth.AuthService
-import com.lc.server.business.chatgroup.ChatGroupService
 import com.lc.server.business.chats.ChatsService
 import com.lc.server.business.community.CommunityService
 import com.lc.server.business.di.getBusinessModule
+import com.lc.server.business.friendgroup.FriendGroupService
 import com.lc.server.business.jwtconfig.JwtConfig
 import com.lc.server.business.jwtconfig.UserPrincipal
 import com.lc.server.business.vocabulary.VocabularyService
@@ -77,7 +77,7 @@ fun Application.module() {
     val jwtConfig: JwtConfig by inject()
     val communityService: CommunityService by inject()
     val chatsService: ChatsService by inject()
-    val chatGroupService: ChatGroupService by inject()
+    val friendGroupService: FriendGroupService by inject()
     val vocabularyService: VocabularyService by inject()
     val accountService: AccountService by inject()
 
@@ -104,7 +104,7 @@ fun Application.module() {
         authenticate {
             communityController(communityService)
             chatsController(chatsService)
-            chatGroupController(chatGroupService)
+            friendGroupController(friendGroupService)
             vocabularyController(vocabularyService)
             accountController(accountService)
         }

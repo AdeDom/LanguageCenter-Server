@@ -3,5 +3,5 @@ package com.lc.server.models.request
 import io.ktor.locations.*
 
 @KtorExperimentalLocationsAPI
-@Location("/api/chat-group/fetch-add-chat-group-detail")
+@Location("/api/friend-group/fetch-add-chat-group-detail")
 class FetchAddChatGroupDetailRequest
