@@ -3,6 +3,7 @@ package com.lc.server.http
 import com.lc.server.business.auth.AuthService
 import com.lc.server.models.request.RefreshTokenRequest
 import com.lc.server.models.request.SignInRequest
+import com.lc.server.models.request.ValidateTokenRequest
 import io.ktor.application.*
 import io.ktor.locations.*
 import io.ktor.request.*
@@ -22,6 +23,11 @@ fun Route.authController(service: AuthService) {
         val request = call.receive<RefreshTokenRequest>()
         val response = service.refreshToken(request)
         call.respond(response.first, response.second)
+    }
+
+    get<ValidateTokenRequest> { request ->
+        val response = service.validateToken(request)
+        call.respond(response)
     }
 
 }

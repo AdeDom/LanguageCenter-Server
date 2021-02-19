@@ -2,7 +2,7 @@ package com.lc.server.business.jwtconfig
 
 import com.auth0.jwt.JWTVerifier
 
-interface JwtConfig {
+internal interface JwtConfig {
 
     val verifier: JWTVerifier
 
@@ -15,5 +15,7 @@ interface JwtConfig {
     fun makeRefreshToken(userId: String?): String
 
     fun decodeJwtGetUserId(token: String): String
+
+    fun isValidateToken(token: String): Boolean
 
 }

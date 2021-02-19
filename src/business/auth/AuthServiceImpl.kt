@@ -7,6 +7,8 @@ import com.lc.server.getHttpClientApache
 import com.lc.server.models.model.Token
 import com.lc.server.models.request.RefreshTokenRequest
 import com.lc.server.models.request.SignInRequest
+import com.lc.server.models.request.ValidateTokenRequest
+import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.SignInResponse
 import com.lc.server.util.LanguageCenterConstant
 import com.lc.server.util.fromJson
@@ -101,6 +103,28 @@ internal class AuthServiceImpl(
 
         response.message = message
         return Pair(httpStatusCode, response)
+    }
+
+    override fun validateToken(validateTokenRequest: ValidateTokenRequest): BaseResponse {
+        val response = BaseResponse()
+        val (_, refreshToken) = validateTokenRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            refreshToken.isNullOrBlank() -> "isNullOrBlank"
+
+            // validate values of variable
+            jwtConfig.isValidateToken(refreshToken) -> "isValidateToken"
+
+            // execute
+            else -> {
+                response.success = true
+                "OK"
+            }
+        }
+
+        response.message = message
+        return response
     }
 
 }

@@ -3,9 +3,10 @@ package com.lc.server.business.jwtconfig
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.impl.PublicClaims
 import java.util.*
 
-class JwtConfigImpl : JwtConfig {
+internal class JwtConfigImpl : JwtConfig {
 
     private val algorithm = Algorithm.HMAC512(SECRET)
 
@@ -39,6 +40,11 @@ class JwtConfigImpl : JwtConfig {
 
     override fun decodeJwtGetUserId(token: String): String {
         return JWT().decodeJwt(token).getClaim(USER_ID).asString()
+    }
+
+    override fun isValidateToken(token: String): Boolean {
+        val date = JWT().decodeJwt(token).getClaim(PublicClaims.EXPIRES_AT).asDate()
+        return date.time < System.currentTimeMillis()
     }
 
     companion object {

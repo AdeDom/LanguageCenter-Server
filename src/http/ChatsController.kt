@@ -70,7 +70,7 @@ fun Route.chatsController(service: ChatsService) {
 }
 
 @KtorExperimentalLocationsAPI
-fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
+internal fun Route.chatsWebSocket(jwtConfig: JwtConfig) {
 
     val sendMessageSocket = mutableListOf<Pair<WebSocketSession, String>>()
     webSocket("/ws/chats/send-message") {
