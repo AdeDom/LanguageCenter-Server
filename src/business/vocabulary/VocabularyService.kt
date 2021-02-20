@@ -2,6 +2,7 @@ package com.lc.server.business.vocabulary
 
 import com.lc.server.models.request.AddVocabularyTranslationRequest
 import com.lc.server.models.request.FetchVocabularyDetailRequest
+import com.lc.server.models.request.VocabularyTranslationFeedbackRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchVocabularyDetailResponse
 import com.lc.server.models.response.FetchVocabularyGroupResponse
@@ -21,5 +22,10 @@ interface VocabularyService {
         userId: String?,
         fetchVocabularyDetailRequest: FetchVocabularyDetailRequest
     ): FetchVocabularyDetailResponse
+
+    fun vocabularyTranslationFeedback(
+        userId: String?,
+        vocabularyTranslationFeedbackRequest: VocabularyTranslationFeedbackRequest
+    ): BaseResponse
 
 }

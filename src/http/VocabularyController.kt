@@ -4,6 +4,7 @@ import com.lc.server.business.vocabulary.VocabularyService
 import com.lc.server.models.request.AddVocabularyTranslationRequest
 import com.lc.server.models.request.FetchVocabularyDetailRequest
 import com.lc.server.models.request.FetchVocabularyGroupRequest
+import com.lc.server.models.request.VocabularyTranslationFeedbackRequest
 import com.lc.server.util.userId
 import io.ktor.application.*
 import io.ktor.locations.*
@@ -27,6 +28,12 @@ fun Route.vocabularyController(service: VocabularyService) {
 
     get<FetchVocabularyDetailRequest> { request ->
         val response = service.fetchVocabularyDetail(call.userId, request)
+        call.respond(response)
+    }
+
+    post<VocabularyTranslationFeedbackRequest> {
+        val request = call.receive<VocabularyTranslationFeedbackRequest>()
+        val response = service.vocabularyTranslationFeedback(call.userId, request)
         call.respond(response)
     }
 

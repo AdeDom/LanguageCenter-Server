@@ -5,6 +5,7 @@ import com.lc.server.data.repository.ServerRepository
 import com.lc.server.models.model.*
 import com.lc.server.models.request.AddVocabularyTranslationRequest
 import com.lc.server.models.request.FetchVocabularyDetailRequest
+import com.lc.server.models.request.VocabularyTranslationFeedbackRequest
 import com.lc.server.models.response.BaseResponse
 import com.lc.server.models.response.FetchVocabularyDetailResponse
 import com.lc.server.models.response.FetchVocabularyGroupResponse
@@ -159,6 +160,31 @@ internal class VocabularyServiceImpl(
                 response.vocabularies = vocabularies
                 response.success = true
                 "Fetch vocabulary detail success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun vocabularyTranslationFeedback(
+        userId: String?,
+        vocabularyTranslationFeedbackRequest: VocabularyTranslationFeedbackRequest
+    ): BaseResponse {
+        val response = BaseResponse()
+        val (vocabularyId, rating, _) = vocabularyTranslationFeedbackRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            userId.isNullOrBlank() -> "isNullOrBlank"
+            vocabularyId.isNullOrBlank() -> "isNullOrBlank"
+            rating == null -> "Null"
+
+            // execute
+            else -> {
+                response.success = repository
+                    .vocabularyTranslationFeedback(userId, vocabularyTranslationFeedbackRequest)
+                "Add vocabulary & translation feedback success"
             }
         }
 

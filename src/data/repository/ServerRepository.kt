@@ -82,4 +82,9 @@ internal interface ServerRepository {
 
     fun fetchVocabularyDetail(fetchVocabularyDetailRequest: FetchVocabularyDetailRequest): List<VocabularyTranslationDb>
 
+    fun vocabularyTranslationFeedback(
+        userId: String,
+        vocabularyTranslationFeedbackRequest: VocabularyTranslationFeedbackRequest
+    ): Boolean
+
 }

@@ -655,4 +655,33 @@ internal class ServerRepositoryImpl : ServerRepository {
         }
     }
 
+    override fun vocabularyTranslationFeedback(
+        userId: String,
+        vocabularyTranslationFeedbackRequest: VocabularyTranslationFeedbackRequest
+    ): Boolean {
+        val (vocabularyId, rating, translations) = vocabularyTranslationFeedbackRequest
+
+        val statement = transaction {
+            VocabularyFeedbacks.insert {
+                it[VocabularyFeedbacks.userId] = userId
+                it[VocabularyFeedbacks.vocabularyId] = vocabularyId!!
+                it[VocabularyFeedbacks.rating] = rating!!
+                it[VocabularyFeedbacks.created] = System.currentTimeMillis()
+            }
+        }
+
+        transaction {
+            TranslationFeedbacks.batchInsert(translations) { (translationId, isCorrect) ->
+                translationId?.let {
+                    this[TranslationFeedbacks.userId] = userId
+                    this[TranslationFeedbacks.translationId] = translationId
+                    this[TranslationFeedbacks.isCorrect] = isCorrect
+                    this[TranslationFeedbacks.created] = System.currentTimeMillis()
+                }
+            }
+        }
+
+        return statement.resultedValues?.size ?: 0 > 0
+    }
+
 }
