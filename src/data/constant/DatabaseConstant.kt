@@ -12,6 +12,8 @@ object DatabaseConstant {
     const val VOCABULARY_TABLE = "vocabulary"
     const val TRANSLATION_TABLE = "translation"
     const val VOCABULARY_GROUP_TABLE = "vocabulary_group"
+    const val VOCABULARY_FEEDBACK_TABLE = "vocabulary_feedback"
+    const val TRANSLATION_FEEDBACK_TABLE = "translation_feedback"
 
     //primary key
     const val USER_PK = "PK_User_ID"
@@ -23,6 +25,8 @@ object DatabaseConstant {
     const val VOCABULARY_PK = "PK_Vocabulary_ID"
     const val TRANSLATION_PK = "PK_Translation_ID"
     const val VOCABULARY_GROUP_PK = "PK_VocabularyGroup_ID"
+    const val VOCABULARY_FEEDBACK_PK = "PK_VocabularyFeedback_ID"
+    const val TRANSLATION_FEEDBACK_PK = "PK_TranslationFeedback_ID"
 
     //column
     const val USER_ID = "user_id"
@@ -68,5 +72,8 @@ object DatabaseConstant {
     const val TARGET_LANGUAGE = "target_language"
     const val VOCABULARY_GROUP_NAME = "vocabulary_group_name"
     const val REFERENCE = "reference"
+    const val FEEDBACK_ID = "feedback_id"
+    const val RATING = "rating"
+    const val IS_CORRECT = "is_correct"
 
 }
