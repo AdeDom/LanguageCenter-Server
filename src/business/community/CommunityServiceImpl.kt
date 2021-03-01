@@ -26,18 +26,20 @@ internal class CommunityServiceImpl(
 
             // execute
             else -> {
+                // data
                 val getCommunityUsers = repository.getCommunityUsers(userId)
                 val getCommunityUserLocales = repository.getCommunityUserLocales()
                 val getCommunityAlgorithms = repository.getCommunityAlgorithms(userId)
                 val getCommunityFriend = repository.getCommunityFriend(userId)
                 val getCommunityMyBirthDate = repository.getCommunityMyBirthDate(userId)
 
+                // algorithm
                 val filterCommunityUsersNew = business.filterCommunityUsersNew(
                     getCommunityUsers,
                     getCommunityFriend,
                 )
 
-                val ratioAlgorithm = business.findRatioAlgorithm(getCommunityAlgorithms)
+                val ratioAlgorithm = business.findRatioAlgorithmV2(getCommunityAlgorithms)
 
                 val getAlgorithmA = business.getAlgorithmA(
                     ratioAlgorithm,
@@ -87,20 +89,17 @@ internal class CommunityServiceImpl(
                     getCommunityUserLocales,
                 )
 
-                val randomCommunities = business.randomCommunities(
-                    getAlgorithmA +
-                            getAlgorithmB +
-                            getAlgorithmC +
-                            getAlgorithmD1 +
-                            getAlgorithmD2 +
-                            getAlgorithmE1 +
-                            getAlgorithmE2 +
-                            getAlgorithmF
-                )
+                val getDataSum = getAlgorithmA +
+                        getAlgorithmB +
+                        getAlgorithmC +
+                        getAlgorithmD1 +
+                        getAlgorithmD2 +
+                        getAlgorithmE1 +
+                        getAlgorithmE2 +
+                        getAlgorithmF
+                val communities = business.mapToCommunities(getDataSum, getCommunityUserLocales)
 
-                val communities = business.mapToCommunities(randomCommunities, getCommunityUserLocales)
-
-                response.communities = communities
+                response.communities = business.sortByAlgorithm(ratioAlgorithm, communities)
                 response.success = true
                 "Fetch user info list success"
             }

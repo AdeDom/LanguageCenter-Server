@@ -23,6 +23,8 @@ interface ServerBusiness {
 
     fun findRatioAlgorithm(communityAlgorithms: List<CommunityAlgorithm>): List<CommunityAlgorithm>
 
+    fun findRatioAlgorithmV2(communityAlgorithms: List<CommunityAlgorithm>): List<CommunityAlgorithm>
+
     fun getAlgorithmA(
         ratioAlgorithm: List<CommunityAlgorithm>,
         getCommunityUsers: List<CommunityUsersDb>,
@@ -74,10 +76,12 @@ interface ServerBusiness {
     fun randomCommunities(communities: List<CommunityBusiness>): List<CommunityBusiness>
 
     fun mapToCommunities(
-        randomCommunities: List<CommunityBusiness>,
+        communityBusinessList: List<CommunityBusiness>,
         userLocaleCommunity: List<CommunityUserLocalesDb>
     ): List<Community>
 
     fun isCreatedLessThenThreeDay(date: Long): Boolean
+
+    fun sortByAlgorithm(ratioAlgorithm: List<CommunityAlgorithm>, communities: List<Community>): List<Community>
 
 }

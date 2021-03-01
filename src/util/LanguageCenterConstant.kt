@@ -22,6 +22,7 @@ object LanguageCenterConstant {
     const val ALGORITHM_E1 = "E1"  // age less than
     const val ALGORITHM_E2 = "E2"  // age greater
     const val ALGORITHM_F = "F"  // native language
+    const val ALGORITHM_BASE_QTY = 2 // algorithm qty
     const val CHAT_GROUP_NAME_NEW = "New"
     const val COMMUNITY_LIST_MAX = 100
     const val ALGORITHM_TAKE_POPULAR = 2

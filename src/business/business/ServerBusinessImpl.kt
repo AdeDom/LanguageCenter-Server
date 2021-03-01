@@ -153,6 +153,45 @@ class ServerBusinessImpl : ServerBusiness {
         return calAlgorithm
     }
 
+    override fun findRatioAlgorithmV2(communityAlgorithms: List<CommunityAlgorithm>): List<CommunityAlgorithm> {
+        val allAlgorithm = listOf(
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_A,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_A }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_B,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_B }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_C,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_C }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_D1,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_D1 }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_D2,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_D2 }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_E1,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_E1 }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_E2,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_E2 }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+                CommunityAlgorithm(algorithmName = LanguageCenterConstant.ALGORITHM_F,
+                        algorithmQty = communityAlgorithms.singleOrNull { it.algorithmName == LanguageCenterConstant.ALGORITHM_F }?.algorithmQty
+                                ?: LanguageCenterConstant.ALGORITHM_BASE_QTY),
+        )
+
+        communityAlgorithms.forEach {
+            println("findRatioAlgorithmV2 communityAlgorithms : $it")
+        }
+
+        allAlgorithm.forEach {
+            println("findRatioAlgorithmV2 allAlgorithm : $it")
+        }
+
+        return allAlgorithm
+    }
+
     override fun getAlgorithmA(
         ratioAlgorithm: List<CommunityAlgorithm>,
         getCommunityUsers: List<CommunityUsersDb>,
@@ -490,10 +529,10 @@ class ServerBusinessImpl : ServerBusiness {
     }
 
     override fun mapToCommunities(
-        randomCommunities: List<CommunityBusiness>,
+        communityBusinessList: List<CommunityBusiness>,
         userLocaleCommunity: List<CommunityUserLocalesDb>
     ): List<Community> {
-        val userInfoCommunity = randomCommunities.map { userInfo ->
+        val userInfoCommunity = communityBusinessList.map { userInfo ->
             Community(
                 userId = userInfo.userId,
                 email = userInfo.email,
@@ -558,6 +597,14 @@ class ServerBusinessImpl : ServerBusiness {
     override fun isCreatedLessThenThreeDay(date: Long): Boolean {
         val threeDay = 36_000_00 * 24 * 3
         return (date + threeDay) > System.currentTimeMillis()
+    }
+
+    override fun sortByAlgorithm(ratioAlgorithm: List<CommunityAlgorithm>, communities: List<Community>): List<Community> {
+        val list = mutableListOf<Community>()
+        ratioAlgorithm.sortedByDescending { it.algorithmQty }.forEach { ca ->
+            list.addAll(communities.filter { it.algorithm == ca.algorithmName })
+        }
+        return list
     }
 
 }
