@@ -651,6 +651,7 @@ internal class ServerRepositoryImpl : ServerRepository {
                     Translations.targetLanguage,
                 )
                 .select { Vocabularies.vocabularyGroupId eq vocabularyGroupId!! }
+                .orderBy(Vocabularies.created, SortOrder.DESC)
                 .map { Mapper.toVocabularyTranslationDb(it) }
         }
     }
