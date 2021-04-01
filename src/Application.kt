@@ -33,6 +33,10 @@ import org.koin.ktor.ext.inject
 import org.koin.logger.SLF4JLogger
 import java.time.Duration
 
+/**
+ * AdeDom Jaiyen
+ * https://github.com/AdeDom
+ */
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @InternalAPI
